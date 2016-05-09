@@ -1,0 +1,44 @@
+{% import _self as menu %}
+
+<ul class="main-menu">
+    {% for option in principalMenu %}
+        {{ menu.link(option, loop.index, principalMenu|length) }}
+    {% endfor %}
+</ul>
+
+{% macro link(link, position, totalElements) %}
+
+{% set path = 'javascript:void(0);' %}
+{% if link.route != null and link.route != '' %}
+    {% set path = path(link.route, link.params) %}
+{% endif %}
+
+{% if position == 1%}
+    {% set class = 'first' %}
+{% endif %}
+
+{% if position == totalElements %}
+    {% set class = 'last' %}
+{% endif %}
+
+{% if link.id == 'dashboard' %}
+    {% set class = 'current first' %}
+{% endif %}
+
+{% spaceless %}
+<li {% if link.id != null %}id="{{ link.id }}"{% endif %} class="{% if class is defined %}{{ class }}{% endif %} {% if link.submenu|length > 0 %}sub-menu{% endif %}">
+    <a href="{{ path }}">
+        {% if link.icon != null %}<i class="zmdi zmdi-{{ link.icon }}"></i>{% endif %}
+        {{ link.label }}
+    </a>
+    {% if link.submenu|length > 0 %}
+        {# submenu #}
+        <ul>
+            {% for suboption in link.submenu %}
+                {{ _self.link(suboption, loop.index, link.submenu|length) }}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>
+{% endspaceless %}
+{% endmacro %}

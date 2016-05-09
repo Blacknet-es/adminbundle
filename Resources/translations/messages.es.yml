@@ -1,0 +1,64 @@
+admin:
+  sidney_school_admin: Panel de Administración de Sydney School
+  please_wait: Por favor, espere...
+  new_student: Nuevo alumno
+  student_data: Datos del alumno
+  new_teacher: Nuevo profesor
+  teacher_data: Datos del profesor
+  holder_selection: Responsable
+  holder: Responsable
+  student: Alumno
+  teacher: Profesor
+  holder_for: Responsable de
+  current_courses: Cursos actuales
+  abbreviation: Código
+  name: Nombre
+  group: Grupo
+  term: Curso
+  student_has_no_courses: Este cliente no está registrado en ningún curso activo.
+  students_list: Lista de alumnos
+  students: Alumnos
+  edit_student: Editar alumno
+  teacher_has_no_courses: Este profesor no está enseñando en ningún curso actualmente.
+  teachers_list: Lista de profesores
+  teachers: Profesores
+  edit_teacher: Editar profesor
+  no_students: No hay alumnos registrados.
+  no_teachers: No hay profesores registrados.
+  new_course: Nuevo curso
+  edit_course: Editar curso
+  course: Curso
+  courses: Cursos
+  course_data: Datos del curso
+  no_courses: No hay cursos registrados.
+  courses_list: Lista de cursos
+
+forms:
+  has_tutor: ¿Tiene a alguien que se responsabiliza de la matrícula?
+  photo: Foto de perfil
+  created_at: Registrado el
+  name: Nombre
+  last_name: Apellidos
+  phone: Teléfono fijo
+  mobile_phone: Teléfono móvil
+  choose_holder: Escoger responsable
+  create_holder: Registrar un usuario nuevo como responsable
+  yes: Sí
+  no: No
+  save: Guardar
+  email: Email
+  term: Año escolar
+  years_example: ej. 2015/2016
+  active: ¿Se está cursando ahora?
+  level: Nivel de enseñanza
+
+
+
+
+cols:
+  id: ID
+  lastName: Apellidos
+  name: Nombre
+  phone: Teléfono fijo
+  mobilePhone: Teléfono móvil
+  actions: Acciones

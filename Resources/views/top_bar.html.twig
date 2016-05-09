@@ -1,0 +1,102 @@
+<ul class="header-inner">
+    <li id="menu-trigger" data-trigger="#sidebar">
+        <div class="line-wrap">
+            <div class="line top"></div>
+            <div class="line center"></div>
+            <div class="line bottom"></div>
+        </div>
+    </li>
+
+    <li class="logo hidden-xs">
+        <a href="{{ path('admin') }}">{{ app_name|default('Admin')|trans }} {% if title is defined %}> {{ title|trans }}{% endif %}</a>
+    </li>
+
+    <li class="pull-right">
+        <ul class="top-menu">
+
+            {#
+            <li id="top-search">
+                <a href=""><i class="tm-icon zmdi zmdi-search"></i></a>
+            </li>
+            #}
+
+            <li class="dropdown">
+                <a data-toggle="dropdown" href="">
+                    <i class="tm-icon zmdi zmdi-email"></i>
+                    <i class="tmn-counts">6</i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg pull-right">
+                    <div class="listview">
+                        <div class="lv-header">
+                            Messages
+                        </div>
+                        <div class="lv-body">
+                            <a class="lv-item" href="">
+                                <div class="media">
+                                    <div class="pull-left">
+                                        <img class="lv-img-sm" src="{{ asset('bundles/admin/material_admin/img/profile-pics/1.jpg') }}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="lv-title">David Belle</div>
+                                        <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <a class="lv-footer" href="">View All</a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" href="">
+                    <i class="tm-icon zmdi zmdi-notifications"></i>
+                    <i class="tmn-counts">9</i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg pull-right">
+                    <div class="listview" id="notifications">
+                        <div class="lv-header">
+                            Notification
+
+                            <ul class="actions">
+                                <li class="dropdown">
+                                    <a href="" data-clear="notification">
+                                        <i class="zmdi zmdi-check-all"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="lv-body">
+                            <a class="lv-item" href="">
+                                <div class="media">
+                                    <div class="pull-left">
+                                        <img class="lv-img-sm" src="img/profile-pics/1.jpg" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="lv-title">David Belle</div>
+                                        <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <a class="lv-footer" href="">View Previous</a>
+                    </div>
+
+                </div>
+            </li>
+
+            <li class="hidden-xs" id="chat-trigger" data-trigger="#chat">
+                <a href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i></a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+
+<!-- Top Search Content -->
+<div id="top-search-wrap">
+    <div class="tsw-inner">
+        <i id="top-search-close" class="zmdi zmdi-arrow-left"></i>
+        <input type="text">
+    </div>
+</div>

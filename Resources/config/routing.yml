@@ -1,0 +1,4 @@
+trendix_base:
+    resource: "@TrendixAdminBundle/Controller/BaseController.php"
+    type:     annotation
+    prefix:   /

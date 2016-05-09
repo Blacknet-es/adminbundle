@@ -1,0 +1,150 @@
+{% import 'TrendixAdminBundle::btnMacros.html.twig' as buttons %}
+
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ app_name|trans }}{% endblock %}</title>
+
+    <!-- CSS -->
+    {% block stylesheets %}
+        {% stylesheets
+        'bundles/admin/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css' filter='cssrewrite'
+        'bundles/admin/material_admin/vendors/bower_components/animate.css/animate.min.css' filter='cssrewrite'
+        'bundles/admin/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css' filter='cssrewrite'
+        'bundles/admin/material_admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css' filter='cssrewrite'
+        'bundles/admin/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' filter='cssrewrite'
+        'bundles/admin/material_admin/css/app.min.1.css' filter='cssrewrite'
+        'bundles/admin/material_admin/css/app.min.2.css' filter='cssrewrite'
+        'bundles/admin/pickadate/lib/themes/classic.css' filter='cssrewrite'
+        'bundles/admin/pickadate/lib/themes/classic.date.css' filter='cssrewrite'
+        '@AdminBundle/Resources/public/css/base.css' filter='cssrewrite'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    {% endblock %}
+
+</head>
+<body>
+<header id="header" class="clearfix" data-current-skin="{{ admin_theme|default("blue") }}">
+    <div class="container">
+        {% include 'TrendixAdminBundle::top_bar.html.twig' %}
+    </div>
+</header>
+
+<section id="main" data-layout="layout-1">
+    <aside id="sidebar" class="sidebar c-overflow">
+        {% include 'TrendixAdminBundle::sidebarMenu.html.twig' %}
+    </aside>
+
+    <aside id="chat" class="sidebar c-overflow">
+        {% include 'TrendixAdminBundle::right_sidebar.html.twig' %}
+    </aside>
+
+
+    <section id="content">
+        <div class="container">
+        {% block content %}{% endblock %}
+        </div>
+    </section>
+
+    <section id="actionButtons">
+        {% block actionButtons %}{% endblock %}
+    </section>
+</section>
+
+<footer id="footer">
+    {% include 'TrendixAdminBundle::footer.html.twig' %}
+</footer>
+
+<!-- Page Loader -->
+<div class="page-loader">
+    <div class="preloader pls-blue">
+        <svg class="pl-circular" viewBox="25 25 50 50">
+            <circle class="plc-path" cx="50" cy="50" r="20" />
+        </svg>
+    </div>
+</div>
+
+<!-- Older IE warning message -->
+<!--[if lt IE 9]>
+<div class="ie-warning">
+    <h1 class="c-white">Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="img/browsers/chrome.png" alt="">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="img/browsers/firefox.png" alt="">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="img/browsers/opera.png" alt="">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="img/browsers/safari.png" alt="">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="img/browsers/ie.png" alt="">
+                    <div>IE (New)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
+<![endif]-->
+
+
+{% block javascripts %}
+    {% javascripts
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.resize.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/flot.curvedlines/curvedLines.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/sparklines/jquery.sparkline.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/moment/min/moment.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/Waves/dist/waves.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bootstrap-growl/bootstrap-growl.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js'
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
+    '@AdminBundle/Resources/public/material_admin/js/flot-charts/curved-line-chart.js'
+    '@AdminBundle/Resources/public/material_admin/js/flot-charts/line-chart.js'
+    '@AdminBundle/Resources/public/material_admin/js/charts.js'
+    '@AdminBundle/Resources/public/material_admin/js/functions.js'
+    '@AdminBundle/Resources/public/material_admin/js/demo.js'
+    '@AdminBundle/Resources/public/pickadate/lib/picker.js'
+    '@AdminBundle/Resources/public/pickadate/lib/picker.date.js'
+    '@AdminBundle/Resources/public/js/datepicker.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts
+    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js'
+    %}
+<!--[if IE 9 ]><script src="{{ asset_url }}"></script><![endif]-->
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>

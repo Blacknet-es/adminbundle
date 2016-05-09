@@ -1,0 +1,23 @@
+#actionButtons {
+    position: fixed;
+    right: 45px;
+    bottom: 45px;
+    z-index: 998;
+}
+
+#actionButtons a {
+    line-height: 55px;
+    height: 55px;
+    width: 55px;
+    font-size: 24px;
+}
+
+#actionButtons a i {
+    font-size: 24px;
+}
+
+/* FORMS */
+
+textarea {
+    min-height: 120px;
+}

@@ -1,0 +1,32 @@
+<table aria-busy="false" id="{% if tableID is defined %}{{ tableID }}{% else %}data-table-basic{% endif %}" class="table table-striped bootgrid-table">
+    <thead>
+    {% set object = objects[0] %}
+    <tr>
+        {% for key, value in object %}
+            <th data-column-id="{{ key }}" {% if key == 'id' %}data-identifier="true"{% endif %}
+                class="text-left" style="">
+                <a href="javascript:void(0);" class="column-header-anchor sortable">
+                    {% set colName = 'cols.' ~ key %}
+                    <span class="text">{{ colName|trans }}</span>
+                    <span class="zmdi icon "></span>
+                </a>
+            </th>
+        {% endfor %}
+        <th data-column-id="commands" data-formatter="commands" class="text-left" style="">
+            <a href="javascript:void(0);" class="column-header-anchor sortable">
+                <span class="text">{{ 'cols.actions'|trans }}</span>
+                <span class="zmdi icon "></span>
+            </a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for object in objects %}
+        <tr data-row-id="{{ loop.index0 }}" data-model-id="{{ object['id'] }}">
+            {% for key, value in object %}
+                <td class="text-left" style=""><a href="http://google.es">{{ value }}</a></td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

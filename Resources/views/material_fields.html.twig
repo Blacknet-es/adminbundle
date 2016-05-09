@@ -1,0 +1,71 @@
+{% use "bootstrap_3_layout.html.twig" %}
+{#
+{% block text_widget %}
+        <div class="fg-line">
+            {% set type = type|default('text') %}
+
+            {% if type is not defined or type not in ['file', 'hidden'] %}
+                {%- set attr = attr|merge({class: (attr.class|default('') ~ ' fg-input')|trim}) -%}
+            {% endif %}
+            {{ block('form_widget_simple') }}
+            <label class="fg-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+            </label>
+        </div>
+{% endblock %}
+#}
+{% block text_widget %}
+    <div class="fg-line">
+        {% set type = type|default('text') %}
+        {% if type is not defined or type not in ['file', 'hidden'] %}
+            {%- set attr = attr|merge({class: (attr.class|default('') ~ ' fg-input')|trim}) -%}
+        {% endif %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
+
+{% block textarea_widget %}
+    <div class="fg-line">
+        {% set type = type|default('textarea') %}
+        {{ block('textarea_widget') }}
+    </div>
+{% endblock %}
+
+{% block choice_widget_collapsed %}
+    <div class="fg-line">
+        <div class="select">
+            {{- parent() -}}
+        </div>
+    </div>
+{% endblock %}
+
+{%- block radio_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    <div class="radio m-b-15">
+        <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+            <i class="input-helper"></i>
+            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+        </label>
+    </div>
+{%- endblock radio_widget -%}
+
+
+{% block checkbox_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    <div class="checkbox m-b-15">
+        <label>
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+            <i class="input-helper"></i>
+            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+        </label>
+    </div>
+{%- endblock checkbox_widget %}
+
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}

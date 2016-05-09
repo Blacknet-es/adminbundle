@@ -1,0 +1,107 @@
+{% extends 'TrendixAdminBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ title }}</h2>
+    </div>
+    {% if lista.data is not empty %}
+    <div class="table-responsive">
+        <table id="data-table-selection" class="table table-striped table-vmiddle bootgrid-table" aria-busy="false">
+            <thead>
+            <tr>
+                {% for label in lista.labels %}
+                <th data-column-id="id" class="text-left" style="">
+                    <a href="javascript:void(0);" class="column-header-anchor sortable">
+                        <span class="text">{{ label }}</span><span class="zmdi icon"></span>
+                    </a>
+                </th>
+                {% endfor %}
+                <th data-column-id="id" class="text-left" style="">
+                    <a href="javascript:void(0);" class="column-header-anchor sortable">
+                        <span class="text">{{ 'actions'|trans }}</span><span class="zmdi icon"></span>
+                    </a>
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for key, row in lista.data %}
+            <tr data-row-id="{{ key }}" class="" aria-selected="false">
+                {% for label, field in row if label != 'actions' %}
+                <td class="text-left" style="">{{ field }}</td>
+                {% endfor %}
+                <td class="text-left actions" >
+
+                    {% for action in row.actions %}
+                    <a href="{{ action.url }}" data-row-id="{{ key }}">
+                        <i class="zmdi zmdi-{{ action.icon }}"></i>
+                    </a>
+                    {% endfor %}
+
+                    {#
+                    <a href="javascript:void(0);" data-row-id="{{ key }}">
+                        <i class="zmdi zmdi-delete"></i>
+                    </a>
+                    #}
+
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div id="data-table-command-footer" class="bootgrid-footer container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    {% if (lista.totalPage > 1) %}
+                    <ul class="pagination">
+                        {% if lista.currentPage > 1 %}
+                        <li class="prev" aria-disabled="false">
+                            <a data-page="prev" class="button"><i class="zmdi zmdi-chevron-left"></i></a>
+                        </li>
+                        {% endif %}
+
+                        {% if lista.currentPage > 1 %}
+                            <li class="page-{{ lista.currentPage - 1 }} active" aria-disabled="false" aria-selected="true">
+                                <a data-page="{{ lista.currentPage - 1 }}" class="button">{{ lista.currentPage - 1 }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-{{ lista.currentPage }}" aria-disabled="true" aria-selected="false">
+                            <a data-page="{{ lista.currentPage }}" class="button">{{ lista.currentPage }}</a>
+                        </li>
+
+                        {% if lista.currentPage < lista.totalPage %}
+                            <li class="page-{{ lista.currentPage + 1 }} active" aria-disabled="false" aria-selected="true">
+                                <a data-page="{{ lista.currentPage + 1 }}" class="button">{{ lista.currentPage + 1 }}</a>
+                            </li>
+                        {% endif %}
+
+                        {% if lista.currentPage < lista.totalPage %}
+                        <li class="next disabled" aria-disabled="true">
+                            <a data-page="next" class="button"><i class="zmdi zmdi-chevron-right"></i></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="col-sm-6 infoBar">
+                    <div class="infos">Pag {{ lista.currentPage }} de {{ lista.totalPage }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="card-body card-padding">
+            {{ 'No hay elementos'|trans }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block actionButtons %}
+    {% if lista.primaryAction is not null %}
+        {{ buttons.actionButton(lista.primaryAction, 'plus', 'lightgreen')  }}
+    {% endif %}
+{% endblock %}

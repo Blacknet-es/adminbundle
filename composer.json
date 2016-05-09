@@ -1,0 +1,14 @@
+{
+    "name": "trendix/admin-bundle",
+    "license": "proprietary",
+    "type": "symfony-bundle",
+    "description": "Admin template, users and base functionalities",
+    "autoload": {
+        "psr-4": {
+            "Trendix\\AdminBundle\\": ""
+        }
+    },
+    "require": {
+        "friendsofsymfony/user-bundle": "~2.0@dev"
+    }
+}
