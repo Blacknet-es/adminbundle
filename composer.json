@@ -10,6 +10,6 @@
     },
     "require": {
         "vich/uploader-bundle": "^0.14.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "^2.0@dev"
     }
 }
