@@ -1,2 +1,4 @@
 services:
-
+  admin.lista.factory:
+        class: Trendix\AdminBundle\Component\Lista\ListaFactory
+        arguments: ["@service_container", "@doctrine.orm.default_entity_manager"]

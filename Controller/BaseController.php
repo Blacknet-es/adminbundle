@@ -62,7 +62,7 @@ class BaseController extends Controller
      */
     public function createList(ListaAbstractType $lista, $options = array())
     {
-        $list = $this->get('lista.factory');
+        $list = $this->get('admin.lista.factory');
         return $list->create($lista, $options);
     }
 

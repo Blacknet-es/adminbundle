@@ -21,6 +21,6 @@ class UserLista extends ListaAbstractType
 
     public function getClass()
     {
-        return 'Trendix\UserBundle\Entity\User';
+        return 'Trendix\AdminBundle\Entity\User';
     }
 }
