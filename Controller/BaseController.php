@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace Trendix\AdminBundle\Controller;
 
 use AdminBundle\Component\Lista\ListaAbstractType;
 use AdminBundle\Utility\Menu;
