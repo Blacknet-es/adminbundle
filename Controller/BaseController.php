@@ -2,8 +2,8 @@
 
 namespace Trendix\AdminBundle\Controller;
 
-use AdminBundle\Component\Lista\ListaAbstractType;
-use AdminBundle\Utility\Menu;
+use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
+use Trendix\AdminBundle\Utility\Menu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

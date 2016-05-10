@@ -4,8 +4,8 @@
 namespace Trendix\AdminBundle\Lista;
 
 
-use AdminBundle\Component\Lista\ListaAbstractBuilder;
-use AdminBundle\Component\Lista\ListaAbstractType;
+use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
+use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
 
 class UserLista extends ListaAbstractType
 {
