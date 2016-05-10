@@ -63,7 +63,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Trendix\UserBundle\Entity\User'
+            'data_class' => 'Trendix\AdminBundle\Entity\User'
         ));
     }
 }

@@ -4,7 +4,7 @@ namespace Trendix\AdminBundle\Controller;
 
 use Trendix\AdminBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Trendix\UserBundle\Lista\UserLista;
+use Trendix\AdminBundle\Lista\UserLista;
 
 
 /**

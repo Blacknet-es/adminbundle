@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Controller\RegistrationController as BaseRegistrationController;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use Trendix\UserBundle\Entity\User;
+use Trendix\AdminBundle\Entity\User;
 
 /**
  * Controller managing the registration
@@ -36,7 +36,7 @@ class RegistrationController extends BaseRegistrationController
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return $this->render('TrendixUserBundle:Registration:confirmed.html.twig', array(
+        return $this->render('TrendixAdminBundle:Registration:confirmed.html.twig', array(
             'user' => $user,
             'targetUrl' => $this->getTargetUrlFromSession(),
         ));

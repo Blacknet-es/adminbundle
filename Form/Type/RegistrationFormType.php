@@ -17,7 +17,7 @@ class RegistrationFormType extends AbstractType
      */
     public function __construct()
     {
-        $this->class = 'Trendix\UserBundle\Entity\User';
+        $this->class = 'Trendix\AdminBundle\Entity\User';
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

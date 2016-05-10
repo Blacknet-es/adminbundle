@@ -1,6 +1,6 @@
 <?php
 
-namespace Trendix\UserBundle\Controller;
+namespace Trendix\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\UserBundle\Controller\SecurityController as BaseSecController;
