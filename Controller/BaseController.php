@@ -71,10 +71,22 @@ class BaseController extends Controller
      */
     private function getAppData()
     {
-        $menu = new Menu($this->get('service_container'));
+        $menu = $this->getMenu();
         return array(
             'app_name' => $this->getParameter('app_name'),
             'principalMenu' => $menu->getArrayMenu()
         );
+    }
+
+    /**
+     * @return Menu Returns the user chosen menu class instance.
+     */
+    private function getMenu()
+    {
+        $menuClass = $this->getParameter('menu_class');
+        if(!$menuClass) {
+            $menuClass = 'Trendix\AdminBundle\Utility\Menu';
+        }
+        return new $menuClass($this->get('service_container'));
     }
 }

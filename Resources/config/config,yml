@@ -1,0 +1,7 @@
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        admin_theme: "%admin_theme%"
+    form:
+        resources: ['TrendixAdminBundle:forms:forms.html.twig']

@@ -11,16 +11,16 @@
     <!-- CSS -->
     {% block stylesheets %}
         {% stylesheets
-        'bundles/admin/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css' filter='cssrewrite'
-        'bundles/admin/material_admin/vendors/bower_components/animate.css/animate.min.css' filter='cssrewrite'
-        'bundles/admin/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css' filter='cssrewrite'
-        'bundles/admin/material_admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css' filter='cssrewrite'
-        'bundles/admin/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' filter='cssrewrite'
-        'bundles/admin/material_admin/css/app.min.1.css' filter='cssrewrite'
-        'bundles/admin/material_admin/css/app.min.2.css' filter='cssrewrite'
-        'bundles/admin/pickadate/lib/themes/classic.css' filter='cssrewrite'
-        'bundles/admin/pickadate/lib/themes/classic.date.css' filter='cssrewrite'
-        '@AdminBundle/Resources/public/css/base.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/vendors/bower_components/animate.css/animate.min.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/css/app.min.1.css' filter='cssrewrite'
+        'bundles/trendixadmin/material_admin/css/app.min.2.css' filter='cssrewrite'
+        'bundles/trendixadmin/pickadate/lib/themes/classic.css' filter='cssrewrite'
+        'bundles/trendixadmin/pickadate/lib/themes/classic.date.css' filter='cssrewrite'
+        '@TrendixAdminBundle/Resources/public/css/base.css' filter='cssrewrite'
         %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -115,33 +115,33 @@
 
 {% block javascripts %}
     {% javascripts
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.resize.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/flot.curvedlines/curvedLines.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/sparklines/jquery.sparkline.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/moment/min/moment.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/Waves/dist/waves.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bootstrap-growl/bootstrap-growl.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js'
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
-    '@AdminBundle/Resources/public/material_admin/js/flot-charts/curved-line-chart.js'
-    '@AdminBundle/Resources/public/material_admin/js/flot-charts/line-chart.js'
-    '@AdminBundle/Resources/public/material_admin/js/charts.js'
-    '@AdminBundle/Resources/public/material_admin/js/functions.js'
-    '@AdminBundle/Resources/public/material_admin/js/demo.js'
-    '@AdminBundle/Resources/public/pickadate/lib/picker.js'
-    '@AdminBundle/Resources/public/pickadate/lib/picker.date.js'
-    '@AdminBundle/Resources/public/js/datepicker.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.resize.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot.curvedlines/curvedLines.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/sparklines/jquery.sparkline.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/moment/min/moment.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/Waves/dist/waves.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bootstrap-growl/bootstrap-growl.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/js/flot-charts/curved-line-chart.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/js/flot-charts/line-chart.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/js/charts.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/js/functions.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/js/demo.js'
+    '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.js'
+    '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.date.js'
+    '@TrendixAdminBundle/Resources/public/js/datepicker.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts
-    '@AdminBundle/Resources/public/material_admin/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js'
     %}
 <!--[if IE 9 ]><script src="{{ asset_url }}"></script><![endif]-->
     {% endjavascripts %}

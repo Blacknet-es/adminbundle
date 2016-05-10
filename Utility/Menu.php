@@ -75,8 +75,9 @@ class Menu
         return $menuComplete;
     }
 
-    private function getMenu()
+    protected function getMenu()
     {
+        /*
         return array(
             array( // Dashboard
                 'id' => 'dashboard',
@@ -104,9 +105,10 @@ class Menu
                 'submenu' => $this->getServiciosSubmenu()
             ),
 
-        );
+        );*/
+        return array();
     }
-
+    /*
     private function getHotelesSubmenu()
     {
         return array(
@@ -145,6 +147,6 @@ class Menu
                 'route' => 'admin_service_new',
             ),
         );
-    }
+    }*/
 
 }
