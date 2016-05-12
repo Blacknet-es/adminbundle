@@ -9,6 +9,7 @@
         }
     },
     "require": {
-        "vich/uploader-bundle": "^0.14.0"
+        "vich/uploader-bundle": "^0.14.0",
+        "comur/image-bundle": "1.0.*@dev"
     }
 }
