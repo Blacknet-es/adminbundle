@@ -83,7 +83,7 @@ class ListaFactory
 
         if ($this->request->request->get('pag')) {
             $this->pag = $this->request->request->get('pag');
-            $this->firstResult = $this->pag * $this->maxResults;
+            $this->firstResult = ($this->pag-1) * $this->maxResults;
         }
     }
 
