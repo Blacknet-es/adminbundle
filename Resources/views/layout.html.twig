@@ -29,6 +29,8 @@
 
 </head>
 <body class="{% block body_class %}{% endblock %}">
+
+{% include "ComurImageBundle:Form:croppable_image_modal.html.twig" with {'include_jquery': false, 'include_bootstrap': false} %}
 {% block body %}
 <header id="header" class="clearfix" data-current-skin="{{ admin_theme|default("blue") }}">
     <div class="container">
@@ -147,7 +149,10 @@
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js'
     %}
 <!--[if IE 9 ]><script src="{{ asset_url }}"></script><![endif]-->
+
     {% endjavascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock %}
 </body>
 </html>

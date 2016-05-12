@@ -22,3 +22,10 @@ admin_check:
 admin_logout:
     pattern:  /admin/logout
     defaults: { _controller: FOSUserBundle:Security:logout }
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+comur_image:
+    resource: "@ComurImageBundle/Resources/config/routing.yml"
+    prefix:   /
