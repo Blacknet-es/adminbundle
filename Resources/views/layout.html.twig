@@ -28,7 +28,8 @@
     {% endblock %}
 
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+{% block body %}
 <header id="header" class="clearfix" data-current-skin="{{ admin_theme|default("blue") }}">
     <div class="container">
         {% include 'TrendixAdminBundle::top_bar.html.twig' %}
@@ -59,6 +60,8 @@
 <footer id="footer">
     {% include 'TrendixAdminBundle::footer.html.twig' %}
 </footer>
+
+{% endblock %}
 
 <!-- Page Loader -->
 <div class="page-loader">

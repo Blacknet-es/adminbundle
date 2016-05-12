@@ -2,6 +2,10 @@
 
 namespace Trendix\AdminBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use Trendix\AdminBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Trendix\AdminBundle\Lista\UserLista;
@@ -26,5 +30,4 @@ class AdminController extends BaseController
 
         return $this->render('TrendixAdminBundle:Lista:index.html.twig', $this->getData());
     }
-
 }
