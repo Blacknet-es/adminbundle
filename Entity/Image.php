@@ -21,17 +21,19 @@ class Image
     protected $id;
 
     /**
-     * @ORM\Column(name="path", type="string", length=255, nullable=true)
+     * @var string
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
-    protected $path;
+    protected $image;
 
     /**
+     * @var string
      * @ORM\Column(name="original_image", type="string", length=255, nullable=true)
      */
     protected $originalImage;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOriginalImage()
     {
@@ -39,7 +41,7 @@ class Image
     }
 
     /**
-     * @param mixed $originalImage
+     * @param string $originalImage
      * @return Image
      */
     public function setOriginalImage($originalImage)
@@ -57,20 +59,30 @@ class Image
     }
 
     /**
-     * @return mixed
+     * @param mixed $id
+     * @return Image
      */
-    public function getPath()
+    public function setId($id)
     {
-        return $this->path;
+        $this->id = $id;
+        return $this;
     }
 
     /**
-     * @param mixed $path
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
      * @return Image
      */
-    public function setPath($path)
+    public function setImage($image)
     {
-        $this->path = $path;
+        $this->image = $image;
         return $this;
     }
 
@@ -83,16 +95,23 @@ class Image
 
     public function getUploadDir()
     {
-        return 'uploads/images/';
+        return 'uploads/images';
     }
 
     public function getAbsolutePath()
     {
-        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
+        return null === $this->image ? null : $this->getUploadRootDir().'/'.$this->image;
     }
 
     public function getWebPath()
     {
-        return null === $this->path ? null : '/'.$this->getUploadDir().'/'.$this->path;
+        return null === $this->image ? null : '/'.$this->getUploadDir().'/'.$this->image;
     }
+
+    function __toString()
+    {
+        //return $this->image ? $this->image : '';
+        return $this->getWebPath();
+    }
+
 }

@@ -27,6 +27,12 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     {% endblock %}
 
+    {% javascripts
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
@@ -120,8 +126,6 @@
 
 {% block javascripts %}
     {% javascripts
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.js'
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.resize.js'
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot.curvedlines/curvedLines.js'

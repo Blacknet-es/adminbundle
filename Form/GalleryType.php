@@ -1,47 +1,59 @@
 <?php
 
-namespace AppBundle\Form;
+namespace Trendix\AdminBundle\Form;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GalleryType extends AbstractType
 {
+    private $manager;
+
+    public function __construct(ObjectManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('image', 'comur_gallery', array(
-                'uploadConfig' => array(
-                    'uploadRoute' => 'comur_api_upload',        //optional
-                    'uploadUrl' => __DIR__.'/../../../../../web/uploads/images/',       // required - see explanation below (you can also put just a dir path)
-                    'webDir' => 'uploads/images/',              // required - see explanation below (you can also put just a dir path)
-                    'fileExt' => '*.jpg;*.gif;*.png;*.jpeg',    //optional
-                    'libraryDir' => null,                       //optional
-                    'libraryRoute' => 'comur_api_image_library', //optional
-                    'showLibrary' => true,                      //optional
-                    'saveOriginal' => 'originalImage',          //optional
-                    'generateFilename' => true          //optional
-                ),
-                'cropConfig' => array(
-                    'minWidth' => 588,
-                    'minHeight' => 300,
-                    'aspectRatio' => true,              //optional
-                    'cropRoute' => 'comur_api_crop',    //optional
-                    'forceResize' => false,             //optional
-                    'thumbs' => array(                  //optional
-                        array(
-                            'maxWidth' => 180,
-                            'maxHeight' => 400,
-                            'useAsFieldImage' => true  //optional
-                        )
+        $defaults = array(
+            'label' => '',
+            'label_attr' => array('class' => 'hidden'),
+            'uploadConfig' => array(
+                'uploadRoute' => 'comur_api_upload',        //optional
+                'uploadUrl' => __DIR__.'/../../../../web/uploads/images',       // required - see explanation below (you can also put just a dir path)
+                'webDir' => 'uploads/images/',              // required - see explanation below (you can also put just a dir path)
+                'fileExt' => '*.jpg;*.gif;*.png;*.jpeg',    //optional
+                'libraryDir' => false,                       //optional
+                'libraryRoute' => 'comur_api_image_library', //optional
+                'showLibrary' => false,                      //optional
+                'saveOriginal' => 'originalImage',          //optional
+                'generateFilename' => true          //optional
+            ),
+            'cropConfig' => array(
+                'minWidth' => 1,
+                'minHeight' => 1,
+                'aspectRatio' => false,              //optional
+                'cropRoute' => 'comur_api_crop',    //optional
+                'forceResize' => false,             //optional
+                'thumbs' => array(                  //optional
+                    array(
+                        'maxWidth' => 180,
+                        'maxHeight' => 400,
+                        'useAsFieldImage' => true  //optional
                     )
                 )
-            ));
+            )
+        );
+        $builder
+            ->add('gallery', 'comur_gallery', array_merge($defaults, $options));
+        $builder->get('gallery')->addModelTransformer(new GalleryTransformer($this->manager));
     }
     
     /**

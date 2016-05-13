@@ -25,6 +25,42 @@ class Gallery
      */
     protected $gallery;
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Gallery
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGallery()
+    {
+        return $this->gallery;
+    }
+
+    /**
+     * @param mixed $gallery
+     * @return Gallery
+     */
+    public function setGallery($gallery)
+    {
+        $this->gallery = $gallery;
+        return $this;
+    }
+
     public function getUploadRootDir()
     {
         // absolute path to your directory where images must be saved
@@ -33,16 +69,23 @@ class Gallery
 
     public function getUploadDir()
     {
-        return 'uploads/myentity';
+        return 'uploads/images';
     }
 
-    public function getAbsolutePath()
+    public function getAbsolutePath($index = 0)
     {
-        return null === $this->gallery ? null : $this->getUploadRootDir().'/'.$this->gallery;
+        return null === $this->gallery || count($this->gallery) == 0 ? null : $this->getUploadRootDir().'/'.$this->gallery[$index];
     }
 
-    public function getWebPath()
+    public function getWebPath($index = 0)
     {
-        return null === $this->gallery ? null : '/'.$this->getUploadDir().'/'.$this->gallery;
+        return null === $this->gallery || count($this->gallery) == 0 ? null : '/'.$this->getUploadDir().'/'.$this->gallery[$index];
     }
+
+    function __toString()
+    {
+        return $this->getWebPath();
+    }
+
+
 }

@@ -2,3 +2,13 @@ services:
   admin.lista.factory:
         class: Trendix\AdminBundle\Component\Lista\ListaFactory
         arguments: ["@service_container", "@doctrine.orm.default_entity_manager"]
+  trendix_image:
+        class: Trendix\AdminBundle\Form\ImageType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+  trendix_gallery:
+        class: Trendix\AdminBundle\Form\GalleryType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
