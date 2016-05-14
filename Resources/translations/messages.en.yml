@@ -1,2 +1,8 @@
 admin:
   sidney_school_admin: Panel de Administración de Sydney School
+
+security:
+  login:
+    username: Username
+    password: Password
+    remember_me: Remember me

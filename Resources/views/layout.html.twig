@@ -28,8 +28,17 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     {% endblock %}
 
+    {% javascripts
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
+    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
+
+{% include "ComurImageBundle:Form:croppable_image_modal.html.twig" with {'include_jquery': false, 'include_bootstrap': false} %}
+{% block body %}
 <header id="header" class="clearfix" data-current-skin="{{ admin_theme|default("blue") }}">
     <div class="container">
         {% include 'TrendixAdminBundle::top_bar.html.twig' %}
@@ -60,6 +69,8 @@
 <footer id="footer">
     {% include 'TrendixAdminBundle::footer.html.twig' %}
 </footer>
+
+{% endblock %}
 
 <!-- Page Loader -->
 <div class="page-loader">
@@ -116,8 +127,6 @@
 
 {% block javascripts %}
     {% javascripts
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.js'
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.resize.js'
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot.curvedlines/curvedLines.js'
@@ -146,7 +155,10 @@
     '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js'
     %}
 <!--[if IE 9 ]><script src="{{ asset_url }}"></script><![endif]-->
+
     {% endjavascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock %}
 </body>
 </html>

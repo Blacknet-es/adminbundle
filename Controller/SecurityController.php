@@ -17,6 +17,14 @@ class SecurityController extends BaseSecController
 
     protected function renderLogin(array $data)
     {
-        return $this->render('TrendixAdminBundle:Security:login.html.twig', $data);
+
+        $requestAttributes = $this->container->get('request')->attributes;
+        if ($requestAttributes->get('_route') == 'admin_login') {
+            $template = 'TrendixAdminBundle:Security:admin_login.html.twig';
+        } else {
+            $template = 'FOSUserBundle:Security:login.html.twig';
+        }
+        $data['app_name'] = $this->getParameter('app_name');
+        return $this->render($template, $data);
     }
 }

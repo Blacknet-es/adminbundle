@@ -62,3 +62,9 @@ cols:
   phone: Teléfono fijo
   mobilePhone: Teléfono móvil
   actions: Acciones
+
+security:
+  login:
+    username: Usuario
+    password: Contraseña
+    remember_me: Recuérdame
