@@ -1,21 +1,7 @@
 {% use "bootstrap_3_layout.html.twig" %}
-{#
-{% block text_widget %}
-        <div class="fg-line">
-            {% set type = type|default('text') %}
 
-            {% if type is not defined or type not in ['file', 'hidden'] %}
-                {%- set attr = attr|merge({class: (attr.class|default('') ~ ' fg-input')|trim}) -%}
-            {% endif %}
-            {{ block('form_widget_simple') }}
-            <label class="fg-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-            {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
-            </label>
-        </div>
-{% endblock %}
-#}
 {% block text_widget %}
-    <div class="fg-line">
+    <div {% if attr.class is defined and 'simple' in attr.class %}class="fg-line"{% endif %}>
         {% set type = type|default('text') %}
         {% if type is not defined or type not in ['file', 'hidden'] %}
             {%- set attr = attr|merge({class: (attr.class|default('') ~ ' fg-input')|trim}) -%}

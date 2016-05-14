@@ -51,10 +51,6 @@ $(document).ready(function(){
         });
     })();
 
-    /*
-    Form Styles
-     */
-    $('.form-control').parent().addClass('fg-line');
     /* --------------------------------------------------------
         Scrollbar
     -----------------------------------------------------------*/
@@ -493,7 +489,7 @@ $(document).ready(function(){
      * Color Picker
      */
     if ($('.color-picker')[0]) {
-	    $('.color-picker').each(function(){
+        $('.color-picker').each(function () {
             var colorOutput = $(this).closest('.cp-container').find('.cp-value');
             $(this).farbtastic(colorOutput);
         });
@@ -504,32 +500,12 @@ $(document).ready(function(){
      */
     if ($('.html-editor')[0]) {
 	   $('.html-editor').summernote({
-            height: 150
-        });
-    }
-
-    if($('.html-editor-click')[0]) {
-        //Edit
-        $('body').on('click', '.hec-button', function(){
-            $('.html-editor-click').summernote({
-                focus: true
-            });
-            $('.hec-save').show();
-        })
-
-        //Save
-        $('body').on('click', '.hec-save', function(){
-            $('.html-editor-click').code();
-            $('.html-editor-click').destroy();
-            $('.hec-save').hide();
-            notify('Content Saved Successfully!', 'success');
-        });
-    }
-
-    //Air Mode
-    if($('.html-editor-airmod')[0]) {
-        $('.html-editor-airmod').summernote({
-            airMode: true
+           height: 150,
+           toolbar: [
+               // [groupName, [list of button]]
+               ['style', ['bold', 'italic', 'underline', 'clear']],
+               ['para', ['ul', 'ol', 'paragraph']],
+           ]
         });
     }
 
