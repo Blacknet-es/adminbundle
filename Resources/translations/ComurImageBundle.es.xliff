@@ -143,7 +143,7 @@
       </trans-unit>
       <trans-unit id="886dd2ec0ae0c0544751384c3b1122620a960a23" resname="The uploaded file was only partially uploaded">
         <source>The uploaded file was only partially uploaded</source>
-        <target state="new">El archivo solo se ha subido parcialmente/target>
+        <target state="new">El archivo solo se ha subido parcialmente</target>
         <jms:reference-file line="71">ImageBundle/Controller/UploadController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="159031eaeed919231a31e757a438b81530589af3" resname="Upload Image">
