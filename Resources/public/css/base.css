@@ -21,3 +21,21 @@
 textarea {
     min-height: 120px;
 }
+
+
+/* Image upload widget */
+#image_upload_modal #image_upload_tabs {
+    display: none;
+}
+
+#image_upload_modal .tab_content {
+    padding: 0;
+}
+
+#image_upload_modal .modal_header {
+    padding-bottom: 0;
+}
+
+#image_upload_file_container > .btn {
+    height: 32px;
+}

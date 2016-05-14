@@ -33,6 +33,10 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script
+            src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"
+            integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo="
+            crossorigin="anonymous"></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
@@ -146,6 +150,7 @@
     '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.js'
     '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.date.js'
     '@TrendixAdminBundle/Resources/public/js/datepicker.js'
+    '@TrendixAdminBundle/Resources/public/js/image_uploader.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

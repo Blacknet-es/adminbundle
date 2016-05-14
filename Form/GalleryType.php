@@ -23,8 +23,7 @@ class GalleryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $defaults = array(
-            'label' => '',
-            'label_attr' => array('class' => 'hidden'),
+            'label' => false,
             'uploadConfig' => array(
                 'uploadRoute' => 'comur_api_upload',        //optional
                 'uploadUrl' => __DIR__.'/../../../../web/uploads/images',       // required - see explanation below (you can also put just a dir path)
