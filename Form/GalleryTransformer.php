@@ -51,14 +51,12 @@ class GalleryTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        var_dump($value);
         if($value == null) {
             return null;
         }
-        $gallery = $this->manager->getRepository('TrendixAdminBundle:Gallery')->findOneBy(array(
-            "gallery" => serialize($value)
-        ));
-        var_dump($gallery);
+        $query = $this->manager->getRepository('TrendixAdminBundle:Gallery')->createQueryBuilder('g')
+            ->where('g.gallery LIKE \'%' . $value[0] . '%\'')->getQuery();
+        $gallery = $query->getOneOrNullResult();
         return $gallery;
     }
 
