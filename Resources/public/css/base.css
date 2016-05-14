@@ -21,3 +21,11 @@
 textarea {
     min-height: 120px;
 }
+
+input.simple {
+    border: none !important;
+}
+
+td input.simple, th input.simple {
+    text-align: center;
+}
