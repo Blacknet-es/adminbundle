@@ -25,56 +25,56 @@ class User extends BaseUser
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      **/
-    private $photo;
+    protected $photo;
 
     /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      **/
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      **/
-    private $lastName;
+    protected $lastName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      **/
-    private $phone;
+    protected $phone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mobile_phone", type="string", length=255, nullable=true)
      **/
-    private $mobilePhone;
+    protected $mobilePhone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="user_type", type="string", length=255, nullable=true)
      **/
-    private $userType;
+    protected $userType;
 
 
     public function __construct()
