@@ -32,7 +32,7 @@
 
                             {% for action in row.actions %}
                                 {% if action.action == 'delete' %}
-                                <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-message="{{ '¿Desea eliliminar el elemento seleccionado?' }}" data-type="DELETE">
+                                <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ '¿Desea eliliminar el elemento seleccionado?' }}">
                                     <i class="zmdi zmdi-{{ action.icon }}"></i>
                                 </a>
                                 {% else %}
