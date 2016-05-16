@@ -86,7 +86,6 @@ class GalleryTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        var_dump($value);
         if($value == null) {
             return '';
         }

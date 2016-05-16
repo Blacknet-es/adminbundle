@@ -7,6 +7,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
+use Trendix\AdminBundle\Component\Lista\DataType\JoinType;
 
 class ListaFactory
 {
@@ -77,6 +78,7 @@ class ListaFactory
         $this->maxResults = 25; //Mostrar 25 elementos por pagina
         $this->lista = null;
         $this->pag = 1;
+        $this->joinList = 1;
         if ($this->request->request->get('epp')) {
             $this->maxResults = $this->request->request->get('epp');
         }
@@ -127,13 +129,38 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                $select[] = 'a.'.$dataType->getKey();
+                if ($dataType->getName() != 'join') {
+                    $select[] = 'a.'.$dataType->getKey();
+                }
             }
         }
 
         $this->qb->select($select);
+
+        $this->configureJoins();
         $this->qb->where('1=1');
         return $this;
+    }
+
+    private function configureJoins()
+    {
+        foreach ($this->listaBuilder->getChilds() as $dataType) {
+            if ($dataType instanceof JoinType) {
+                $this->qb->addSelect($this->getSelectsJoinType($dataType));
+                $this->qb->join('a.'.$dataType->getKey(), 'a'.$this->joinList);
+                $this->joinList++;
+            }
+        }
+    }
+
+    /**
+     * @param $dataType
+     */
+    private function getSelectsJoinType($dataType)
+    {
+        $selector = 'a'.$this->joinList.'.';
+        $options = $dataType->getOptions();
+        return $selector.$options['property']. ' AS '.$dataType->getKey().'_'.$options['property'];
     }
 
     private function countResults()
@@ -180,11 +207,17 @@ class ListaFactory
         $finalResult = array();
         foreach ($result as $line => $row) {
             foreach ($row as $key => $field) {
+                $key = explode('_', $key)[0];
                 $dt = $dataTypes[$key];
                 if ($dt instanceof DataAbstractType) {
                     if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
                         $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
                     }
+
+                    if ($dt instanceof JoinType) {
+                        $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
+                    }
+
                     $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
                     if (!isset($this->labels[$dt->getLabel()])) {
                         $this->labels[$dt->getLabel()] = $dt->getLabel();

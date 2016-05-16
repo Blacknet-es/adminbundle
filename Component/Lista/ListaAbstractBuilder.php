@@ -4,7 +4,7 @@
 namespace Trendix\AdminBundle\Component\Lista;
 
 
-use Trendix\AdminBundle\Component\Lista\DataType\DateType;
+//use Trendix\AdminBundle\Component\Lista\DataType\DateType;
 use Trendix\AdminBundle\Component\Lista\DataType\TextType;
 
 abstract class ListaAbstractBuilder implements ListaBuilderInterface
@@ -52,12 +52,16 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
     private function createChild($child, $type = null, $options = array())
     {
         if (null === $type || $type == 'text') {
-            return new TextType($child, $options);
+            return new \Trendix\AdminBundle\Component\Lista\DataType\TextType($child, $options);
         }
 
         if ($type == 'date') {
-            return new DateType($child, $options);
+            return new \Trendix\AdminBundle\Component\Lista\DataType\DateType($child, $options);
         }
+
+        $className = '\\'.$type;
+        $dataType = new $className($child, $options);
+        return $dataType;
 
         throw new \Exception('Data Type not exists in ListaBuilder Data Type list');
     }
