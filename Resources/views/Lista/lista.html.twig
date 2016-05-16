@@ -25,7 +25,7 @@
                 <tbody>
                 {% for key, row in lista.data %}
                     <tr data-row-id="{{ row.original_id }}" class="" aria-selected="false">
-                        {% for label, field in row if label != 'actions' %}
+                        {% for label, field in row if label != 'actions' and label != 'original_id' %}
                             <td class="text-left" style="">{{ field }}</td>
                         {% endfor %}
                         <td class="text-left actions" >
