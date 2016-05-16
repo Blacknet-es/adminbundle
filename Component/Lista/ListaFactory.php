@@ -90,7 +90,7 @@ class ListaFactory
     /**
      * {@inheritdoc}
      */
-    public function create(ListaAbstractType $lista, array $options = array())
+    public function create(ListaAbstractType $lista, $options = array())
     {
         $this->lista = $lista;
         $this->options = array_merge($lista->getOptions(), $options);
@@ -100,23 +100,21 @@ class ListaFactory
     /**
      * {@inheritdoc}
      */
-    public function createBuilder(ListaAbstractType $lista, array $options = array())
+    public function createBuilder(ListaAbstractType $lista)
     {
-        $lista->buildList($this->listaBuilder, $options);
+        $lista->buildList($this->listaBuilder, $this->options);
         $this->qb = $this->em->getRepository($lista->getClass())->createQueryBuilder('a');
 
-        $this
-            ->selectBuilder() //Select Fields
-            ->filterBuilder($options) //Generate filters
-            ->orderBuilder($options) //Order Options
-            ->pagerBuilder($options) //Page Options
-        ;
+        $this->selectBuilder(); //Select Fields
+        $this->filterBuilder(); //Generate filters
+        $this->orderBuilder(); //Order Options
+        $this->pagerBuilder(); //Page Options
 
         //Obtain raw array results
         $arrayResults = $this->qb->getQuery()->getArrayResult();
 
         //Return data transformed array resutls with label key
-        $this->arrayResults = $this->transformerBuilder($arrayResults, $lista, $options);
+        $this->arrayResults = $this->transformerBuilder($arrayResults, $lista);
 
         return $this;
     }
@@ -144,7 +142,7 @@ class ListaFactory
 
         $this
             ->countBuilder()
-            ->filterBuilder($this->options)
+            ->filterBuilder()
         ;
 
         return $this->qb->getQuery()->getSingleScalarResult();
@@ -156,27 +154,27 @@ class ListaFactory
         return $this;
     }
 
-    private function filterBuilder($options)
+    private function filterBuilder()
     {
-        if (isset($options['permanent_filter'])) {
-            $this->qb->andWhere($options['permanent_filter']);
+        if (isset($this->options['permanent_filter'])) {
+            $this->qb->andWhere($this->options['permanent_filter']);
         }
         return $this;
     }
 
-    private function orderBuilder($options)
+    private function orderBuilder()
     {
         return $this;
     }
 
-    private function pagerBuilder($options)
+    private function pagerBuilder()
     {
         $this->qb->setFirstResult($this->firstResult);
         $this->qb->setMaxResults($this->maxResults);
         return $this;
     }
 
-    private function transformerBuilder($result, ListaAbstractType $lista, $options = array())
+    private function transformerBuilder($result, ListaAbstractType $lista)
     {
         $dataTypes = $this->listaBuilder->getChilds();
         $finalResult = array();
