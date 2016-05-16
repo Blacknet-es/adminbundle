@@ -1,6 +1,3 @@
-admin:
-  sidney_school_admin: Panel de Administración de Sydney School
-
 security:
   login:
     username: Username
