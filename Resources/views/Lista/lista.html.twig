@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h2>{{ title }}</h2>
+        <h2>{{ title|trans }}</h2>
     </div>
     {% if lista.data is not empty %}
         <div class="table-responsive">
@@ -10,13 +10,13 @@
                     {% for label in lista.labels %}
                         <th data-column-id="id" class="text-left" style="">
                             <a href="javascript:void(0);" class="column-header-anchor sortable">
-                                <span class="text">{{ label }}</span><span class="zmdi icon"></span>
+                                <span class="text">{{ label|trans }}</span><span class="zmdi icon"></span>
                             </a>
                         </th>
                     {% endfor %}
                     <th data-column-id="id" class="text-left" style="">
                         <a href="javascript:void(0);" class="column-header-anchor sortable">
-                            <span class="text">{{ 'actions'|trans }}</span><span class="zmdi icon"></span>
+                            <span class="text">{{ 'admin.actions'|trans }}</span><span class="zmdi icon"></span>
                         </a>
                     </th>
                 </tr>
