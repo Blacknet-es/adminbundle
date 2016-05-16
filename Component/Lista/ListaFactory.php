@@ -93,7 +93,7 @@ class ListaFactory
     public function create(ListaAbstractType $lista, array $options = array())
     {
         $this->lista = $lista;
-        $this->options = $options;
+        $this->options = array_merge($lista->getOptions(), $options);
         return $this->createBuilder($lista, $options);
     }
 
@@ -134,6 +134,7 @@ class ListaFactory
         }
 
         $this->qb->select($select);
+        $this->qb->where('1=1');
         return $this;
     }
 
@@ -157,6 +158,9 @@ class ListaFactory
 
     private function filterBuilder($options)
     {
+        if (isset($options['permanent_filter'])) {
+            $this->qb->andWhere($options['permanent_filter']);
+        }
         return $this;
     }
 
@@ -180,6 +184,9 @@ class ListaFactory
             foreach ($row as $key => $field) {
                 $dt = $dataTypes[$key];
                 if ($dt instanceof DataAbstractType) {
+                    if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
+                        $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
+                    }
                     $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
                     if (!isset($this->labels[$dt->getLabel()])) {
                         $this->labels[$dt->getLabel()] = $dt->getLabel();
@@ -210,6 +217,7 @@ class ListaFactory
             }
 
             $actions[$key] = array(
+                'action' => $action->getAction(),
                 'icon' => $action->getIcon(),
                 'url' => $this->getUrlFromAction($action, $row)
             );

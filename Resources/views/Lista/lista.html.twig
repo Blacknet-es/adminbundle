@@ -24,16 +24,22 @@
 
                 <tbody>
                 {% for key, row in lista.data %}
-                    <tr data-row-id="{{ key }}" class="" aria-selected="false">
+                    <tr data-row-id="{{ row.original_id }}" class="" aria-selected="false">
                         {% for label, field in row if label != 'actions' %}
                             <td class="text-left" style="">{{ field }}</td>
                         {% endfor %}
                         <td class="text-left actions" >
 
                             {% for action in row.actions %}
-                                <a href="{{ action.url }}" data-row-id="{{ key }}">
+                                {% if action.action == 'delete' %}
+                                <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-message="{{ '¿Desea eliliminar el elemento seleccionado?' }}" data-type="DELETE">
                                     <i class="zmdi zmdi-{{ action.icon }}"></i>
                                 </a>
+                                {% else %}
+                                <a href="{{ action.url }}" data-row-id="{{ row.original_id }}">
+                                    <i class="zmdi zmdi-{{ action.icon }}"></i>
+                                </a>
+                                {% endif %}
                             {% endfor %}
 
                             {#

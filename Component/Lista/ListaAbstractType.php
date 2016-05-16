@@ -39,8 +39,8 @@ abstract class ListaAbstractType implements ListaTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function getOptions()
     {
-
+        return array();
     }
 }

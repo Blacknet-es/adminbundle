@@ -17,7 +17,7 @@ $(window).load(function () {
 
         }
     }
-})
+});
 
 $(document).ready(function(){
     /* --------------------------------------------------------
@@ -239,99 +239,6 @@ $(document).ready(function(){
     		}, $animationDuration);
     	    }
     	});
-    }
-
-    /*
-     * Calendar Widget
-     */
-    if($('#calendar-widget')[0]) {
-        (function(){
-            $('#calendar-widget').fullCalendar({
-		        contentHeight: 'auto',
-		        theme: true,
-                header: {
-                    right: '',
-                    center: 'prev, title, next',
-                    left: ''
-                },
-                defaultDate: '2014-06-12',
-                editable: true,
-                events: [
-                    {
-                        title: 'All Day',
-                        start: '2014-06-01',
-                        className: 'bgm-cyan'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: '2014-06-07',
-                        end: '2014-06-10',
-                        className: 'bgm-orange'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeat',
-                        start: '2014-06-09',
-                        className: 'bgm-lightgreen'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeat',
-                        start: '2014-06-16',
-                        className: 'bgm-lightblue'
-                    },
-                    {
-                        title: 'Meet',
-                        start: '2014-06-12',
-                        end: '2014-06-12',
-                        className: 'bgm-green'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: '2014-06-12',
-                        className: 'bgm-cyan'
-                    },
-                    {
-                        title: 'Birthday',
-                        start: '2014-06-13',
-                        className: 'bgm-amber'
-                    },
-                    {
-                        title: 'Google',
-                        url: 'http://google.com/',
-                        start: '2014-06-28',
-                        className: 'bgm-amber'
-                    }
-                ]
-            });
-        })();
-    }
-
-    /*
-     * Weather Widget
-     */
-    if ($('#weather-widget')[0]) {
-        $.simpleWeather({
-            location: 'Austin, TX',
-            woeid: '',
-            unit: 'f',
-            success: function(weather) {
-                html = '<div class="weather-status">'+weather.temp+'&deg;'+weather.units.temp+'</div>';
-                html += '<ul class="weather-info"><li>'+weather.city+', '+weather.region+'</li>';
-                html += '<li class="currently">'+weather.currently+'</li></ul>';
-                html += '<div class="weather-icon wi-'+weather.code+'"></div>';
-                html += '<div class="dash-widget-footer"><div class="weather-list tomorrow">';
-                html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[1].high+'/'+weather.forecast[1].low+'</span><span>'+weather.forecast[1].text+'</span>';
-                html += '</div>';
-                html += '<div class="weather-list after-tomorrow">';
-                html += '<span class="weather-list-icon wi-'+weather.forecast[2].code+'"></span><span>'+weather.forecast[2].high+'/'+weather.forecast[2].low+'</span><span>'+weather.forecast[2].text+'</span>';
-                html += '</div></div>';
-                $("#weather-widget").html(html);
-            },
-            error: function(error) {
-                $("#weather-widget").html('<p>'+error+'</p>');
-            }
-        });
     }
 
     /*
@@ -865,15 +772,16 @@ $(document).ready(function(){
 
     }
 
-    /*
-     * Skin Change
+    /**
+     * MODALS AND ACTIONS SYSTEM
      */
-    $('body').on('click', '[data-skin]', function() {
-        var currentSkin = $('[data-current-skin]').data('current-skin');
-        var skin = $(this).data('skin');
-
-        $('[data-current-skin]').attr('data-current-skin', skin)
-
-    });
+    if ($('[data-ajax-action]')[0]) {
+        $('body').on('click', '[data-ajax-action]', function() {
+            var $e = $(this);
+            if ($e.data('confirm') == 'true') {
+                $('#TrendixAdminAjaxConfirmModal')
+            }
+        });
+    }
 
 });
