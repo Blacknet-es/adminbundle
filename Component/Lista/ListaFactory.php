@@ -146,8 +146,9 @@ class ListaFactory
     {
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof JoinType) {
+                list($table, $field) = $this->getJoinTableAndField($dataType);
                 $this->qb->addSelect($this->getSelectsJoinType($dataType));
-                $this->qb->join('a.'.$dataType->getKey(), 'a'.$this->joinList);
+                $this->qb->join('a.'.$table, 'a'.$field);
                 $this->joinList++;
             }
         }
@@ -158,9 +159,10 @@ class ListaFactory
      */
     private function getSelectsJoinType($dataType)
     {
+        list($table, $field) = $this->getJoinTableAndField($dataType);
         $selector = 'a'.$this->joinList.'.';
         $options = $dataType->getOptions();
-        return $selector.$options['property']. ' AS '.$dataType->getKey().'_'.$options['property'];
+        return 'a'.$field.'.'.$field.' AS '.$table.'__'.$field;
     }
 
     private function countResults()
@@ -207,7 +209,7 @@ class ListaFactory
         $finalResult = array();
         foreach ($result as $line => $row) {
             foreach ($row as $key => $field) {
-                $key = explode('_', $key)[0];
+                $key = str_replace('__', '.', $key);
                 $dt = $dataTypes[$key];
                 if ($dt instanceof DataAbstractType) {
                     if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
@@ -302,5 +304,17 @@ class ListaFactory
             'totalPage' => intval(ceil($this->countResults()/$this->maxResults)),
             'primaryAction' => $this->getPrimaryAction()
         );
+    }
+
+    /**
+     * @param $dataType
+     * @return array
+     */
+    private function getJoinTableAndField($dataType)
+    {
+        $table = explode('.', $dataType->getKey());
+        $field = $table[1];
+        $table = $table[0];
+        return array($table, $field);
     }
 }
