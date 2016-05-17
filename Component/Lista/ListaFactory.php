@@ -288,7 +288,12 @@ class ListaFactory
     {
         $params = $options['route_params'];
         foreach ($options['route_list_params'] as $urlParam => $rowKey) {
-            $params[$urlParam] = $row[$rowKey];
+            // If the key does not exist, we try using it as a value
+            if(isset($row[$rowKey])) {
+                $params[$urlParam] = $row[$rowKey];
+            } else {
+                $params[$urlParam] = $rowKey;
+            }
         }
 
         return $params;
