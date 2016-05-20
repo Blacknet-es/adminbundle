@@ -69,7 +69,7 @@ class BaseController extends Controller
     /**
      * Datos generales de la aplicación que siempre debe devolver
      */
-    private function getAppData()
+    protected function getAppData()
     {
         $menu = $this->getMenu();
         return array(
@@ -81,7 +81,7 @@ class BaseController extends Controller
     /**
      * @return Menu Returns the user chosen menu class instance.
      */
-    private function getMenu()
+    protected function getMenu()
     {
         $menuClass = $this->getParameter('menu_class');
         if(!$menuClass) {
