@@ -89,4 +89,20 @@ class BaseController extends Controller
         }
         return new $menuClass($this->get('service_container'));
     }
+
+    /**
+     * @return User Current User object
+     */
+    public function getCurrentUser()
+    {
+        return $this->container->get('security.context')->getToken()->getUser();
+    }
+
+    /**
+     * @return object Security Context Service
+     */
+    public function userIsLogged()
+    {
+        return $this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED');
+    }
 }
