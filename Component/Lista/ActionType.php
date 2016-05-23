@@ -16,15 +16,21 @@ class ActionType
     protected $icon;
 
     /**
+     * @var string
+     */
+    protected $text;
+
+    /**
      * @var array
      */
     protected $options;
 
-    public function __construct($action, $icon, $options)
+    public function __construct($action, $icon, $text, $options)
     {
         $this->action = $action;
         $this->icon = $icon;
         $this->options = array_merge($this->getDefaultOptions(), $options);
+        $this->text = $text;
     }
 
     /**
@@ -41,6 +47,15 @@ class ActionType
     public function getIcon()
     {
         return $this->icon;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 
     /**

@@ -28,7 +28,8 @@ interface ListaBuilderInterface
      * @param $action
      * @param null $icon
      * @param array $options
+     * @param null $text
      * @return mixed
      */
-    public function addAction($action, $icon = null, $options = array());
+    public function addAction($action, $icon = null, $options = array(), $text = null);
 }

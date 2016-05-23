@@ -32,12 +32,13 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
     /**
      * @param $action
      * @param null $icon
+     * @param null $text
      * @param array $options
      * @return $this
      */
-    public function addAction($action, $icon = null, $options = array())
+    public function addAction($action, $icon = null, $options = array(), $text = null)
     {
-        $this->actions[$action] = $this->createAction($action, $icon, $options);
+        $this->actions[$action] = $this->createAction($action, $icon, $text, $options);
         return $this;
     }
 
@@ -69,12 +70,13 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
     /**
      * @param $action
      * @param $icon
+     * @param null $text
      * @param array $options
      * @return ActionType
      */
-    private function createAction($action, $icon, $options = array())
+    private function createAction($action, $icon, $text = null, $options = array())
     {
-        return new ActionType($action, $icon, $options);
+        return new ActionType($action, $icon, $text, $options);
     }
 
     /**

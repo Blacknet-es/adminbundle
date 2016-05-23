@@ -239,7 +239,12 @@ class ListaFactory
     private function getPrimaryAction()
     {
         $action = $this->listaBuilder->getPrimaryAction();
-        return $this->getUrlFromAction($action);
+        return array(
+            'action' => $action->getAction(),
+            'icon' => $action->getIcon(),
+            'url' => $this->getUrlFromAction($action),
+            'text' => $action->getText()
+        );
     }
 
     private function getActions($row) {
@@ -252,6 +257,7 @@ class ListaFactory
             $actions[$key] = array(
                 'action' => $action->getAction(),
                 'icon' => $action->getIcon(),
+                'text' => $action->getText(),
                 'url' => $this->getUrlFromAction($action, $row)
             );
         }

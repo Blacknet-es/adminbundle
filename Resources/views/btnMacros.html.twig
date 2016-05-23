@@ -1,5 +1,7 @@
-{% macro actionButton(link, icon, color, options) %}
-<a href="{{ link }}" class="btn bgm-{{ color }} btn-icon btn-floating waves-effect waves-circle waves-float">
+{% macro actionButton(link, icon, color, text, options) %}
+    {% if text is defined %}<span class="action-label">{{ text|trans }}</span>{% endif %}
+<a href="{{ link }}"
+   class="btn bgm-{{ color }} btn-icon btn-floating waves-effect waves-circle waves-float action-button">
     <i class="zmdi zmdi-{{ icon }}"></i>
 </a>
 {% endmacro %}

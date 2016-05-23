@@ -6,7 +6,12 @@
 
 {% block actionButtons %}
     {% if lista.primaryAction is not null %}
-        {{ buttons.actionButton(lista.primaryAction, 'plus', 'lightgreen')  }}
+        {% if lista.primaryAction.icon is defined %}
+            {% set icon = lista.primaryAction.icon %}
+        {% else %}
+            {% set icon = 'plus' %}
+        {% endif %}
+        {{ buttons.actionButton(lista.primaryAction.url, icon, 'lightgreen', lista.primaryAction.text)  }}
     {% endif %}
 {% endblock %}
 

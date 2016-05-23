@@ -34,3 +34,12 @@ td input.simple, th input.simple {
 #image_upload_file_container > .btn {
     height: 32px;
 }
+
+.action-label {
+    opacity: 0;
+    background-color: #444;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 10px;
+}
