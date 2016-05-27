@@ -100,8 +100,11 @@
                         {% if (lista.totalPage > 1) %}
                             <ul class="pagination">
                                 {% if lista.currentPage > 1 %}
+                                    <li class="first" aria-disabled="false">
+                                        <a data-page="1" class="button"><i class="zmdi zmdi-more-horiz"></i></a>
+                                    </li>
                                     <li class="prev" aria-disabled="false">
-                                        <a data-page="prev" class="button"><i class="zmdi zmdi-chevron-left"></i></a>
+                                        <a data-page="{{ lista.currentPage - 1 }}" class="button"><i class="zmdi zmdi-chevron-left"></i></a>
                                     </li>
                                     {% set first = max(1, lista.currentPage-5) %}
                                     {% for p in first..lista.currentPage - 1 %}
@@ -123,7 +126,10 @@
                                         </li>
                                     {% endfor %}
                                     <li class="next" aria-disabled="false">
-                                        <a data-page="next" class="button"><i class="zmdi zmdi-chevron-right"></i></a>
+                                        <a data-page="{{ lista.currentPage + 1}}" class="button"><i class="zmdi zmdi-chevron-right"></i></a>
+                                    </li>
+                                    <li class="last" aria-disabled="false">
+                                        <a data-page="{{ lista.totalPage }}" class="button"><i class="zmdi zmdi-more-horiz"></i></a>
                                     </li>
                                 {% endif %}
                             </ul>

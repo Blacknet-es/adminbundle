@@ -2,22 +2,11 @@ $(document).ready(function() {
     var $listaForm = $('#listaForm');
 
     $(document).on('click', '.pagination a[data-page]', function() {
-        var actualPage = $('.pagination .active > a').data('page');
-        var PrevPage = actualPage - 1;
-        var NextPage = actualPage + 1;
-
         if ($(this).hasClass('active')) {
             return false;
         }
 
         var page = $(this).data('page');
-        if (page == 'prev') {
-            page = PrevPage;
-        }
-
-        if (page == 'next') {
-            page = NextPage;
-        }
 
         $listaForm.find('.pag').val(page);
         processListaForm();
