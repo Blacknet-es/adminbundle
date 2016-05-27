@@ -60,6 +60,11 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
             return new \Trendix\AdminBundle\Component\Lista\DataType\DateType($child, $options);
         }
 
+        if ($type == 'boolean') {
+            return new \Trendix\AdminBundle\Component\Lista\DataType\BooleanType($child, $options);
+        }
+
+
         $className = '\\'.$type;
         $dataType = new $className($child, $options);
         return $dataType;

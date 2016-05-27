@@ -67,7 +67,7 @@
                 {% for key, row in lista.data %}
                     <tr data-row-id="{{ row.original_id }}" class="" aria-selected="false">
                         {% for label, field in row if label != 'actions' and label != 'original_id' %}
-                            <td class="text-left" style="">{{ field }}</td>
+                            <td class="text-left" style="">{{ field|raw }}</td>
                         {% endfor %}
                         <td class="text-left actions" >
 
@@ -149,6 +149,7 @@
                     <input type="hidden" class="max" name="max" value="{{ lista.maxResults }}" />
                     <input type="hidden" class="order_column" name="order_column" value="{{ lista.orderColumn }}" />
                     <input type="hidden" class="order_direction" name="order_direction" value="{{ lista.orderDirection }}" />
+                    <input type="hidden" class="toggle_field" name="toggle_field" value="" />
                 </form>
             </div>
         </div>

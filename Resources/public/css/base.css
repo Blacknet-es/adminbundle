@@ -51,3 +51,27 @@ td input.simple, th input.simple {
 .bootgrid-header .actions .btn-group .btn.disabled-button {
     background-color: #bbb;
 }
+
+.enabled-green {
+    color: #5c4;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.disabled-red {
+    color: #c55;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.enabled-yellow {
+    color: #ec0;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.disabled-grey {
+    color: #888;
+    font-weight: bold;
+    font-size: 1.2em;
+}

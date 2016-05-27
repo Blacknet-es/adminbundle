@@ -80,6 +80,11 @@ class ListaFactory
      */
     protected $orderDirection;
 
+    /**
+     * @var string
+     */
+    protected $toggleField;
+
    public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -121,6 +126,10 @@ class ListaFactory
         if ($this->request->request->get('order_direction')) {
             $this->orderDirection = $this->request->request->get('order_direction');
         }
+
+        if ($this->request->request->get('toggle_field')) {
+            $this->toggleField = $this->request->request->get('toggle_field');
+        }
     }
 
     /**
@@ -129,6 +138,10 @@ class ListaFactory
     public function create(ListaAbstractType $lista, $options = array())
     {
         $this->lista = $lista;
+        // We need to make all modifications of the entities before we get the result, and after the list is initialized
+        if($this->toggleField) {
+            $this->updateRow($this->toggleField);
+        }
         $this->options = array_merge($lista->getOptions(), $options);
         return $this->createBuilder($lista, $options);
     }
@@ -380,5 +393,24 @@ class ListaFactory
         $field = $table[1];
         $table = $table[0];
         return array($table, $field);
+    }
+
+    /** Updates and element field
+     * @param $values string Comma separated: element id, column position in the list, value to store
+     *
+     */
+    private function updateRow($values)
+    {
+        list($id, $column, $value) = explode(',', $values);
+        $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
+        $field = $fields[$column];
+        $qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
+        $q = $qb->update($this->lista->getClass(), 'a')
+            ->set('a.'.$field, '?1')
+            ->where('a.id = ?2')
+            ->setParameter(1, $value)
+            ->setParameter(2, $id)
+            ->getQuery();
+        $q->execute();
     }
 }

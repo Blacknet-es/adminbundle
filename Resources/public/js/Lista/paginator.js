@@ -23,6 +23,17 @@ $(document).ready(function() {
         processListaForm();
     });
 
+    $(document).on('click', '.toggle-value', function(e) {
+        e.preventDefault();
+        var row = $(this).closest('tr');
+        // We need the element real ID, the position of the column being toggled, and the desired value:
+        var id = row.children('td').first().text();
+        var col = row.children().index($(this).closest('td'));
+        var value = parseInt($(this).data('value')) ? 0 : 1;
+        $listaForm.find('.toggle_field').val(id + ',' + col + ',' + value);
+        processListaForm();
+    });
+
     $(document).on('click', '.column-header-anchor.sortable', function() {
         var previousOrder =  $listaForm.find('.order_column').val();
         var direction = 0;
