@@ -32,7 +32,7 @@
 
                             {% for action in row.actions %}
                                 {% if action.action == 'delete' %}
-                                <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ '¿Desea eliliminar el elemento seleccionado?' }}">
+                                <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
                                     <i class="zmdi zmdi-{{ action.icon }}"></i>
                                 </a>
                                 {% else %}
@@ -62,12 +62,12 @@
                                     <li class="prev" aria-disabled="false">
                                         <a data-page="prev" class="button"><i class="zmdi zmdi-chevron-left"></i></a>
                                     </li>
-                                {% endif %}
-
-                                {% if lista.currentPage > 1 %}
-                                    <li class="page-{{ lista.currentPage - 1 }}" aria-disabled="false" aria-selected="true">
-                                        <a data-page="{{ lista.currentPage - 1 }}" class="button">{{ lista.currentPage - 1 }}</a>
-                                    </li>
+                                    {% set first = max(1, lista.currentPage-5) %}
+                                    {% for p in first..lista.currentPage - 1 %}
+                                        <li class="page-{{ p }}" aria-disabled="false" aria-selected="true">
+                                            <a data-page="{{ p }}" class="button">{{ p }}</a>
+                                        </li>
+                                    {% endfor %}
                                 {% endif %}
 
                                 <li class="page-{{ lista.currentPage }} active" aria-disabled="true" aria-selected="false">
@@ -75,13 +75,13 @@
                                 </li>
 
                                 {% if lista.currentPage < lista.totalPage %}
-                                    <li class="page-{{ lista.currentPage + 1 }}" aria-disabled="false" aria-selected="true">
-                                        <a data-page="{{ lista.currentPage + 1 }}" class="button">{{ lista.currentPage + 1 }}</a>
-                                    </li>
-                                {% endif %}
-
-                                {% if lista.currentPage < lista.totalPage %}
-                                    <li class="next" aria-disabled="true">
+                                    {% set last = min(lista.totalPage, lista.currentPage+5) %}
+                                    {% for p in lista.currentPage + 1..last %}
+                                        <li class="page-{{ p }}" aria-disabled="false" aria-selected="true">
+                                            <a data-page="{{ p }}" class="button">{{ p }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li class="next" aria-disabled="false">
                                         <a data-page="next" class="button"><i class="zmdi zmdi-chevron-right"></i></a>
                                     </li>
                                 {% endif %}
@@ -90,7 +90,9 @@
                     </div>
 
                     <div class="col-sm-6 infoBar">
-                        <div class="infos">Pag {{ lista.currentPage }} de {{ lista.totalPage }}</div>
+                        <div class="infos">
+                            {{ 'list.page'|trans({'%current%': lista.currentPage, '%total%': lista.totalPage}) }}
+                        </div>
                     </div>
                 </div>
 

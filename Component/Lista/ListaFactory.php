@@ -75,7 +75,7 @@ class ListaFactory
         $this->lables = array();
         $this->request = Request::createFromGlobals();
         $this->firstResult = 0; //Empezar por el principio
-        $this->maxResults = 25; //Mostrar 25 elementos por pagina
+        $this->maxResults = 5; //Mostrar 25 elementos por pagina
         $this->lista = null;
         $this->pag = 1;
         $this->joinList = 1;

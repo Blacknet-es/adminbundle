@@ -1,10 +1,11 @@
 $(document).ready(function() {
     var $listaForm = $('#listaForm');
-    var actualPage = $('.pagination .active > a').data('page');
-    var PrevPage = actualPage - 1;
-    var NextPage = actualPage + 1;
 
     $(document).on('click', '.pagination a[data-page]', function() {
+        var actualPage = $('.pagination .active > a').data('page');
+        var PrevPage = actualPage - 1;
+        var NextPage = actualPage + 1;
+
         if ($(this).hasClass('active')) {
             return false;
         }
