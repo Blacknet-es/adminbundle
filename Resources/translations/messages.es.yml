@@ -11,3 +11,4 @@ admin:
 list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?
   page: Pág. %current% de %total%
+  search: Buscar

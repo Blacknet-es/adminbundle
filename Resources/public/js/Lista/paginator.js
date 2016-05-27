@@ -23,6 +23,17 @@ $(document).ready(function() {
         processListaForm();
     });
 
+    $(document).on('click', '.page-size-selector', function(e) {
+        e.preventDefault();
+        $listaForm.find('.max').val($(this).data('value'));
+        processListaForm();
+    });
+
+    $(document).on('change', 'input.search-field', function() {
+        $listaForm.find('.search').val($(this).val());
+        processListaForm();
+    });
+
     function processListaForm()
     {
         $.ajax({

@@ -48,7 +48,7 @@ class ListaFactory
     /**
      * @var integer
      */
-    protected $fistResult;
+    protected $firstResult;
 
     /**
      * @var integer
@@ -65,6 +65,21 @@ class ListaFactory
      */
     protected $options;
 
+    /**
+     * @var string
+     */
+    protected $search;
+
+    /**
+     * @var string
+     */
+    protected $orderColumn;
+
+    /**
+     * @var boolean
+     */
+    protected $orderDirection;
+
    public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -75,7 +90,7 @@ class ListaFactory
         $this->lables = array();
         $this->request = Request::createFromGlobals();
         $this->firstResult = 0; //Empezar por el principio
-        $this->maxResults = 5; //Mostrar 25 elementos por pagina
+        $this->maxResults = 25; //Mostrar 25 elementos por pagina
         $this->lista = null;
         $this->pag = 1;
         $this->joinList = 1;
@@ -83,9 +98,22 @@ class ListaFactory
             $this->maxResults = $this->request->request->get('epp');
         }
 
+        if ($this->request->request->get('max')) {
+            $this->maxResults = intval($this->request->request->get('max'));
+        }
+
         if ($this->request->request->get('pag')) {
             $this->pag = $this->request->request->get('pag');
             $this->firstResult = ($this->pag-1) * $this->maxResults;
+        }
+
+        if ($this->request->request->get('search')) {
+            $this->search = addslashes($this->request->request->get('search'));
+        }
+
+        if ($this->request->request->get('order_column')) {
+            $this->orderColumn = $this->request->request->get('order_column');
+            $this->orderDirection = $this->request->request->get('order_direction');
         }
     }
 
@@ -160,8 +188,6 @@ class ListaFactory
     private function getSelectsJoinType($dataType)
     {
         list($table, $field) = $this->getJoinTableAndField($dataType);
-        $selector = 'a'.$this->joinList.'.';
-        $options = $dataType->getOptions();
         return 'a'.$field.'.'.$field.' AS '.$table.'__'.$field;
     }
 
@@ -187,6 +213,19 @@ class ListaFactory
     {
         if (isset($this->options['permanent_filter'])) {
             $this->qb->andWhere($this->options['permanent_filter']);
+        }
+        if(isset($this->search) && $this->search != '') {
+            $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
+            $orClause = '1=0';
+            foreach($fields as $field) {
+                $type = $this->em->getClassMetadata($this->lista->getClass())->getTypeOfField($field);
+                if($type == 'string') {
+                    $orClause .= ' OR a.' . $field . ' LIKE \'%' . $this->search . '%\'';
+                } elseif(is_numeric($this->search)) {
+                    $orClause .= ' OR a.' . $field . ' = ' . $this->search;
+                }
+            }
+            $this->qb->andWhere($orClause);
         }
         return $this;
     }
@@ -313,7 +352,9 @@ class ListaFactory
             'totalResults' => $this->countResults(),
             'currentPage' => $this->pag,
             'totalPage' => intval(ceil($this->countResults()/$this->maxResults)),
-            'primaryAction' => $this->getPrimaryAction()
+            'primaryAction' => $this->getPrimaryAction(),
+            'search' => $this->search,
+            'maxResults' => $this->maxResults
         );
     }
 

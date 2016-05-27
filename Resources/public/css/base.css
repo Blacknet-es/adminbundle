@@ -43,3 +43,11 @@ td input.simple, th input.simple {
     border-radius: 3px;
     margin-right: 10px;
 }
+
+.page-size-selector li {
+    cursor: pointer;
+}
+
+.bootgrid-header .actions .btn-group .btn.disabled-button {
+    background-color: #bbb;
+}

@@ -3,6 +3,38 @@
         <h2>{{ title|trans }}</h2>
     </div>
     {% if lista.data is not empty %}
+        <div id="data-table-basic-header" class="bootgrid-header container-fluid">
+            <div class="row">
+                <div class="col-sm-12 actionBar">
+                    <div class="search form-group pull-left">
+                        <div class="input-group">
+                            <span class="zmdi icon input-group-addon glyphicon-search"></span>
+                            <input class="search-field form-control" placeholder="{{ 'list.search'|trans }}"
+                                   type="text" value="{{ lista.search }}">
+                        </div>
+                    </div>
+                    <div class="actions btn-group pull-left">
+                        <div class="dropdown btn-group">
+                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
+                                    {% if lista.maxResults == 10 %}disabled-button" disabled="disabled{% endif %}"
+                                    data-toggle="dropdown" data-value="10"><span class="dropdown-text">10</span>
+                                <span class="caret"></span>
+                            </button>
+                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
+                                    {% if lista.maxResults == 25 %}disabled-button" disabled="disabled{% endif %}"
+                                    data-toggle="dropdown" data-value="25"><span class="dropdown-text">25</span>
+                                <span class="caret"></span>
+                            </button>
+                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
+                                    {% if lista.maxResults == 50 %}disabled-button" disabled="disabled{% endif %}"
+                                    data-toggle="dropdown" data-value="50"><span class="dropdown-text">50</span>
+                                <span class="caret"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive">
             <table id="data-table-selection" class="table table-striped table-vmiddle bootgrid-table" aria-busy="false">
                 <thead>
@@ -98,6 +130,8 @@
 
                 <form id="listaForm">
                     <input type="hidden" class="pag" name="pag" value="{{ lista.currentPage }}" />
+                    <input type="hidden" class="search" name="search" value="{{ lista.search }}" />
+                    <input type="hidden" class="max" name="max" value="{{ lista.maxResults }}" />
                 </form>
             </div>
         </div>
