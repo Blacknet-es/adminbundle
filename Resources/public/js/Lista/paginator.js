@@ -34,6 +34,17 @@ $(document).ready(function() {
         processListaForm();
     });
 
+    $(document).on('click', '.column-header-anchor.sortable', function() {
+        var previousOrder =  $listaForm.find('.order_column').val();
+        var direction = 0;
+        if(previousOrder == $(this).data('value')) {
+            direction = parseInt($listaForm.find('.order_direction').val()) ? 0 : 1;
+        }
+        $listaForm.find('.order_column').val($(this).data('value'));
+        $listaForm.find('.order_direction').val(direction);
+        processListaForm();
+    });
+
     function processListaForm()
     {
         $.ajax({

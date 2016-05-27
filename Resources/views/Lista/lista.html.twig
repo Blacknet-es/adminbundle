@@ -41,13 +41,22 @@
                 <tr>
                     {% for label in lista.labels %}
                         <th data-column-id="id" class="text-left" style="">
-                            <a href="javascript:void(0);" class="column-header-anchor sortable">
-                                <span class="text">{{ label|trans }}</span><span class="zmdi icon"></span>
+                            <a href="javascript:void(0);" class="column-header-anchor sortable" data-value="{{ loop.index0 }}">
+                                <span class="text">{{ label|trans }}</span>
                             </a>
+                            {% if loop.index0 == lista.orderColumn %}
+                                <span class="zmdi
+                                {% if lista.orderDirection %}
+                                    zmdi-caret-down
+                                {% else %}
+                                    zmdi-caret-up
+                                {% endif %}
+                                "></span>
+                            {% endif %}
                         </th>
                     {% endfor %}
                     <th data-column-id="id" class="text-left" style="">
-                        <a href="javascript:void(0);" class="column-header-anchor sortable">
+                        <a href="javascript:void(0);" class="column-header-anchor">
                             <span class="text">{{ 'admin.actions'|trans }}</span><span class="zmdi icon"></span>
                         </a>
                     </th>
@@ -132,6 +141,8 @@
                     <input type="hidden" class="pag" name="pag" value="{{ lista.currentPage }}" />
                     <input type="hidden" class="search" name="search" value="{{ lista.search }}" />
                     <input type="hidden" class="max" name="max" value="{{ lista.maxResults }}" />
+                    <input type="hidden" class="order_column" name="order_column" value="{{ lista.orderColumn }}" />
+                    <input type="hidden" class="order_direction" name="order_direction" value="{{ lista.orderDirection }}" />
                 </form>
             </div>
         </div>

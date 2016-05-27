@@ -71,12 +71,12 @@ class ListaFactory
     protected $search;
 
     /**
-     * @var string
+     * @var integer
      */
     protected $orderColumn;
 
     /**
-     * @var boolean
+     * @var integer
      */
     protected $orderDirection;
 
@@ -94,6 +94,9 @@ class ListaFactory
         $this->lista = null;
         $this->pag = 1;
         $this->joinList = 1;
+        $this->orderColumn = 0;
+        $this->orderDirection = 0;
+
         if ($this->request->request->get('epp')) {
             $this->maxResults = $this->request->request->get('epp');
         }
@@ -113,6 +116,9 @@ class ListaFactory
 
         if ($this->request->request->get('order_column')) {
             $this->orderColumn = $this->request->request->get('order_column');
+        }
+
+        if ($this->request->request->get('order_direction')) {
             $this->orderDirection = $this->request->request->get('order_direction');
         }
     }
@@ -232,6 +238,10 @@ class ListaFactory
 
     private function orderBuilder()
     {
+        $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
+        $field = $fields[$this->orderColumn];
+        $direction = $this->orderDirection ? 'DESC' : 'ASC';
+        $this->qb->orderBy('a.'.$field, $direction);
         return $this;
     }
 
@@ -354,7 +364,9 @@ class ListaFactory
             'totalPage' => intval(ceil($this->countResults()/$this->maxResults)),
             'primaryAction' => $this->getPrimaryAction(),
             'search' => $this->search,
-            'maxResults' => $this->maxResults
+            'maxResults' => $this->maxResults,
+            'orderColumn' => $this->orderColumn,
+            'orderDirection' => $this->orderDirection,
         );
     }
 
