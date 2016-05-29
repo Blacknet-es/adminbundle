@@ -138,10 +138,6 @@ class ListaFactory
     public function create(ListaAbstractType $lista, $options = array())
     {
         $this->lista = $lista;
-        // We need to make all modifications of the entities before we get the result, and after the list is initialized
-        if($this->toggleField) {
-            $this->updateRow($this->toggleField);
-        }
         $this->options = array_merge($lista->getOptions(), $options);
         return $this->createBuilder($lista, $options);
     }
@@ -152,6 +148,10 @@ class ListaFactory
     public function createBuilder(ListaAbstractType $lista)
     {
         $lista->buildList($this->listaBuilder, $this->options);
+        // We need to make all modifications of the entities before we get the result, and after the list is initialized
+        if($this->toggleField) {
+            $this->updateRow($this->toggleField);
+        }
         $this->qb = $this->em->getRepository($lista->getClass())->createQueryBuilder('a');
 
         $this->selectBuilder(); //Select Fields
@@ -402,8 +402,8 @@ class ListaFactory
     private function updateRow($values)
     {
         list($id, $column, $value) = explode(',', $values);
-        $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
-        $field = $fields[$column];
+        $fields = array_keys($this->listaBuilder->getChilds());
+        $field = $fields[$column+1];
         $qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
         $q = $qb->update($this->lista->getClass(), 'a')
             ->set('a.'.$field, '?1')
