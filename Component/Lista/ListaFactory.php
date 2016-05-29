@@ -92,14 +92,14 @@ class ListaFactory
         $this->qb = null;
         $this->listaBuilder = new ListaBuilder();
         $this->arrayResults = array();
-        $this->lables = array();
+        $this->labels = array();
         $this->request = Request::createFromGlobals();
         $this->firstResult = 0; //Empezar por el principio
         $this->maxResults = 25; //Mostrar 25 elementos por pagina
         $this->lista = null;
         $this->pag = 1;
         $this->joinList = 1;
-        $this->orderColumn = 0;
+        $this->orderColumn = 'id';
         $this->orderDirection = 0;
 
         if ($this->request->request->get('epp')) {
@@ -251,10 +251,8 @@ class ListaFactory
 
     private function orderBuilder()
     {
-        $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
-        $field = $fields[$this->orderColumn];
         $direction = $this->orderDirection ? 'DESC' : 'ASC';
-        $this->qb->orderBy('a.'.$field, $direction);
+        $this->qb->orderBy('a.'.$this->orderColumn, $direction);
         return $this;
     }
 
@@ -283,8 +281,8 @@ class ListaFactory
                     }
 
                     $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
-                    if (!isset($this->labels[$dt->getLabel()])) {
-                        $this->labels[$dt->getLabel()] = $dt->getLabel();
+                    if (!isset($this->labels[$key])) {
+                        $this->labels[$key] = $dt->getLabel();
                     }
                 }
             }
@@ -402,11 +400,9 @@ class ListaFactory
     private function updateRow($values)
     {
         list($id, $column, $value) = explode(',', $values);
-        $fields = array_keys($this->listaBuilder->getChilds());
-        $field = $fields[$column+1];
         $qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
         $q = $qb->update($this->lista->getClass(), 'a')
-            ->set('a.'.$field, '?1')
+            ->set('a.'.$column, '?1')
             ->where('a.id = ?2')
             ->setParameter(1, $value)
             ->setParameter(2, $id)

@@ -29,8 +29,10 @@ $(document).ready(function() {
         // We need the element real ID, the position of the column being toggled, and the desired value:
         var id = row.children('td').first().text();
         var col = row.children().index($(this).closest('td'));
+        var column = $(this).closest('table').find('thead tr').children('th').eq(col).children('a');
+        var colField = $(column).data("value");
         var value = parseInt($(this).data('value')) ? 0 : 1;
-        $listaForm.find('.toggle_field').val(id + ',' + col + ',' + value);
+        $listaForm.find('.toggle_field').val(id + ',' + colField + ',' + value);
         processListaForm();
     });
 

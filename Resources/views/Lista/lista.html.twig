@@ -40,12 +40,12 @@
                 <table id="data-table-selection" class="table table-striped table-vmiddle bootgrid-table" aria-busy="false">
                     <thead>
                     <tr>
-                        {% for label in lista.labels %}
+                        {% for field, label in lista.labels %}
                             <th data-column-id="id" class="text-left" style="">
-                                <a href="javascript:void(0);" class="column-header-anchor sortable" data-value="{{ loop.index0 }}">
+                                <a href="javascript:void(0);" class="column-header-anchor sortable" data-value="{{ field }}">
                                     <span class="text">{{ label|trans }}</span>
                                 </a>
-                                {% if loop.index0 == lista.orderColumn %}
+                                {% if field == lista.orderColumn %}
                                     <span class="zmdi
                                     {% if lista.orderDirection %}
                                         zmdi-caret-down
