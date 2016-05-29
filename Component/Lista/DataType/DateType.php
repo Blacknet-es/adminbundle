@@ -27,7 +27,11 @@ class DateType extends DataAbstractType
      */
     public function getDataTransformer($value, $options = array())
     {
-        $options = array_merge($this->configureOptions(), $options);
-        return $value->format($options['format']);
+        if($value) {
+            $options = array_merge($this->configureOptions(), $options);
+            return $value->format($options['format']);
+        } else {
+            return '';
+        }
     }
 }
