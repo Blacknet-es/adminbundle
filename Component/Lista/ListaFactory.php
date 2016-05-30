@@ -177,7 +177,7 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                if (!$dataType->getName() instanceof JoinType && $dataType->getParent() != JoinType::class) {
+                if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class) {
                     $select[] = 'a.'.$dataType->getKey();
                 }
             }
