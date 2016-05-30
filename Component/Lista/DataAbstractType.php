@@ -20,6 +20,11 @@ abstract class DataAbstractType implements DataTypeInterface
         return '';
     }
 
+    public function getParent()
+    {
+        return null;
+    }
+
     /**
      * {@inheritdoc}
      */

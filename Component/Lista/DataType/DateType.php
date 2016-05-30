@@ -3,7 +3,6 @@
 namespace Trendix\AdminBundle\Component\Lista\DataType;
 
 use Trendix\AdminBundle\Component\Lista\DataAbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateType extends DataAbstractType
 {

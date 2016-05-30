@@ -7,6 +7,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
+use Trendix\AdminBundle\Component\Lista\DataType\GalleryType;
 use Trendix\AdminBundle\Component\Lista\DataType\JoinType;
 
 class ListaFactory
@@ -176,7 +177,7 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                if ($dataType->getName() != 'join') {
+                if (!$dataType->getName() instanceof JoinType && $dataType->getParent() != JoinType::class) {
                     $select[] = 'a.'.$dataType->getKey();
                 }
             }
@@ -192,7 +193,7 @@ class ListaFactory
     private function configureJoins()
     {
         foreach ($this->listaBuilder->getChilds() as $dataType) {
-            if ($dataType instanceof JoinType) {
+            if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $this->qb->addSelect($this->getSelectsJoinType($dataType));
                 $this->qb->join('a.'.$table, 'a'.$field);
@@ -276,7 +277,7 @@ class ListaFactory
                         $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
                     }
 
-                    if ($dt instanceof JoinType) {
+                    if ($dt instanceof JoinType or $dt->getParent() == JoinType::class) {
                         $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
                     }
 
@@ -299,6 +300,11 @@ class ListaFactory
     private function getPrimaryAction()
     {
         $action = $this->listaBuilder->getPrimaryAction();
+
+        if (!$action instanceof ActionType) {
+            return array();
+        }
+
         return array(
             'action' => $action->getAction(),
             'icon' => $action->getIcon(),
