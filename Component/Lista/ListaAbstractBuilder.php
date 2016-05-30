@@ -64,6 +64,14 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
             return new \Trendix\AdminBundle\Component\Lista\DataType\BooleanType($child, $options);
         }
 
+        if ($type == 'money') {
+            return new \Trendix\AdminBundle\Component\Lista\DataType\MoneyType($child, $options);
+        }
+
+        if ($type == 'number') {
+            return new \Trendix\AdminBundle\Component\Lista\DataType\NumberType($child, $options);
+        }
+
 
         $className = '\\'.$type;
         $dataType = new $className($child, $options);

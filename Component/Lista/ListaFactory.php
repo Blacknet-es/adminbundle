@@ -127,8 +127,8 @@ class ListaFactory
             $this->orderDirection = $this->request->request->get('order_direction');
         }
 
-        if ($this->request->request->get('toggle_field')) {
-            $this->toggleField = $this->request->request->get('toggle_field');
+        if ($this->request->request->get('update_field')) {
+            $this->toggleField = $this->request->request->get('update_field');
         }
     }
 
