@@ -7,6 +7,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
+use Trendix\AdminBundle\Component\Lista\DataType\GalleryType;
 use Trendix\AdminBundle\Component\Lista\DataType\JoinType;
 
 class ListaFactory
@@ -276,7 +277,7 @@ class ListaFactory
                         $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
                     }
 
-                    if ($dt instanceof JoinType) {
+                    if ($dt instanceof JoinType or $dt->getParent() == JoinType::class) {
                         $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
                     }
 

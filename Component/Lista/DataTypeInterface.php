@@ -19,5 +19,10 @@ interface DataTypeInterface
     /**
      * {@inheritdoc}
      */
+    public function getParent();
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions();
 }
