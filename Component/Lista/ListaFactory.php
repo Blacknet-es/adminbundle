@@ -177,7 +177,7 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                if ($dataType->getName() != 'join') {
+                if (!$dataType->getName() instanceof JoinType && $dataType->getParent() != JoinType::class) {
                     $select[] = 'a.'.$dataType->getKey();
                 }
             }
@@ -193,7 +193,7 @@ class ListaFactory
     private function configureJoins()
     {
         foreach ($this->listaBuilder->getChilds() as $dataType) {
-            if ($dataType instanceof JoinType) {
+            if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $this->qb->addSelect($this->getSelectsJoinType($dataType));
                 $this->qb->join('a.'.$table, 'a'.$field);
@@ -300,6 +300,11 @@ class ListaFactory
     private function getPrimaryAction()
     {
         $action = $this->listaBuilder->getPrimaryAction();
+
+        if (!$action instanceof ActionType) {
+            return array();
+        }
+
         return array(
             'action' => $action->getAction(),
             'icon' => $action->getIcon(),
