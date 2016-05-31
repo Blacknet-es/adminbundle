@@ -2,6 +2,8 @@
 
 namespace Trendix\AdminBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
 use Trendix\AdminBundle\Utility\Menu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -104,5 +106,50 @@ class BaseController extends Controller
     public function userIsLogged()
     {
         return $this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED');
+    }
+
+    /**
+     *
+     * Generate List View
+     *
+     * @param ListaAbstractType $lista
+     * @param $title
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function generateListWithRenderView(ListaAbstractType $lista, $title)
+    {
+        $lista = $this->createList($lista);
+        $request = Request::createFromGlobals();
+
+        $this->addData('lista', $lista->createView());
+        $this->addData('title', $title);
+
+        if ($request->isMethod('POST')) {
+            return $this->render('TrendixAdminBundle:Lista:lista.html.twig', $this->getData());
+        } else {
+            return $this->render('TrendixAdminBundle:Lista:index.html.twig', $this->getData());
+        }
+    }
+
+
+    /**
+     * Delete element if exists and return JSON response
+     * @param $object
+     * @param $id
+     * @return JsonResponse
+     */
+    public function deleteElementWithJsonResponse($object, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $service = $em->getRepository($object)->find($id);
+        $em->remove($service);
+        $em->flush();
+
+        $data = array(
+            'type' => 'OK',
+            'reload' => true
+        );
+
+        return new JsonResponse($data);
     }
 }
