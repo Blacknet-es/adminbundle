@@ -128,8 +128,8 @@ class ListaFactory
             $this->orderDirection = $this->request->request->get('order_direction');
         }
 
-        if ($this->request->request->get('toggle_field')) {
-            $this->toggleField = $this->request->request->get('toggle_field');
+        if ($this->request->request->get('update_field')) {
+            $this->toggleField = $this->request->request->get('update_field');
         }
     }
 
@@ -159,7 +159,7 @@ class ListaFactory
         $this->filterBuilder(); //Generate filters
         $this->orderBuilder(); //Order Options
         $this->pagerBuilder(); //Page Options
-
+        var_dump($this->qb->getQuery()->getDQL());
         //Obtain raw array results
         $arrayResults = $this->qb->getQuery()->getArrayResult();
 
@@ -177,7 +177,7 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                if (!$dataType->getName() instanceof JoinType && $dataType->getParent() != JoinType::class) {
+                if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class) {
                     $select[] = 'a.'.$dataType->getKey();
                 }
             }
@@ -236,13 +236,27 @@ class ListaFactory
         }
         if(isset($this->search) && $this->search != '') {
             $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
+
+            /*
+            foreach ($this->listaBuilder->getChilds() as $dataType) {
+                if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
+                    list($table, $field) = $this->getJoinTableAndField($dataType);
+                    $fields[] = 'a' . $field . '.' . $field;
+                }
+            }*/
+
             $orClause = '1=0';
             foreach($fields as $field) {
+                if(strpos($field, '.') || strpos($field, '__')) {
+                    $alias = $field;
+                } else {
+                    $alias = 'a.' . $field;
+                }
                 $type = $this->em->getClassMetadata($this->lista->getClass())->getTypeOfField($field);
-                if($type == 'string') {
-                    $orClause .= ' OR a.' . $field . ' LIKE \'%' . $this->search . '%\'';
-                } elseif(is_numeric($this->search)) {
-                    $orClause .= ' OR a.' . $field . ' = ' . $this->search;
+                if(is_numeric($this->search) && ($type == 'integer' || $type == 'float')) {
+                    $orClause .= ' OR ' . $alias . ' = ' . $this->search;
+                } else {
+                    $orClause .= ' OR ' . $alias . ' LIKE \'%' . $this->search . '%\'';
                 }
             }
             $this->qb->andWhere($orClause);
@@ -253,7 +267,14 @@ class ListaFactory
     private function orderBuilder()
     {
         $direction = $this->orderDirection ? 'DESC' : 'ASC';
-        $this->qb->orderBy('a.'.$this->orderColumn, $direction);
+        $col = $this->orderColumn;
+        if(strpos($col, '.')) {
+            list($table, $field) = $this->getJoinTableAndField($col);
+            $col = $table.'__'.$field;
+        } else {
+            $col = 'a.' . $col;
+        }
+        $this->qb->orderBy($col, $direction);
         return $this;
     }
 
@@ -393,7 +414,11 @@ class ListaFactory
      */
     private function getJoinTableAndField($dataType)
     {
-        $table = explode('.', $dataType->getKey());
+        if($dataType instanceof DataAbstractType) {
+            $table = explode('.', $dataType->getKey());
+        } else {
+            $table = explode('.', $dataType);
+        }
         $field = $table[1];
         $table = $table[0];
         return array($table, $field);

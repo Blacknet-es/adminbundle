@@ -23,7 +23,7 @@ $(document).ready(function() {
         processListaForm();
     });
 
-    $(document).on('click', '.toggle-value', function(e) {
+    $(document).on('click', '.update-value', function(e) {
         e.preventDefault();
         var row = $(this).closest('tr');
         // We need the element real ID, the position of the column being toggled, and the desired value:
@@ -31,8 +31,8 @@ $(document).ready(function() {
         var col = row.children().index($(this).closest('td'));
         var column = $(this).closest('table').find('thead tr').children('th').eq(col).children('a');
         var colField = $(column).data("value");
-        var value = parseInt($(this).data('value')) ? 0 : 1;
-        $listaForm.find('.toggle_field').val(id + ',' + colField + ',' + value);
+        var value = parseInt($(this).data('value')) ? 1 : 0;
+        $listaForm.find('.update_field').val(id + ',' + colField + ',' + value);
         processListaForm();
     });
 

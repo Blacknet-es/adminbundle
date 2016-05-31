@@ -43,8 +43,8 @@ class BooleanType extends DataAbstractType
         }
         $result = '<div class="zmdi ' . $class . '"></div>';
         if($options['editable']) {
-            $val = $value ? 1 : 0;
-            $result = '<a href="#" class="toggle-value" data-value="' . $val . '">' . $result . '</a>';
+            $val = $value ? 0 : 1;
+            $result = '<a href="#" class="update-value" data-value="' . $val . '">' . $result . '</a>';
         }
         return $result;
     }
