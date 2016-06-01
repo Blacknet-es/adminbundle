@@ -159,7 +159,6 @@ class ListaFactory
         $this->filterBuilder(); //Generate filters
         $this->orderBuilder(); //Order Options
         $this->pagerBuilder(); //Page Options
-        var_dump($this->qb->getQuery()->getDQL());
         //Obtain raw array results
         $arrayResults = $this->qb->getQuery()->getArrayResult();
 
@@ -204,6 +203,7 @@ class ListaFactory
 
     /**
      * @param $dataType
+     * @return string
      */
     private function getSelectsJoinType($dataType)
     {
@@ -237,13 +237,12 @@ class ListaFactory
         if(isset($this->search) && $this->search != '') {
             $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
 
-            /*
             foreach ($this->listaBuilder->getChilds() as $dataType) {
                 if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                     list($table, $field) = $this->getJoinTableAndField($dataType);
-                    $fields[] = 'a' . $field . '.' . $field;
+                    $fields[] = $table.'__'.$field;
                 }
-            }*/
+            }
 
             $orClause = '1=0';
             foreach($fields as $field) {
