@@ -103,7 +103,7 @@
             {% endfor -%}
         </div>
     {%- else -%}
-        <div {{ block('widget_container_attributes') }}>
+        <div {{ block('widget_container_attributes') }} class="row">
             {%- for child in form %}
                 {{- form_widget(child, {
                     parent_label_class: label_attr.class|default(''),
@@ -119,7 +119,7 @@
     {% if 'checkbox-inline' in parent_label_class %}
         {{- form_label(form, null, { widget: parent() }) -}}
     {% else -%}
-        <div class="checkbox">
+        <div class="checkbox col-md-4">
             {{- form_label(form, null, { widget: parent() }) -}}
         </div>
     {%- endif %}
@@ -247,3 +247,40 @@
     {% if form.parent %}</span>{% else %}</div>{% endif %}
     {%- endif %}
 {%- endblock form_errors %}
+
+{# Google Maps #}
+
+{% block trendix_google_maps_widget %}
+    <div {{ block('widget_container_attributes') }}>
+        {% block trendix_google_maps_html %}
+            <div id="{{ id }}_container">
+                <div class="fg-line">
+                    <input class="form-control" type="text" id="{{ id }}_input" />
+                </div>
+                <br><br>
+                <button id="{{ id }}_search_button" class="btn hide">Search</button>
+                <div id="{{ id }}_map_canvas" class="gmap" style="width: {{ map_width }}; height: {{ map_height }}"></div>
+                <div id="{{ id }}_error"></div>
+            </div>
+        {% endblock %}
+        {% block trendix_google_maps_fields %}
+            {% for child in form %}
+                {{ form_row(child) }}
+            {% endfor %}
+        {% endblock %}
+        <script type="text/javascript">
+            var {{ id }}_maps_options = {
+                'search_input_el'    : $('#{{ id }}_input'),
+                'search_action_el'   : $('#{{ id }}_search_button'),
+                'search_error_el'    : $('#{{ id }}_error'),
+                'current_position_el': $('#{{ id }}_current_position'),
+                'default_lat'        : '{% if value is defined and value and attribute(value, lat_name) %}{{ attribute(value, lat_name) }}{% else %}{{ default_lat }}{% endif %}',
+                'default_lng'        : '{% if value is defined and value and attribute(value, lng_name) %}{{ attribute(value, lng_name) }}{% else %}{{ default_lng }}{% endif %}',
+                'default_zoom'       : {% if value is defined and value and value.lat and value.lng %}15{% else %}5{% endif %},
+                'lat_field'          : $('#{{ attribute(form, lat_name).vars.id }}'),
+                'lng_field'          : $('#{{ attribute(form, lng_name).vars.id }}'),
+                'callback'           : function() { return; }
+            };
+        </script>
+    </div>
+{% endblock %}

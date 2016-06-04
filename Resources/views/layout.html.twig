@@ -1,4 +1,5 @@
 {% import 'TrendixAdminBundle::btnMacros.html.twig' as buttons %}
+{% import 'TrendixAdminBundle::functions.html.twig' as functions %}
 
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
@@ -54,10 +55,11 @@
         {% include 'TrendixAdminBundle::sidebarMenu.html.twig' %}
     </aside>
 
+    {#
     <aside id="chat" class="sidebar c-overflow">
         {% include 'TrendixAdminBundle::right_sidebar.html.twig' %}
     </aside>
-
+    #}
 
     <section id="content">
         <div class="container">
@@ -167,6 +169,10 @@
     {% endjavascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+    {% for var in _context %}
+        {{ functions.appendJavascript(var) }}
+    {% endfor %}
 {% endblock %}
 </body>
 </html>

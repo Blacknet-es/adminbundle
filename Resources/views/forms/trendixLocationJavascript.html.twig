@@ -1,0 +1,8 @@
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyCYRUc_hKH3Yy2TOlEz066wfbpDzMY31Rk&signed_in=true&libraries=places"></script>
+<script type="text/javascript" src="{{ asset('bundles/trendixadmin/js/trendixlocation.js') }}"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $('#{{ id }}_map_canvas').TrendixLocation({{ id }}_maps_options);
+    });
+</script>

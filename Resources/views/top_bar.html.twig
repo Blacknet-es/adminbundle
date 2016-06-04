@@ -14,12 +14,8 @@
     <li class="pull-right">
         <ul class="top-menu">
 
-            {#
-            <li id="top-search">
-                <a href=""><i class="tm-icon zmdi zmdi-search"></i></a>
-            </li>
-            #}
-
+            {# Messages #}
+            {% if (admin_message_module is defined and admin_message_module) %}
             <li class="dropdown">
                 <a data-toggle="dropdown" href="">
                     <i class="tm-icon zmdi zmdi-email"></i>
@@ -47,6 +43,11 @@
                     </div>
                 </div>
             </li>
+            {% endif %}
+            {# End Messages #}
+
+            {# Notifications #}
+            {% if (admin_notification_module is defined and admin_notification_module) %}
             <li class="dropdown">
                 <a data-toggle="dropdown" href="">
                     <i class="tm-icon zmdi zmdi-notifications"></i>
@@ -84,10 +85,8 @@
 
                 </div>
             </li>
-
-            <li class="hidden-xs" id="chat-trigger" data-trigger="#chat">
-                <a href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i></a>
-            </li>
+            {% endif %}
+            {# End Notifications #}
         </ul>
     </li>
 </ul>

@@ -1,0 +1,13 @@
+{% macro appendJavascript(var) %}
+{% spaceless %}
+    {% if var.vars is defined and var.vars.appendJavascript is defined %}
+        {{ var.vars.appendJavascript|raw }}
+    {% endif %}
+
+    {% if var.children is defined %}
+        {% for child in var.children %}
+            {{ _self.appendJavascript(child) }}
+        {% endfor %}
+    {% endif %}
+{% endspaceless %}
+{% endmacro %}
