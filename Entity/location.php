@@ -23,14 +23,12 @@ class Location extends BaseUser
     /**
      * @var float
      * @ORM\Column(type="float")
-     * @Assert\NotBlank()
      */
     private $latitude;
 
     /**
      * @var float
      * @ORM\Column(type="float")
-     * @Assert\NotBlank()
      */
     private $longitude;
 
