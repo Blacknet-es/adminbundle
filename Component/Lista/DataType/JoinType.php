@@ -16,7 +16,9 @@ class JoinType extends DataAbstractType
 
     public function configureOptions()
     {
-        return array ();
+        return array (
+            'data_transformer' => null
+        );
     }
 
     /**
@@ -24,6 +26,10 @@ class JoinType extends DataAbstractType
      */
     public function getDataTransformer($value, $options = array())
     {
+        if (isset($options['data_transformer'])) {
+            $transformer = new $options['data_transformer']($this->getKey(), $this->getOptions());
+            return $transformer->getDataTransformer($value, $options);
+        }
         return $value;
     }
 }

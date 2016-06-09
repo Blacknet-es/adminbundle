@@ -11,7 +11,10 @@
         {% else %}
             {% set icon = 'plus' %}
         {% endif %}
+
+        {% if lista.primaryAction != null %}
         {{ buttons.actionButton(lista.primaryAction.url, icon, 'lightgreen', lista.primaryAction.text)  }}
+        {% endif %}
     {% endif %}
 {% endblock %}
 
