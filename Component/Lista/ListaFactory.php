@@ -86,7 +86,17 @@ class ListaFactory
      */
     protected $toggleField;
 
-   public function __construct(Container $container, EntityManager $em)
+    /**
+     * @var integer
+     */
+    protected $joinList;
+
+    /**
+     * @var array
+     */
+    protected $joinListField;
+
+    public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
         $this->container = $container;
@@ -100,6 +110,7 @@ class ListaFactory
         $this->lista = null;
         $this->pag = 1;
         $this->joinList = 1;
+        $this->joinListField = array();
         $this->orderColumn = 'id';
         $this->orderDirection = 0;
 
@@ -191,12 +202,15 @@ class ListaFactory
 
     private function configureJoins()
     {
+        $joinedTables = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $this->qb->addSelect($this->getSelectsJoinType($dataType));
-                $this->qb->join('a.'.$table, 'a'.$field);
-                $this->joinList++;
+                if (!in_array($table, $joinedTables)) {
+                    $this->qb->leftJoin('a.'.$table, 'a'.$this->joinListField[$table]);
+                    $joinedTables[] = $table;
+                }
             }
         }
     }
@@ -208,7 +222,12 @@ class ListaFactory
     private function getSelectsJoinType($dataType)
     {
         list($table, $field) = $this->getJoinTableAndField($dataType);
-        return 'a'.$field.'.'.$field.' AS '.$table.'__'.$field;
+        if (!isset($this->joinListField[$table])) {
+            $this->joinListField[$table] = $this->joinList;
+            $this->joinList++;
+        }
+
+        return 'a'.$this->joinListField[$table].'.'.$field;
     }
 
     private function countResults()
@@ -220,12 +239,13 @@ class ListaFactory
             ->filterBuilder()
         ;
 
-        return $this->qb->getQuery()->getSingleScalarResult();
+        return $this->qb->getQuery()->getArrayResult()[0][1];
     }
 
     private function countBuilder()
     {
         $this->qb->select('COUNT(a.id)');
+        $this->configureJoins();
         return $this;
     }
 
@@ -234,32 +254,37 @@ class ListaFactory
         if (isset($this->options['permanent_filter'])) {
             $this->qb->andWhere($this->options['permanent_filter']);
         }
+
+        // Rellenamos la query para la búsqueda
         if(isset($this->search) && $this->search != '') {
             $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
 
             foreach ($this->listaBuilder->getChilds() as $dataType) {
                 if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                     list($table, $field) = $this->getJoinTableAndField($dataType);
-                    $fields[] = $table.'__'.$field;
+                    $fields[] = $this->joinListField[$table].'.'.$field;
                 }
             }
 
-            $orClause = '1=0';
+
             foreach($fields as $field) {
-                if(strpos($field, '.') || strpos($field, '__')) {
-                    $alias = $field;
+                if(strpos($field, '.')) {
+                    $alias = 'a'.$field;
                 } else {
                     $alias = 'a.' . $field;
                 }
+
                 $type = $this->em->getClassMetadata($this->lista->getClass())->getTypeOfField($field);
                 if(is_numeric($this->search) && ($type == 'integer' || $type == 'float')) {
-                    $orClause .= ' OR ' . $alias . ' = ' . $this->search;
+                    $this->qb->orWhere($this->qb->expr()->eq($alias, ':search'));
                 } else {
-                    $orClause .= ' OR ' . $alias . ' LIKE \'%' . $this->search . '%\'';
+                    $this->qb->orWhere($this->qb->expr()->like($alias, ':search'));
                 }
             }
-            $this->qb->andWhere($orClause);
+
+            $this->qb->setParameter('search', '%'.$this->search.'%');
         }
+
         return $this;
     }
 
@@ -269,7 +294,7 @@ class ListaFactory
         $col = $this->orderColumn;
         if(strpos($col, '.')) {
             list($table, $field) = $this->getJoinTableAndField($col);
-            $col = $table.'__'.$field;
+            $col = 'a'.$field;
         } else {
             $col = 'a.' . $col;
         }
@@ -289,9 +314,11 @@ class ListaFactory
         $dataTypes = $this->listaBuilder->getChilds();
         $finalResult = array();
         foreach ($result as $line => $row) {
-            foreach ($row as $key => $field) {
-                $key = str_replace('__', '.', $key);
-                $dt = $dataTypes[$key];
+            foreach ($dataTypes as $key => $dt) {
+                if (strstr($key, '.')) {
+                    $key = explode('.', $key)[1];
+                }
+                $field = $row[$key];
                 if ($dt instanceof DataAbstractType) {
                     if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
                         $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());

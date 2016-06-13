@@ -24,7 +24,6 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
      */
     public function add($child, $type = null, array $options = array())
     {
-
         $this->childs[$child] = $this->createChild($child, $type, $options);
         return $this;
     }
