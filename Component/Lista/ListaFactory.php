@@ -256,6 +256,7 @@ class ListaFactory
         }
 
         // Rellenamos la query para la búsqueda
+        $whereClause = '0 = 1';
         if(isset($this->search) && $this->search != '') {
             $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
 
@@ -276,13 +277,17 @@ class ListaFactory
 
                 $type = $this->em->getClassMetadata($this->lista->getClass())->getTypeOfField($field);
                 if(is_numeric($this->search) && ($type == 'integer' || $type == 'float')) {
-                    $this->qb->orWhere($this->qb->expr()->eq($alias, ':search'));
-                } else {
-                    $this->qb->orWhere($this->qb->expr()->like($alias, ':search'));
+                    $whereClause .= ' OR '. $alias . ' = :search_num';
+                } else if($type != 'integer' && $type != 'float') {
+                    $whereClause .= ' OR '. $alias . ' LIKE :search';
                 }
             }
 
+            $this->qb->andWhere($whereClause);
             $this->qb->setParameter('search', '%'.$this->search.'%');
+            if(is_numeric($this->search)) {
+                $this->qb->setParameter('search_num', floatval($this->search));
+            }
         }
 
         return $this;
@@ -290,14 +295,21 @@ class ListaFactory
 
     private function orderBuilder()
     {
-        $direction = $this->orderDirection ? 'DESC' : 'ASC';
+        $dataTypes = $this->listaBuilder->getChilds();
         $col = $this->orderColumn;
-        if(strpos($col, '.')) {
-            list($table, $field) = $this->getJoinTableAndField($col);
-            $col = 'a'.$field;
-        } else {
-            $col = 'a.' . $col;
+        // We need the complete column for ordering
+        foreach ($dataTypes as $key => $dataType) {
+            $key2 = $key;
+            if (strstr($key, '.')) {
+                $key2 = explode('.', $key)[1];
+            }
+            if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class && $key2 == $this->orderColumn) {
+                list($table, $field) = $this->getJoinTableAndField($dataType);
+                $col = 'a'.$this->joinListField[$table].'.'.$field;
+            }
         }
+
+        $direction = $this->orderDirection ? 'DESC' : 'ASC';
         $this->qb->orderBy($col, $direction);
         return $this;
     }
