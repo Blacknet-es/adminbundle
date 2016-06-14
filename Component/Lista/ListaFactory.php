@@ -111,7 +111,7 @@ class ListaFactory
         $this->pag = 1;
         $this->joinList = 1;
         $this->joinListField = array();
-        $this->orderColumn = 'id';
+        $this->orderColumn = 'a.id';
         $this->orderDirection = 0;
 
         if ($this->request->request->get('epp')) {
