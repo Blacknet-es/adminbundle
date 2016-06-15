@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="trendix_locations")
  */
-class Location extends BaseUser
+class Location
 {
     /**
      * @ORM\Id
