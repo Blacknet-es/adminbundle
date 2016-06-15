@@ -1,5 +1,5 @@
 $('.datepicker').pickadate({
-    formatSubmit: 'dd/mm/yyyy',
+    formatSubmit: 'yyyy-mm-dd',
     format: 'dd/mm/yyyy',
     firstDay: 1
 });
