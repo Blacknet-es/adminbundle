@@ -22,7 +22,18 @@ class GalleryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $defaults = array(
+        $builder
+            ->add('gallery', 'comur_gallery', $options);
+        $builder->get('gallery')->addModelTransformer(new GalleryTransformer($this->manager));
+    }
+    
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Trendix\AdminBundle\Entity\Gallery',
             'label' => false,
             'uploadConfig' => array(
                 'uploadRoute' => 'comur_api_upload',        //optional
@@ -49,21 +60,6 @@ class GalleryType extends AbstractType
                     )
                 )
             )
-        );
-        $builder
-            ->add('gallery', 'comur_gallery', array_merge($defaults, $options));
-        $builder->get('gallery')->addModelTransformer(new GalleryTransformer($this->manager));
-    }
-    
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'Trendix\AdminBundle\Entity\Gallery',
-            'cropConfig' => array(),
-            'uploadConfig' => array(),
         ));
     }
 }
