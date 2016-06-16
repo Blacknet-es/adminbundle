@@ -61,7 +61,9 @@ class GalleryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Trendix\AdminBundle\Entity\Gallery'
+            'data_class' => 'Trendix\AdminBundle\Entity\Gallery',
+            'cropConfig' => array(),
+            'uploadConfig' => array(),
         ));
     }
 }
