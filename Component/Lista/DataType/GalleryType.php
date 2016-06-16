@@ -24,12 +24,13 @@ class GalleryType extends DataAbstractType
      */
     public function getDataTransformer($value, $options = array())
     {
-        $arrayValue = unserialize($value);
+        //$arrayValue = unserialize($value);
+        $arrayValue = $value;
         $arrayTransformed = array();
 
-        foreach ($arrayValue as $value) {
+        foreach ($arrayValue as $key => $value) {
             $img = new ImageType($value, $options);
-            $arrayTransformed[$value] = $img->getDataTransformer($value, $options);
+            $arrayTransformed[$key] = $img->getDataTransformer($value, $options);
         }
 
         return $arrayTransformed;

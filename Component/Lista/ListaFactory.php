@@ -151,6 +151,12 @@ class ListaFactory
     {
         $this->lista = $lista;
         $this->options = array_merge($lista->getOptions(), $options);
+        if(array_key_exists('maxResults', $this->options)) {
+            $this->maxResults = $this->options['maxResults'];
+        }
+        if(array_key_exists('page', $this->options)) {
+            $this->pag = $this->options['page'];
+        }
         return $this->createBuilder($lista, $options);
     }
 

@@ -28,12 +28,19 @@ class ImageType extends DataAbstractType
      */
     public function getDataTransformer($value, $options = array())
     {
+        $dir = '';
+        if(isset($options['dir'])) {
+            $dir = $options['dir'];
+            unset($options['dir']);
+        }
+        unset($options['label']);
         $options = $this->handleOptions($options);
 
         if($value) {
-            return '<img src="$value" $options >';
+            $value = $dir . $value;
+            return '<img src="' .$value . '" ' . $options . ' >';
         } else {
-            //Podría ser un place holder
+            //Podría ser un placeholder
             return '';
         }
     }
@@ -46,7 +53,7 @@ class ImageType extends DataAbstractType
 
         foreach ($mergedOptions as $key => $value) {
             if ($value != '') {
-                $processedOptions = ' '.$key.'="'.$value.'"" ';
+                $processedOptions = ' '.$key.'="'.$value.'" ';
             }
         }
 
