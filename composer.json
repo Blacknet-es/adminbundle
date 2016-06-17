@@ -8,9 +8,15 @@
             "Trendix\\AdminBundle\\": ""
         }
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:Arukantara/ComurImageBundle.git"
+        }
+    ],
     "require": {
         "vich/uploader-bundle": "^0.14.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "comur/image-bundle": "1.0.*@dev"
+        "Arukantara/image-bundle": "dev-master"
     }
 }
