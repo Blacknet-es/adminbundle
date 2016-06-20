@@ -15,8 +15,19 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/Arukantara/ComurImageBundle"
+            "type": "package",
+            "package": {
+                "name": "comur/image-bundle",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/jstoeffler/KitanoConnectionBundle.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "classmap": [""]
+                }
+            }
         }
     ]
 }
