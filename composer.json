@@ -17,6 +17,6 @@
     "require": {
         "vich/uploader-bundle": "^0.14.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "comur/image-bundle": "dev-master@dev"
+        "comur/image-bundle": "dev-master"
     }
 }
