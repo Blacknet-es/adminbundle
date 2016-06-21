@@ -37,13 +37,13 @@ class GalleryType extends AbstractType
             'label' => false,
             'uploadConfig' => array(
                 'uploadRoute' => 'comur_api_upload',        //optional
-                'uploadUrl' => __DIR__.'/../../../../web/uploads/images',       // required - see explanation below (you can also put just a dir path)
-                'webDir' => 'uploads/images/',              // required - see explanation below (you can also put just a dir path)
+                'uploadUrl' => __DIR__.'/../../../../web/uploads/images/gallery',       // required - see explanation below (you can also put just a dir path)
+                'webDir' => 'uploads/images/gallery',              // required - see explanation below (you can also put just a dir path)
                 'fileExt' => '*.jpg;*.gif;*.png;*.jpeg',    //optional
                 'libraryDir' => false,                       //optional
                 'libraryRoute' => 'comur_api_image_library', //optional
                 'showLibrary' => false,                      //optional
-                'saveOriginal' => 'originalImage',          //optional
+                'saveOriginal' => 'originalGallery',          //optional
                 'generateFilename' => true          //optional
             ),
             'cropConfig' => array(

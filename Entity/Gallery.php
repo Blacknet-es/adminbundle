@@ -26,6 +26,11 @@ class Gallery
     protected $gallery;
 
     /**
+     * @ORM\Column(name="original_gallery", type="array", nullable=true)
+     */
+    protected $originalGallery;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -60,6 +65,25 @@ class Gallery
         $this->gallery = $gallery;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOriginalGallery()
+    {
+        return $this->originalGallery;
+    }
+
+    /**
+     * @param mixed $originalGallery
+     * @return Gallery
+     */
+    public function setOriginalGallery($originalGallery)
+    {
+        $this->originalGallery = $originalGallery;
+        return $this;
+    }
+
 
     public function getUploadRootDir()
     {
