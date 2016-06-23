@@ -107,8 +107,8 @@ class ImagesController extends BaseController
         imagefill($dst_r, 0, 0, $transparency);
 
         // We resample the image
-        imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $params['w'], $params['h'], $imgInfo[0],
-            $imgInfo[1]);
+        imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $imgInfo[0],
+            $imgInfo[1], $params['w'], $params['h']);
         imagesavealpha($dst_r, true); // save alphablending setting (important)
         // Finally, the image is stored
         imagepng($dst_r,$file);
