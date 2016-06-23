@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ImageType extends AbstractType
 {
+    protected $isGallery = false;
     private $manager;
 
     public function __construct(ObjectManager $manager)
@@ -61,8 +62,15 @@ class ImageType extends AbstractType
             'uploadConfig' => $uploadConfig
         ));
 
-        $resolver->setNormalizer('uploadConfig', function(Options $options, $value) use ($uploadConfig) {
-            return array_merge($uploadConfig, $value);
+        $isGallery = $this->isGallery;
+        $resolver->setNormalizer('uploadConfig', function(Options $options, $value) use ($uploadConfig, $isGallery) {
+            $config = array_merge($uploadConfig, $value);
+
+            if($isGallery){
+                $config['uploadUrl'] = $config['uploadUrl'].'gallery/';
+                $config['webDir'] = $config['webDir'].'gallery/';
+            }
+            return $config;
         });
         $resolver->setNormalizer('cropConfig', function(Options $options, $value) use ($cropConfig) {
             return array_merge($cropConfig, $value);

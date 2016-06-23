@@ -8,13 +8,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GalleryType extends CroppableGalleryType
+class GalleryType extends ImageType
 {
     private $manager;
 
     public function __construct(ObjectManager $manager)
     {
+        parent::__construct($manager);
         $this->manager = $manager;
+        $this->isGallery = true;
     }
 
     /**
@@ -23,47 +25,29 @@ class GalleryType extends CroppableGalleryType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $options = array(
-            'inherit_data' => false
-        );
-        parent::buildForm($builder, $options);
-        //$builder->get('gallery')->addModelTransformer(new GalleryTransformer($this->manager));
+        $builder
+            ->add('gallery', 'collection', array(
+                'entry_type' => 'hidden',
+                'allow_add' => true,
+                'allow_delete' => true
+            ));
+
+        //$builder->get('image')->addModelTransformer(new ImageTransformer($this->manager));
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'Trendix\AdminBundle\Entity\Gallery',
-            'label' => false,
-            'inherit_data' => false,
-            'uploadConfig' => array(
-                'uploadRoute' => 'comur_api_upload',        //optional
-                'uploadUrl' => __DIR__.'/../../../../web/uploads/images/gallery',       // required - see explanation below (you can also put just a dir path)
-                'webDir' => 'uploads/images/gallery',              // required - see explanation below (you can also put just a dir path)
-                'fileExt' => '*.jpg;*.gif;*.png;*.jpeg',    //optional
-                'libraryDir' => false,                       //optional
-                'libraryRoute' => 'comur_api_image_library', //optional
-                'showLibrary' => false,                      //optional
-                'saveOriginal' => 'originalGallery',          //optional
-                'generateFilename' => true          //optional
-            ),
-            'cropConfig' => array(
-                'minWidth' => 1,
-                'minHeight' => 1,
-                'aspectRatio' => false,              //optional
-                'cropRoute' => 'comur_api_crop',    //optional
-                'forceResize' => false,             //optional
-                'thumbs' => array(                  //optional
-                    array(
-                        'maxWidth' => 180,
-                        'maxHeight' => 400,
-                        'useAsFieldImage' => true  //optional
-                    )
-                )
-            )
+            'data_class' => 'Trendix\AdminBundle\Entity\Gallery'
         ));
+    }
+
+    public function getName()
+    {
+        return 'trendix_gallery';
     }
 }

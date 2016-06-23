@@ -156,12 +156,11 @@ function cropImage(id, options){
             var previewSrc = data.previewSrc;
 
             if(typeof galleries[id] != 'undefined'){
-                addImageToGallery(filename, id, data.galleryThumb, $('#selected_image').val(), options);
+                addImageToGallery(data.originalFile, id, data.previewSrc, options);
             }
             else{
                 $('#'+id).val(filename);
                 $('#image_preview_image_'+id).html('<img src="'+previewSrc+'" id="'+id+'_preview"/>');
-                $('#'+options.originalImageFieldId).val($('#selected_image').val());
                 $('#image_preview_image_'+id+' img').css('cursor: hand; cursor: pointer;');
                 $('#image_preview_image_'+id+' img').click(function(e){
                     if($( event.target ).is( "img" )){
@@ -180,5 +179,46 @@ function cropImage(id, options){
             $('#image_upload_tabs a:first').tab('show');
             $('#image_upload_modal').modal('hide');
         }
+    });
+}
+
+function addImageToGallery(filename, id, thumb, options)
+{
+    console.log('add #gallery_preview_'+id+' input');
+    var nb = $('#gallery_preview_'+id+' > .gallery-image-container').length;
+    var name = $('#gallery_preview_'+id).data('name');
+    $('#gallery_preview_'+id).append('<div class="gallery-image-container" data-image="'+filename+'">' +
+        '<span class="remove-image"><i class="glyphicon glyphicon-remove"></i></span>' +
+        '<span class="gallery-image-helper"></span>' +
+        '<input type="hidden" id="'+id+'_'+nb+'" name="'+name+'['+nb+']" value="'+filename+'">' +
+        '<img src="' + thumb + '"/>' +
+        '</div>');
+    rebindGalleryRemove(options);
+}
+
+function removeImageFromGallery(filename, id, parentId, options)
+{
+
+    // ADD DELETE FILE HERE !
+    $('#'+id).parent().remove();
+    reorderItems(parentId, options);
+
+}
+
+function reorderItems(id, options)
+{
+    var name = $('#'+id).data('name');
+    $( '#'+id+' .gallery-image-container' ).each(function(i, item){
+        $(item).find('input').attr('name', name+'['+i+']');
+    });
+}
+
+function rebindGalleryRemove(options)
+{
+    $('.gallery-image-container span').unbind('click');
+    $('.gallery-image-container span').click(function(){
+        removeImageFromGallery($(this).parent().data('image'), $(this).parent().find('input').attr('id'),
+            $(this).closest('.gallery-well').attr('id'), options);
+        return false;
     });
 }

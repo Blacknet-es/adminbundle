@@ -124,6 +124,7 @@ class ImagesController extends BaseController
 
         return new JsonResponse(array(
             'filename' => 'cropped/' . $imageName,
+            'originalFile' => $imageName,
             'previewSrc' => $webDir . $imageName,
             'error' => false
         ));
