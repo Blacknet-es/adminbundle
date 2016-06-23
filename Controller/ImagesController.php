@@ -26,10 +26,12 @@ class ImagesController extends BaseController
     {
         $file = null;
         $name = null;
-        $options = $request->request->get('config');
+        $options = json_decode($request->request->get('config'), true);
         $dir = $options['uploadConfig']['uploadUrl'];
         //$webDir = $options['uploadConfig']['webDir'];
         $error = false;
+        //var_dump($request->request->get('config'));
+        //var_dump($options);
         if(!file_exists($dir)) {
             mkdir($dir);
             chmod($dir, 0777);
@@ -37,8 +39,13 @@ class ImagesController extends BaseController
         if($request->getMethod() == 'POST') {
             $name = uniqid();
             foreach ($request->files as $uploadedFile) {
-                $file = $uploadedFile[0];
-                $name = $name . '_' . $file->getClientOriginalName();
+                $file = $uploadedFile;
+                // We make sure that the name doesn't contain strange characters and leave only a dot for the
+                // extension:
+                $aux = explode('.', $file->getClientOriginalName());
+                $ext = array_pop($aux);
+                $aux = implode('.', $aux);
+                $name = $name . '_' . $this->slugify($aux) . '.' . $ext;
                 $file = $file->move($dir, $name);
             }
         } else {
@@ -48,19 +55,21 @@ class ImagesController extends BaseController
     }
 
     /**
-     * @Route("/upload", name="trendix_image_upload")
+     * @Route("/crop", name="trendix_image_crop")
      */
     public function cropAction(Request $request)
     {
         // Getting the configuration
-        $options = $request->request->get('config');
+        $options = json_decode($request->request->get('config'), true);
         $imageName = $request->request->get('imageName');
         $params = $request->request->get('params');
         $dir = $options['uploadConfig']['uploadUrl'] . 'cropped/';
+        $webDir = $options['uploadConfig']['webDir'] . 'thumb/';
         // Getting the cropped image path:
         $originalFile = $options['uploadConfig']['uploadUrl'] . $imageName;
         $file = $dir . $imageName;
-        $thumbFile = $options['uploadConfig']['uploadUrl'] . 'thumb/' . $imageName;
+        $thumbDir = $options['uploadConfig']['uploadUrl'] . 'thumb/';
+        $thumbFile = $thumbDir . $imageName;
 
         // If the directory doesn't exist, create it:
         if(!file_exists($dir)) {
@@ -103,13 +112,21 @@ class ImagesController extends BaseController
         imagesavealpha($dst_r, true); // save alphablending setting (important)
         // Finally, the image is stored
         imagepng($dst_r,$file);
-        $width = $options['uploadConfig']['thumbs']['maxWidth'];
-        $height = $options['uploadConfig']['thumbs']['maxHeight'];
+        $width = $options['cropConfig']['thumbs'][0]['maxWidth'];
+        $height = $options['cropConfig']['thumbs'][0]['maxHeight'];
 
         // We also generate the thumbnail:
+        if(!file_exists($thumbDir)) {
+            mkdir($thumbDir);
+            chmod($thumbDir, 0777);
+        }
         $this->generateThumbnail($file, $thumbFile, $file_ext, $width, $height);
 
-        return new JsonResponse(array('file' => 'cropped/' . $imageName, 'error' => false));
+        return new JsonResponse(array(
+            'filename' => 'cropped/' . $imageName,
+            'previewSrc' => $webDir . $imageName,
+            'error' => false
+        ));
     }
 
     private function generateThumbnail($file, $dest, $ext, $alto = 150, $ancho = 150)
@@ -161,5 +178,32 @@ class ImagesController extends BaseController
         $img_final[0] = $ancho_final;
         $img_final[1] = $alto_final;
         return $img_final;
+    }
+
+    public function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }

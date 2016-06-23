@@ -43,7 +43,6 @@
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
-{% include "ComurImageBundle:Form:croppable_image_modal.html.twig" with {'include_jquery': false, 'include_bootstrap': false} %}
 {% block body %}
 <header id="header" class="clearfix" data-current-skin="{{ admin_theme|default("blue") }}">
     <div class="container">
@@ -180,5 +179,7 @@
         {{ functions.appendJavascript(var) }}
     {% endfor %}
 {% endblock %}
+{% include "TrendixAdminBundle:forms:crop_image_modal.html.twig" %}
+
 </body>
 </html>

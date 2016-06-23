@@ -12,6 +12,8 @@ trendix_images:
     resource: "@TrendixAdminBundle/Controller/ImagesController.php"
     type:     annotation
     prefix:   /
+    options:
+        expose: true
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

@@ -25,8 +25,8 @@ function initializeImageManager(id, options){
         dropZone: $('#image_upload_drop_zone'),
         done: function (e, data) {
             // console.log('uploaded');
-            if(data.error){
-                $('#image_upload_widget_error').text(data.error);
+            if(data.result.error){
+                $('#image_upload_widget_error').text(data.result.error);
                 $('#image_upload_widget_error').parent().removeClass('hidden');
             }
             else{
@@ -35,7 +35,7 @@ function initializeImageManager(id, options){
                 // console.log(data.result, data.result['image_upload_file']);
                 // $('#image_preview img').remove();
                 // $('#image_preview').html('<img src="/'+data.result['image_upload_file'][0].url+'" id="image_preview_image"/>');
-                $('#selected_image').val(data.file);
+                $('#selected_image').val(data.result.file);
                 initJCrop(id, options);
             }
 
@@ -81,9 +81,8 @@ function initJCrop(id, options){
     if(api){
         api.destroy();
     }
-    var now = new Date().getTime();
     $('#image_preview img').remove();
-    $('#image_preview').html('<img src="'+options.uploadConfig.webDir + $('#selected_image').val() + ' id="image_preview_image"/>');
+    $('#image_preview').html('<img src="'+options.uploadConfig.webDir + $('#selected_image').val() + '" id="image_preview_image"/>');
     $('#image_preview img').load(function(){
 
 
@@ -153,7 +152,6 @@ function cropImage(id, options){
             }
         },
         success: function(data){
-            var data = $.parseJSON(data);
             var filename = data.filename;
             var previewSrc = data.previewSrc;
 
