@@ -60,6 +60,7 @@ class ImagesController extends BaseController
         // Getting the cropped image path:
         $originalFile = $options['uploadConfig']['uploadUrl'] . $imageName;
         $file = $dir . $imageName;
+        $thumbFile = $options['uploadConfig']['uploadUrl'] . 'thumb/' . $imageName;
 
         // If the directory doesn't exist, create it:
         if(!file_exists($dir)) {
@@ -79,7 +80,7 @@ class ImagesController extends BaseController
 
         //Create the new image:
         $dst_r = ImageCreateTrueColor($params['w'], $params['h']);
-        if($file_ext == 'jpg'){
+        if($file_ext == 'jpg' || $file_ext == 'jpeg'){
             // Get original JPG image
             $img_r = imagecreatefromjpeg($originalFile);
         }
@@ -97,12 +98,68 @@ class ImagesController extends BaseController
         imagefill($dst_r, 0, 0, $transparency);
 
         // We resample the image
-        imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $imgInfo[0], $imgInfo[1],
-            $params['w'], $params['h']);
+        imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $params['w'], $params['h'], $imgInfo[0],
+            $imgInfo[1]);
         imagesavealpha($dst_r, true); // save alphablending setting (important)
         // Finally, the image is stored
         imagepng($dst_r,$file);
+        $width = $options['uploadConfig']['thumbs']['maxWidth'];
+        $height = $options['uploadConfig']['thumbs']['maxHeight'];
+
+        // We also generate the thumbnail:
+        $this->generateThumbnail($file, $thumbFile, $file_ext, $width, $height);
 
         return new JsonResponse(array('file' => 'cropped/' . $imageName, 'error' => false));
+    }
+
+    private function generateThumbnail($file, $dest, $ext, $alto = 150, $ancho = 150)
+    {
+        $img_info = getimagesize($file);
+        //Depende de cadenas.php que se encuentra en la carpeta includes
+        $tam_final = $this->getRatio($img_info, $ancho, $alto);
+        //cabecera png de la imagen
+        //detectamos el tipo mime y hacemos una copia de la imagen para trabajar con ella
+        if($ext == 'jpeg' || $ext == 'jpg'){
+            $img_r = imagecreatefromjpeg($file);
+        }
+        else if($ext == 'png'){
+            $img_r = imagecreatefrompng($file);
+            imagealphablending($img_r, true); // setting alpha blending on
+            imagesavealpha($img_r, true); // save alphablending setting (important)
+        }
+        else {
+            return false;
+        }
+        //Generamos una imagen transparente con el tamaño de la miniatura
+        $dst_r = ImageCreateTrueColor($tam_final['0'], $tam_final['1']);
+        $transparencia = imagecolorallocatealpha($dst_r, 0, 0, 0, 127);
+        imagefill($dst_r, 0, 0, $transparencia);
+        //metemos la redimension en la imagen de destino
+        imagecopyresampled($dst_r, $img_r, 0, 0, 0, 0, $tam_final['0'], $tam_final['1'], $img_info[0], $img_info[1]); //insertamos la imagen en la nueva con las coordenadas especificadas.
+        imagesavealpha($dst_r, true); // save alphablending setting (important)
+        //Mostramos a imagen
+        imagepng($dst_r, $dest);
+        //Liberamos la memoria
+        imagedestroy($dst_r);
+        return true;
+    }
+
+    private function getRatio($img_info, $ancho_max, $alto_max) {
+        $proporcion = $img_info[0] / $img_info[1];
+        if ($img_info[0] > $ancho_max || $img_info[1] > $alto_max) { //Comprobamos si supera los limites
+            if ($ancho_max < ($alto_max * $proporcion)) { //La imagen es mas ancha que alta
+                $alto_final = (int) ($ancho_max / $proporcion);
+                $ancho_final = (int) $ancho_max;
+            } else {// la imagen sigue siendo mas alta de lo permitido
+                $ancho_final = (int) ($alto_max * $proporcion);
+                $alto_final = (int) $alto_max;
+            }
+        } else {
+            $alto_final = (int) $img_info[1];
+            $ancho_final = (int) $img_info[0];
+        }
+        $img_final[0] = $ancho_final;
+        $img_final[1] = $alto_final;
+        return $img_final;
     }
 }
