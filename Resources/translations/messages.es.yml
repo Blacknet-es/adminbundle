@@ -12,3 +12,17 @@ list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?
   page: Pág. %current% de %total%
   search: Buscar
+
+images:
+  insert: Insertar Imagen
+  upload: Subir Imagen
+  crop: Recortar y usar
+  drop: Suelta tu fichero aquí
+  or: o
+  select: Selecciona un fichero
+  adjust: Por favor, ajuste la selección a su imagen
+  select_image: Por favor, seleccione o suba una imagen
+  close: Cerrar
+  cancel: Cancelar
+  add: Añadir Imagen
+  edit: Editar

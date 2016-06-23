@@ -3,3 +3,27 @@ security:
     username: Username
     password: Password
     remember_me: Remember me
+
+
+admin:
+  please_wait: Please, wait...
+  actions: Actions
+
+list:
+  confirm_remove: Do you wish to delete the selected item?
+  page: Page %current% of %total%
+  search: Search
+
+images:
+  insert: Insert Image
+  upload: Upload Image
+  crop: Crop and Use
+  drop: Drop your file here
+  or: or
+  select: Select a file...
+  adjust: Please adjust selection to your image
+  select_image: Please select or upload an image
+  close: Close
+  cancel: Cancel
+  add: Add Image
+  edit: Edit
