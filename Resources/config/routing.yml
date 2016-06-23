@@ -8,6 +8,11 @@ trendix_admin:
     type:     annotation
     prefix:   /
 
+trendix_images:
+    resource: "@TrendixAdminBundle/Controller/ImagesController.php"
+    type:     annotation
+    prefix:   /
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 

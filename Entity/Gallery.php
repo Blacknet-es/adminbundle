@@ -2,6 +2,7 @@
 
 namespace Trendix\AdminBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -29,6 +30,16 @@ class Gallery
      * @ORM\Column(name="original_gallery", type="array", nullable=true)
      */
     protected $originalGallery;
+
+    /**
+     * Gallery constructor.
+     */
+    public function __construct()
+    {
+        $this->gallery = new ArrayCollection();
+        $this->originalGallery = new ArrayCollection();
+    }
+
 
     /**
      * @return mixed
@@ -67,6 +78,30 @@ class Gallery
     }
 
     /**
+     * @param $image
+     * @return mixed
+     */
+    public function addGallery($image)
+    {
+        if(!$this->gallery->contains($image)) {
+            $this->gallery->add($image);
+        }
+        return $this;
+    }
+
+    /**
+     * @param mixed $image
+     * @return Gallery
+     */
+    public function removeGallery($image)
+    {
+        if($this->gallery->contains($image)) {
+            $this->gallery->removeElement($image);
+        }
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getOriginalGallery()
@@ -81,6 +116,30 @@ class Gallery
     public function setOriginalGallery($originalGallery)
     {
         $this->originalGallery = $originalGallery;
+        return $this;
+    }
+
+    /**
+     * @param $image
+     * @return mixed
+     */
+    public function addOriginalGallery($image)
+    {
+        if(!$this->originalGallery->contains($image)) {
+            $this->originalGallery->add($image);
+        }
+        return $this;
+    }
+
+    /**
+     * @param mixed $image
+     * @return Gallery
+     */
+    public function removeOriginalGallery($image)
+    {
+        if($this->originalGallery->contains($image)) {
+            $this->originalGallery->removeElement($image);
+        }
         return $this;
     }
 

@@ -2,12 +2,13 @@
 
 namespace Trendix\AdminBundle\Form;
 
+use Comur\ImageBundle\Form\Type\CroppableGalleryType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GalleryType extends AbstractType
+class GalleryType extends CroppableGalleryType
 {
     private $manager;
 
@@ -22,9 +23,11 @@ class GalleryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('gallery', 'comur_gallery', $options);
-        $builder->get('gallery')->addModelTransformer(new GalleryTransformer($this->manager));
+        $options = array(
+            'inherit_data' => false
+        );
+        parent::buildForm($builder, $options);
+        //$builder->get('gallery')->addModelTransformer(new GalleryTransformer($this->manager));
     }
     
     /**
@@ -35,6 +38,7 @@ class GalleryType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Trendix\AdminBundle\Entity\Gallery',
             'label' => false,
+            'inherit_data' => false,
             'uploadConfig' => array(
                 'uploadRoute' => 'comur_api_upload',        //optional
                 'uploadUrl' => __DIR__.'/../../../../web/uploads/images/gallery',       // required - see explanation below (you can also put just a dir path)
