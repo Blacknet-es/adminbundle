@@ -2,7 +2,6 @@
 
 namespace Trendix\AdminBundle\Form;
 
-use Comur\ImageBundle\Form\Type\CroppableGalleryType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
