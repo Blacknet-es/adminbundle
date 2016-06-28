@@ -27,3 +27,5 @@ images:
   cancel: Cancel
   add: Add Image
   edit: Edit
+  invalid: The uploaded file is not valid or is corrupted.
+  not_supported_format: The uploaded file is not in PNG o JPG format.

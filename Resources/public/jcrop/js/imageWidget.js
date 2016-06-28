@@ -154,8 +154,18 @@ function cropImage(id, options){
         success: function(data){
             var filename = data.filename;
             var previewSrc = data.previewSrc;
-
-            if(typeof galleries[id] != 'undefined'){
+            $('#gallery_preview_' + id + ' .crop-error').addClass('hidden');
+            $('#image_preview_image_' + id + ' .crop-error').addClass('hidden');
+            if(data.error) {
+                var containerID;
+                if(typeof galleries[id] != 'undefined') {
+                    containerID = '#gallery_preview_' + id;
+                } else {
+                    containerID = '#image_preview_image_'+id;
+                }
+                destroyJCrop(id);
+                $(containerID).find('.crop-error[data-target="' + data.error + '"]').removeClass('hidden');
+            } else if(typeof galleries[id] != 'undefined'){
                 addImageToGallery(data.originalFile, id, data.previewSrc, options);
             }
             else{
