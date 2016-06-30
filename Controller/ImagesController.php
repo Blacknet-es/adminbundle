@@ -85,33 +85,44 @@ class ImagesController extends BaseController
         // Else, proceed to crop the image:
         $imgInfo = getimagesize($originalFile);
         // Check the image extension:
-        $file_ext = substr(strrchr($imageName, "."), 1);
+        $file_ext = strtolower(substr(strrchr($imageName, "."), 1));
 
         //Create the new image:
-        $dst_r = ImageCreateTrueColor($params['w'], $params['h']);
-        if($file_ext == 'jpg' || $file_ext == 'jpeg'){
-            // Get original JPG image
-            $img_r = imagecreatefromjpeg($originalFile);
-        }
-        elseif($file_ext == 'png'){
-            // Get original PNG image with alpha channel
-            $img_r = imagecreatefrompng($originalFile);
-            imagealphablending($img_r, true);
-            // And activate the alpha channel for the new image:
-            imagesavealpha($dst_r, true);
-        } else {
-            return new JsonResponse(array('error' => 'Not supported format'));
-        }
-        // We set the background as transparent:
-        $transparency = imagecolorallocatealpha($dst_r, 0, 0, 0, 127);
-        imagefill($dst_r, 0, 0, $transparency);
+        $dst_r = imagecreatetruecolor($params['w'], $params['h']);
+        try {
+            if($file_ext == 'jpg' || $file_ext == 'jpeg'){
+                // Get original JPG image
+                $img_r = imagecreatefromjpeg($originalFile);
 
-        // We resample the image
-        imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $params['w'], $params['h'],
-            $params['w'], $params['h']);
-        imagesavealpha($dst_r, true); // save alphablending setting (important)
-        // Finally, the image is stored
-        imagepng($dst_r,$file,0);
+                // We resample the image
+                imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $params['w'], $params['h'],
+                    $params['w'], $params['h']);
+                imagesavealpha($dst_r, true); // save alphablending setting (important)
+                // Finally, the image is stored
+                imagejpeg($dst_r,$file);
+            }
+            elseif($file_ext == 'png'){
+                // Get original PNG image with alpha channel
+                $img_r = imagecreatefrompng($originalFile);
+                imagealphablending($img_r, true);
+                // And activate the alpha channel for the new image:
+                imagesavealpha($dst_r, true);
+                // We set the background as transparent:
+                $transparency = imagecolorallocatealpha($dst_r, 0, 0, 0, 127);
+                imagefill($dst_r, 0, 0, $transparency);
+
+                // We resample the image
+                imagecopyresampled($dst_r, $img_r, 0, 0, $params['x'], $params['y'], $params['w'], $params['h'],
+                    $params['w'], $params['h']);
+                imagesavealpha($dst_r, true); // save alphablending setting (important)
+                // Finally, the image is stored
+                imagepng($dst_r,$file);
+            } else {
+                return new JsonResponse(array('error' => 'format'));
+            }
+        } catch(\Exception $ex) {
+            return new JsonResponse(array('error' => 'invalid'));
+        }
         $width = $options['cropConfig']['thumbs'][0]['maxWidth'];
         $height = $options['cropConfig']['thumbs'][0]['maxHeight'];
 
@@ -120,7 +131,11 @@ class ImagesController extends BaseController
             mkdir($thumbDir);
             chmod($thumbDir, 0777);
         }
-        $this->generateThumbnail($file, $thumbFile, $file_ext, $width, $height);
+
+        $ex = $this->generateThumbnail($file, $thumbFile, $file_ext, $width, $height);
+        if($ex) {
+            return new JsonResponse(array('error' => 'invalid'));
+        }
 
         return new JsonResponse(array(
             'filename' => 'cropped/' . $imageName,
@@ -137,16 +152,19 @@ class ImagesController extends BaseController
         $tam_final = $this->getRatio($img_info, $ancho, $alto);
         //cabecera png de la imagen
         //detectamos el tipo mime y hacemos una copia de la imagen para trabajar con ella
-        if($ext == 'jpeg' || $ext == 'jpg'){
-            $img_r = imagecreatefromjpeg($file);
-        }
-        else if($ext == 'png'){
-            $img_r = imagecreatefrompng($file);
-            imagealphablending($img_r, true); // setting alpha blending on
-            imagesavealpha($img_r, true); // save alphablending setting (important)
-        }
-        else {
-            return false;
+
+        try {
+            if ($ext == 'jpeg' || $ext == 'jpg') {
+                $img_r = imagecreatefromjpeg($file);
+            } else if ($ext == 'png') {
+                $img_r = imagecreatefrompng($file);
+                imagealphablending($img_r, true); // setting alpha blending on
+                imagesavealpha($img_r, true); // save alphablending setting (important)
+            } else {
+                return true;
+            }
+        } catch(\Exception $ex) {
+            return $ex;
         }
         //Generamos una imagen transparente con el tamaño de la miniatura
         $dst_r = ImageCreateTrueColor($tam_final['0'], $tam_final['1']);
@@ -159,7 +177,7 @@ class ImagesController extends BaseController
         imagepng($dst_r, $dest);
         //Liberamos la memoria
         imagedestroy($dst_r);
-        return true;
+        return false;
     }
 
     private function getRatio($img_info, $ancho_max, $alto_max) {

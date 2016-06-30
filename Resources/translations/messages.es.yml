@@ -26,3 +26,5 @@ images:
   cancel: Cancelar
   add: Añadir Imagen
   edit: Editar
+  invalid: El fichero subido no es válido o está corrupto.
+  not_supported_format: El fichero subido no usa el formato PNG o JPG.
