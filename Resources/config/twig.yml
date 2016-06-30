@@ -4,4 +4,4 @@ twig:
     globals:
         admin_theme: "%admin_theme%"
     form:
-        resources: ['TrendixAdminBundle:forms:forms.html.twig']
+        resources: ['TrendixAdminBundle:forms:forms.html.twig', 'TrendixAdminBundle:forms:images.html.twig']

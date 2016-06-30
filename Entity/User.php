@@ -21,10 +21,9 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
-     **/
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist"})
+     */
     protected $photo;
 
     /**
@@ -112,7 +111,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * @return Image
      */
     public function getPhoto()
     {
@@ -120,7 +119,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $photo
+     * @param Image $photo
      * @return User
      */
     public function setPhoto($photo)

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Trendix\AdminBundle\Form\ImageType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -32,13 +33,24 @@ class RegistrationFormType extends AbstractType
                 'second_options' => array('label' => 'form.password_confirmation'),
                 'invalid_message' => 'fos_user.password.mismatch',
             ))
-            ->add('photo', 'vich_image', array(
+            ->add('photo', ImageType::class, array(
                 'required'      => true,
-                'allow_delete'  => true,
-                'download_link' => true,
                 'label' => 'Foto de perfil',
-                'label_attr' => array(
-                    'class' => 'hidden'
+                'uploadConfig' => array(
+                    'uploadUrl' => __DIR__.'/../../../../../web/uploads/images/',
+                    'webDir' => '/uploads/images/',
+                    'fileExt' => '*.jpg;*.png;*.jpeg',    //optional
+                ),
+                'cropConfig' => array(
+                    'minWidth' => 128,
+                    'minHeight' => 128,
+                    'aspectRatio' => true,
+                    'thumbs' => array(
+                        array(
+                            'maxWidth' => 128,
+                            'maxHeight' => 128
+                        )
+                    )
                 )
             ))
         ;

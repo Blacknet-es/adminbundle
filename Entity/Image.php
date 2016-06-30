@@ -32,6 +32,18 @@ class Image
      */
     protected $originalImage;
 
+    private $uploadDir;
+
+    /**
+     * Image constructor.
+     * @param $uploadDir
+     */
+    public function __construct($uploadDir = 'uploads/images')
+    {
+        $this->uploadDir = $uploadDir;
+    }
+
+
     /**
      * @return string
      */
@@ -95,7 +107,7 @@ class Image
 
     public function getUploadDir()
     {
-        return 'uploads/images';
+        return $this->uploadDir ? $this->uploadDir : 'uploads/images';
     }
 
     public function getAbsolutePath()
