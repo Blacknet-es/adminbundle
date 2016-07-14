@@ -67,6 +67,10 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
             return new \Trendix\AdminBundle\Component\Lista\DataType\MoneyType($child, $options);
         }
 
+        if ($type == 'percent') {
+            return new \Trendix\AdminBundle\Component\Lista\DataType\PercentType($child, $options);
+        }
+
         if ($type == 'number') {
             return new \Trendix\AdminBundle\Component\Lista\DataType\NumberType($child, $options);
         }
