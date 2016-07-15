@@ -449,8 +449,8 @@ class ListaFactory
             'maxResults' => $this->maxResults,
             'orderColumn' => $this->orderColumn,
             'orderDirection' => $this->orderDirection,
-            'downloadable' => $this->options['downloadable'],
-            'listClass' => $this->lista,
+            'downloadable' => isset($this->options['downloadable']) ? $this->options['downloadable'] : false,
+            'listClass' => get_class($this->lista),
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
         );
     }

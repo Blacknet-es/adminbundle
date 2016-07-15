@@ -2,7 +2,9 @@
 
 namespace Trendix\AdminBundle\Controller;
 
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
 use Trendix\AdminBundle\Utility\Menu;
@@ -164,8 +166,10 @@ class BaseController extends Controller
         $form = $request->request->all();
         $parameters = explode(',', $form['call']);
         $class = $form['class'];
-        $title = $form['title'];
-        $list = $this->createList(call_user_func_array(new $class, $parameters));
+        $title = $this->get('translator')->trans($form['title']);
+        $reflect  = new ReflectionClass($class);
+        $instance = $reflect->newInstanceArgs($parameters);
+        $list = $this->createList($instance);
         $data = $list->getFileData();
 
         // Then, we have to create the excel object:
@@ -179,22 +183,25 @@ class BaseController extends Controller
             ->setDescription($title)
             ->setKeywords($title);
         $phpExcelObject->setActiveSheetIndex(0);
-        $phpExcelObject->getActiveSheet()->setTitle('Sheet 1');
+        $phpExcelObject->getActiveSheet()->setTitle($title);
 
         // Now we run through the results to create the table:
         // First, the labels:
         $i = 1;
         foreach($data['labels'] as $col) {
-            $phpExcelObject->setCellValue($this->numToLetter($i).'1', $col);
+            $colName =  $this->get('translator')->trans($col);
+            $phpExcelObject->getActiveSheet()->setCellValue($this->numToLetter($i).'1', $colName);
             $i++;
         }
         // Then, the values
-        $i = 1;
+        $i = 2;
         foreach($data['data'] as $row) {
             $j = 1;
-            foreach($row as $cell) {
-                $phpExcelObject->setCellValue($this->numToLetter($j).$i, $cell);
-                $j++;
+            foreach($row as $key => $cell) {
+                if(!is_array($cell) && $key != 'original_id' && $key != 'actions') {
+                    $phpExcelObject->getActiveSheet()->setCellValue($this->numToLetter($j).$i, $cell);
+                    $j++;
+                }
             }
             $i++;
         }

@@ -13,7 +13,8 @@ $(document).ready(function() {
         $(this).children('.action-label').animate({opacity: 0});
         $(this).children('.action-label').remove();
     });
-    $(document).on('.download-file', 'click', function(e) {
+
+    $(document).on('click', 'a.download-file', function(e) {
         e.preventDefault();
         $('#list-download').submit();
     });
