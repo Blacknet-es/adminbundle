@@ -1,4 +1,11 @@
 <div class="card">
+    {% if lista.downloadable %}
+        <form class="hidden" method="post" id="list-download" action="{{ url('download_list') }}">
+            <input type="hidden" name="class" value="{{ lista.listClass }}">
+            <input type="hidden" name="call" value="{{ lista.listCall }}">
+            <input type="hidden" name="title" value="{{ title }}">
+        </form>
+    {% endif %}
     <div class="card-header">
         <h2>{{ title|trans }}</h2>
     </div>
@@ -32,6 +39,13 @@
                             </button>
                         </div>
                     </div>
+                    {% if lista.downloadable %}
+                        <div class="pull-right">
+                            <a href="javascript:void(0);" class="download-file" title="{{ 'Descargar en Excel'|trans }}" >
+                                <i class="zmdi zmdi-download"></i>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

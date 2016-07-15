@@ -41,6 +41,6 @@ abstract class ListaAbstractType implements ListaTypeInterface
      */
     public function getOptions()
     {
-        return array();
+        return array('downloadable' => false);
     }
 }

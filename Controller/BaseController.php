@@ -152,4 +152,85 @@ class BaseController extends Controller
 
         return new JsonResponse($data);
     }
+
+    /**
+     * @Route("/download/list/", defaults={"id": 0}, name="download_list")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function downloadListFile(Request $request)
+    {
+        // First, we need to get the data
+        $form = $request->request->all();
+        $parameters = explode(',', $form['call']);
+        $class = $form['class'];
+        $title = $form['title'];
+        $list = $this->createList(call_user_func_array(new $class, $parameters));
+        $data = $list->getFileData();
+
+        // Then, we have to create the excel object:
+        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+
+        // Writing file meta-data:
+        $phpExcelObject->getProperties()->setCreator("Trendix")
+            ->setLastModifiedBy("Trendix")
+            ->setTitle($title)
+            ->setSubject($title)
+            ->setDescription($title)
+            ->setKeywords($title);
+        $phpExcelObject->setActiveSheetIndex(0);
+        $phpExcelObject->getActiveSheet()->setTitle('Sheet 1');
+
+        // Now we run through the results to create the table:
+        // First, the labels:
+        $i = 1;
+        foreach($data['labels'] as $col) {
+            $phpExcelObject->setCellValue($this->numToLetter($i).'1', $col);
+            $i++;
+        }
+        // Then, the values
+        $i = 1;
+        foreach($data['data'] as $row) {
+            $j = 1;
+            foreach($row as $cell) {
+                $phpExcelObject->setCellValue($this->numToLetter($j).$i, $cell);
+                $j++;
+            }
+            $i++;
+        }
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $phpExcelObject->setActiveSheetIndex(0);
+
+        // create the writer
+        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        // create the response
+        $response = $this->get('phpexcel')->createStreamedResponse($writer);
+        // adding headers
+        $dispositionHeader = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'list.xls'
+        );
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        $response->headers->set('Content-Disposition', $dispositionHeader);
+
+        return $response;
+    }
+
+    /** Get the column name from the position
+     * @param $num
+     * @return mixed
+     */
+    private function numToLetter($num) {
+        $alphabet = array( 'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z'
+        );
+        return $alphabet[$num-1];
+    }
 }

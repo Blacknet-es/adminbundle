@@ -449,6 +449,32 @@ class ListaFactory
             'maxResults' => $this->maxResults,
             'orderColumn' => $this->orderColumn,
             'orderDirection' => $this->orderDirection,
+            'downloadable' => $this->options['downloadable'],
+            'listClass' => $this->lista,
+            'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
+        );
+    }
+
+    /**
+     * @return array Data needed to generate an excel file:
+     *  'data' => results, 'labels' => labels, 'totalResults' => matches count
+     */
+    public function getFileData()
+    {
+        $this->qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
+
+        $this->selectBuilder(); //Select Fields
+        $this->filterBuilder(); //Generate filters
+        $this->orderBuilder(); //Order Options
+        //Obtain raw array results
+        $arrayResults = $this->qb->getQuery()->getArrayResult();
+
+        //Return data transformed array resutls with label key
+        $fileResults = $this->transformerBuilder($arrayResults, $this->lista);
+        return array(
+            'data' => $fileResults,
+            'labels' => $this->labels,
+            'totalResults' => $this->countResults(),
         );
     }
 
