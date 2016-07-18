@@ -75,3 +75,7 @@ td input.simple, th input.simple {
     font-weight: bold;
     font-size: 1.2em;
 }
+
+.card.waves-effect {
+    display: block;
+}
