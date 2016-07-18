@@ -70,45 +70,54 @@
                                 {% endif %}
                             </th>
                         {% endfor %}
-                        <th data-column-id="id" class="text-left" style="">
-                            <a href="javascript:void(0);" class="column-header-anchor">
-                                <span class="text">{{ 'admin.actions'|trans }}</span><span class="zmdi icon"></span>
-                            </a>
-                        </th>
+                        {% if row.actions is defined and row.actions|length > 0 %}
+                            <th data-column-id="id" class="text-left" style="">
+                                <a href="javascript:void(0);" class="column-header-anchor">
+                                    <span class="text">{{ 'admin.actions'|trans }}</span><span class="zmdi icon"></span>
+                                </a>
+                            </th>
+                        {% endif %}
                     </tr>
                     </thead>
 
                     <tbody>
                     {% for key, row in lista.data %}
-                        <tr data-row-id="{{ row.original_id }}" class="" aria-selected="false">
+                        <tr data-row-id="{% if row.original_id is defined %}
+                                            {{ row.original_id }}
+                                        {% else %}
+                                            {{ loop.index }}
+                                        {% endif %}
+                                        " class="" aria-selected="false">
                             {% for label, field in row if label != 'actions' and label != 'original_id' %}
                                 <td class="text-left" style="">{{ field|raw }}</td>
                             {% endfor %}
-                            <td class="text-left actions" >
+                            {% if row.actions is defined and row.actions|length > 0 %}
+                                <td class="text-left actions" >
 
-                                {% for action in row.actions %}
-                                    {% if action.action == 'delete' %}
-                                    <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
-                                        <i class="zmdi zmdi-{{ action.icon }}"></i>
-                                    </a>
-                                    {% else %}
-                                    <a href="{{ action.url }}" data-row-id="{{ row.original_id }}"
-                                        {% if action.text %}
-                                            data-toggle="admin-tooltip" title="{{ action.text|trans }}"
+                                    {% for action in row.actions %}
+                                        {% if action.action == 'delete' %}
+                                        <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
+                                            <i class="zmdi zmdi-{{ action.icon }}"></i>
+                                        </a>
+                                        {% else %}
+                                        <a href="{{ action.url }}" data-row-id="{{ row.original_id }}"
+                                            {% if action.text %}
+                                                data-toggle="admin-tooltip" title="{{ action.text|trans }}"
+                                            {% endif %}
+                                                >
+                                            <i class="zmdi zmdi-{{ action.icon }}"></i>
+                                        </a>
                                         {% endif %}
-                                            >
-                                        <i class="zmdi zmdi-{{ action.icon }}"></i>
+                                    {% endfor %}
+
+                                    {#
+                                    <a href="javascript:void(0);" data-row-id="{{ key }}">
+                                        <i class="zmdi zmdi-delete"></i>
                                     </a>
-                                    {% endif %}
-                                {% endfor %}
+                                    #}
 
-                                {#
-                                <a href="javascript:void(0);" data-row-id="{{ key }}">
-                                    <i class="zmdi zmdi-delete"></i>
-                                </a>
-                                #}
-
-                            </td>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </table>

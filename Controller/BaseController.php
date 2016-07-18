@@ -164,7 +164,7 @@ class BaseController extends Controller
     {
         // First, we need to get the data
         $form = $request->request->all();
-        $parameters = explode(',', $form['call']);
+        $parameters = explode('/;/', $form['call']);
         $class = $form['class'];
         $title = $this->get('translator')->trans($form['title']);
         $reflect  = new ReflectionClass($class);

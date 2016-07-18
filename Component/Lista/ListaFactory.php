@@ -5,6 +5,7 @@ namespace Trendix\AdminBundle\Component\Lista;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Trendix\AdminBundle\Component\Lista\DataType\GalleryType;
@@ -96,6 +97,11 @@ class ListaFactory
      */
     protected $joinListField;
 
+    /**
+     * @var string
+     */
+    protected $sql;
+
     public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -113,6 +119,7 @@ class ListaFactory
         $this->joinListField = array();
         $this->orderColumn = 'a.id';
         $this->orderDirection = 0;
+        $this->sql = null;
 
         if ($this->request->request->get('epp')) {
             $this->maxResults = $this->request->request->get('epp');
@@ -157,6 +164,9 @@ class ListaFactory
         if(array_key_exists('page', $this->options)) {
             $this->pag = $this->options['page'];
         }
+        if(array_key_exists('sql', $this->options)) {
+            $this->sql = $this->options['sql'];
+        }
         return $this->createBuilder($lista, $options);
     }
 
@@ -170,14 +180,18 @@ class ListaFactory
         if($this->toggleField) {
             $this->updateRow($this->toggleField);
         }
-        $this->qb = $this->em->getRepository($lista->getClass())->createQueryBuilder('a');
 
-        $this->selectBuilder(); //Select Fields
-        $this->filterBuilder(); //Generate filters
-        $this->orderBuilder(); //Order Options
-        $this->pagerBuilder(); //Page Options
-        //Obtain raw array results
-        $arrayResults = $this->qb->getQuery()->getArrayResult();
+        if($this->sql) {
+            $arrayResults = $this->getSQLResult(true);
+        } else {
+            $this->qb = $this->em->getRepository($lista->getClass())->createQueryBuilder('a');
+            $this->selectBuilder(); //Select Fields
+            $this->filterBuilder(); //Generate filters
+            $this->orderBuilder(); //Order Options
+            $this->pagerBuilder(); //Page Options
+            //Obtain raw array results
+            $arrayResults = $this->qb->getQuery()->getArrayResult();
+        }
 
         //Return data transformed array resutls with label key
         $this->arrayResults = $this->transformerBuilder($arrayResults, $lista);
@@ -238,6 +252,9 @@ class ListaFactory
 
     private function countResults()
     {
+        if($this->sql) {
+            return count($this->getSQLResult(false));
+        }
         $this->qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
 
         $this
@@ -438,6 +455,8 @@ class ListaFactory
 
     public function createView()
     {
+        //var_dump($this->sql);
+        //die();
         return array(
             'data' => $this->arrayResults,
             'labels' => $this->labels,
@@ -450,6 +469,7 @@ class ListaFactory
             'orderColumn' => $this->orderColumn,
             'orderDirection' => $this->orderDirection,
             'downloadable' => isset($this->options['downloadable']) ? $this->options['downloadable'] : false,
+            'sql' => $this->sql ? $this->sql : null,
             'listClass' => get_class($this->lista),
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
         );
@@ -461,14 +481,17 @@ class ListaFactory
      */
     public function getFileData()
     {
-        $this->qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
+        if($this->sql) {
+            $arrayResults = $this->getSQLResult(false);
+        } else {
+            $this->qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
 
-        $this->selectBuilder(); //Select Fields
-        $this->filterBuilder(); //Generate filters
-        $this->orderBuilder(); //Order Options
-        //Obtain raw array results
-        $arrayResults = $this->qb->getQuery()->getArrayResult();
-
+            $this->selectBuilder(); //Select Fields
+            $this->filterBuilder(); //Generate filters
+            $this->orderBuilder(); //Order Options
+            //Obtain raw array results
+            $arrayResults = $this->qb->getQuery()->getArrayResult();
+        }
         //Return data transformed array resutls with label key
         $fileResults = $this->transformerBuilder($arrayResults, $this->lista);
         return array(
@@ -509,5 +532,26 @@ class ListaFactory
             ->setParameter(2, $id)
             ->getQuery();
         $q->execute();
+    }
+
+    /**
+     * @param $paged
+     * @return array
+     */
+    private function getSQLResult($paged)
+    {
+        $rsm = new ResultSetMapping();
+        // First, add the select fields:
+        foreach ($this->listaBuilder->getChilds() as $dataType) {
+            $rsm->addScalarResult($dataType->getKey(), str_replace('.', '__', $dataType->getKey()));
+        }
+        // Then, paginate if needed:
+        $sql = $this->sql;
+        if ($paged) {
+            $sql .= ' LIMIT ' . $this->firstResult . ', ' . $this->maxResults;
+        }
+        $query = $this->em->createNativeQuery($sql, $rsm);
+        $arrayResults = $query->getArrayResult();
+        return $arrayResults;
     }
 }
