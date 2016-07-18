@@ -166,7 +166,7 @@ class BaseController extends Controller
         $form = $request->request->all();
         $parameters = explode('/;/', $form['call']);
         $class = $form['class'];
-        $title = $this->get('translator')->trans($form['title']);
+        $title = substr($this->get('translator')->trans($form['title']), 0, 30);
         $reflect  = new ReflectionClass($class);
         $instance = $reflect->newInstanceArgs($parameters);
         $list = $this->createList($instance);
