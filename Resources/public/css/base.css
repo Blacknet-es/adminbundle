@@ -79,3 +79,13 @@ td input.simple, th input.simple {
 .card.waves-effect {
     display: block;
 }
+
+/* Selects */
+.select2-container--default .select2-selection--single {
+    border-width: 0 0 1px !important;
+    border-radius: 0 !important;
+}
+
+.select2-results {
+    border-bottom: 1px solid #AAA;
+}
