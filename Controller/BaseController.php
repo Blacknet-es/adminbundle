@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
+use Trendix\AdminBundle\Component\Lista\QueryList;
 use Trendix\AdminBundle\Utility\Menu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -239,5 +240,24 @@ class BaseController extends Controller
             'z'
         );
         return $alphabet[$num-1];
+    }
+
+    /**
+     * @param Request $request
+     * @param $sql
+     * @param $fields
+     * @param $actions
+     * @param bool $downloadable
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderQuery(Request $request, $sql, $fields, $actions, $downloadable = true)
+    {
+        $list = $this->createList(new QueryList($sql, $fields, $actions, $downloadable));
+        $this->addData('lista', $list->createView());
+        if ($request->isMethod('POST')) {
+            return $this->render('TrendixAdminBundle:Lista:lista.html.twig', $this->getData());
+        } else {
+            return $this->render('TrendixAdminBundle:Lista:index.html.twig', $this->getData());
+        }
     }
 }
