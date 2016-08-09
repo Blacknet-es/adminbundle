@@ -13,4 +13,23 @@ class TextType extends DataAbstractType
     {
         return 'text';
     }
+
+    public function configureOptions()
+    {
+        return array (
+            'max_length' => 255
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataTransformer($value, $options = array())
+    {
+        $options = array_merge($this->configureOptions(), $options);
+        if($options['max_length'] && $options['max_length'] < strlen($value)) {
+            return substr($value, 0, $options['max_length'] - 3) . '...';
+        }
+        return $value;
+    }
 }
