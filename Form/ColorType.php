@@ -40,6 +40,6 @@ class ColorType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'text';
+        return 'color';
     }
 }
