@@ -44,8 +44,8 @@ class ImageType extends AbstractType
             'fileExt' => '*.jpg;*.png;*.jpeg',    //optional
         );
         $cropConfig = array(
-            'minWidth' => 1,
-            'minHeight' => 1,
+            'minWidth' => 32,
+            'minHeight' => 32,
             'aspectRatio' => false,              //optional
             'thumbs' => array(                  //optional
                 array(
