@@ -17,3 +17,13 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: form.type }
+  admin.locale_listener:
+          class: Trendix\AdminBundle\EventListener\LocaleListener
+          arguments: ['%kernel.default_locale%']
+          tags:
+              - { name: kernel.event_subscriber }
+  admin.user_locale_listener:
+          class: Trendix\AdminBundle\EventListener\UserLocaleListener
+          arguments: ['@session']
+          tags:
+              - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }

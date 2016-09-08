@@ -7,6 +7,7 @@ security:
 admin:
   please_wait: Por favor, espere...
   actions: Acciones
+  logout: Cerrar sesión
 
 list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?

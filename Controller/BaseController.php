@@ -77,10 +77,17 @@ class BaseController extends Controller
     protected function getAppData()
     {
         $menu = $this->getMenu();
-        return array(
+        $data = array(
             'app_name' => $this->getParameter('app_name'),
             'principalMenu' => $menu->getArrayMenu()
         );
+
+        $panel = $this->getParameter('custom_menu');
+        if($panel) {
+            $data['customMenu'] = $panel;
+        }
+
+        return $data;
     }
 
     /**

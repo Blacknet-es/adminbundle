@@ -8,6 +8,7 @@ security:
 admin:
   please_wait: Please, wait...
   actions: Actions
+  logout: Log out
 
 list:
   confirm_remove: Do you wish to delete the selected item?

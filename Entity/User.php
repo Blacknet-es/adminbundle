@@ -75,6 +75,12 @@ class User extends BaseUser
      **/
     protected $userType;
 
+    /**
+     * @var string
+     * @ORM\Column(name="locale", type="string", length=10, nullable=true, options={"default" : "es"})
+     **/
+    protected $locale = 'es';
+
 
     public function __construct()
     {
@@ -82,6 +88,7 @@ class User extends BaseUser
         // your own logic
         $this->createdAt = new \DateTime('now');
         $this->updatedAt = new \DateTime('now');
+        $this->locale = 'es';
     }
 
     /**
@@ -251,6 +258,24 @@ class User extends BaseUser
     public function setUserType($userType)
     {
         $this->userType = $userType;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $preferredLocale
+     * @return User
+     */
+    public function setLocale($preferredLocale)
+    {
+        $this->locale = $preferredLocale;
         return $this;
     }
 
