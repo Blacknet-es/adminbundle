@@ -81,6 +81,10 @@ td input.simple, th input.simple {
 }
 
 /* Selects */
+select {
+    min-width: 40px;
+}
+
 .select2-container--default .select2-selection--single {
     border-width: 0 0 1px !important;
     border-radius: 0 !important;
