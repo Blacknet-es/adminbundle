@@ -9,6 +9,7 @@ admin:
   please_wait: Please, wait...
   actions: Actions
   logout: Log out
+  pass_changed: Password changed successfully
 
 list:
   confirm_remove: Do you wish to delete the selected item?

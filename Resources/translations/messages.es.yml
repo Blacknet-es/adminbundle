@@ -8,6 +8,7 @@ admin:
   please_wait: Por favor, espere...
   actions: Acciones
   logout: Cerrar sesión
+  pass_changed: Contraseña cambiada con éxito
 
 list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?

@@ -30,6 +30,8 @@ use Trendix\AdminBundle\Controller\BaseController;
  */
 class ResetController extends BaseController
 {
+    protected $redirect = '/reset/pass-changed';
+
     /**
      * @Route("/request", name="reset_request")
      * Request reset user password: show form
@@ -37,6 +39,15 @@ class ResetController extends BaseController
     public function requestAction()
     {
         return $this->render('TrendixAdminBundle:Resetting:request.html.twig', $this->getData());
+    }
+
+
+    /**
+     * @Route("/pass-changed", name="reset_changed")
+     */
+    public function passChangedAction(Request $request)
+    {
+        return $this->render('TrendixAdminBundle:Resetting:changed.html.twig', $this->getData());
     }
 
     /**
@@ -97,7 +108,7 @@ class ResetController extends BaseController
 
     /**
      * Reset user password
-     * @Route("/reset", name="reset_reset")
+     * @Route("/reset/{token}", name="reset_reset")
      */
     public function resetAction(Request $request, $token)
     {
@@ -133,7 +144,7 @@ class ResetController extends BaseController
             $userManager->updateUser($user);
 
             if (null === $response = $event->getResponse()) {
-                $response = new RedirectResponse('/');
+                $response = new RedirectResponse($this->redirect);
             }
 
             $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
