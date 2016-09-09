@@ -171,7 +171,7 @@ class ResetController extends BaseController
     /**
      * {@inheritdoc}
      */
-    public function sendResettingEmailMessage(UserInterface $user)
+    private function sendResettingEmailMessage(UserInterface $user)
     {
         $url = $this->generateUrl('reset_reset', array('token' => $user->getConfirmationToken()), UrlGeneratorInterface::ABSOLUTE_URL);
         $rendered = $this->render('TrendixAdminBundle:Resetting:email.txt.twig', array(
@@ -186,7 +186,7 @@ class ResetController extends BaseController
      * @param string $fromEmail
      * @param string $toEmail
      */
-    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
+    private function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
     {
         // Render the email, use the first line as the subject, and the rest as the body
         $renderedLines = explode("\n", trim($renderedTemplate));
