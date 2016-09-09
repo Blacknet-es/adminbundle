@@ -66,7 +66,7 @@ class ResetController extends BaseController
             $user->setConfirmationToken($tokenGenerator->generateToken());
         }
 
-        $this->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        $this->sendResettingEmailMessage($user);
         $user->setPasswordRequestedAt(new \DateTime());
         $this->get('fos_user.user_manager')->updateUser($user);
 
@@ -164,5 +164,41 @@ class ResetController extends BaseController
         }
 
         return $email;
+    }
+
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendResettingEmailMessage(UserInterface $user)
+    {
+        $url = $this->generateUrl('reset_reset', array('token' => $user->getConfirmationToken()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $rendered = $this->render('TrendixAdminBundle:Resetting:email.txt.twig', array(
+            'user' => $user,
+            'confirmationUrl' => $url
+        ));
+        $this->sendEmailMessage($rendered, $this->getParameter('from_email.resetting'), $tutor->getEmail());
+    }
+
+    /**
+     * @param string $renderedTemplate
+     * @param string $fromEmail
+     * @param string $toEmail
+     */
+    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
+    {
+        // Render the email, use the first line as the subject, and the rest as the body
+        $renderedLines = explode("\n", trim($renderedTemplate));
+        $subject = $renderedLines[0];
+        $body = implode("\n", array_slice($renderedLines, 1));
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($fromEmail)
+            ->setTo($toEmail)
+            ->setBody($body);
+
+        $this->get('mailer')->send($message);
     }
 }

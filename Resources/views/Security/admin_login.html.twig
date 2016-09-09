@@ -39,19 +39,23 @@
                     {{ 'security.login.remember_me'|trans }}
                 </label>
             </div>
-            <input type="submit" style="padding: 0;" class="btn" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+
+            <button type="submit" class="btn btn-login btn-danger btn-float waves-effect waves-circle waves-float"
+                    id="_submit" name="_submit">
+                <i class="zmdi zmdi-arrow-forward"></i>
+            </button>
             {#
             <ul class="login-navigation">
                 <li data-block="#l-register" class="bgm-red">Register</li>
                 <li data-block="#l-forget-password" class="bgm-orange">Forgot Password?</li>
             </ul>#}
+            <ul class="login-navigation">
+                <li data-block="#l-forget-password" class="bgm-orange">
+                    <a href="{{ path('reset_request') }}">
+                        Forgot Password?
+                    </a>
+                </li>
+            </ul>
         </form>
-        <ul class="login-navigation">
-            <li data-block="#l-forget-password" class="bgm-orange" style="font-size: 11px;">
-                <a href="{{ path('reset_request') }}">
-                    Forgot Password?
-                </a>
-            </li>
-        </ul>
     </div>
 {% endblock %}

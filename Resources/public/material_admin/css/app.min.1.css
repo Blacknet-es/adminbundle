@@ -15239,13 +15239,17 @@ a.thumbnail.active {
   cursor: pointer;
   vertical-align: top;
   color: #fff;
-  line-height: 16px;
-  min-width: 16px;
-  min-height: 16px;
+  line-height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   text-transform: uppercase;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+.login-navigation > li > a {
+  color: white;
 }
 
 .login-navigation > li > span {
@@ -15261,7 +15265,7 @@ a.thumbnail.active {
 .login-navigation > li:hover {
   border-radius: 10px;
   padding: 0 5px;
-  font-size: 8px;
+  font-size: 12px;
 }
 
 .login-navigation > li:hover > span {

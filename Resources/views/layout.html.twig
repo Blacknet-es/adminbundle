@@ -55,7 +55,9 @@
 
 <section id="main" data-layout="layout-1">
     <aside id="sidebar" class="sidebar c-overflow">
-        {% include 'TrendixAdminBundle::sidebarMenu.html.twig' %}
+        {% if app.user is defined and app.user %}
+            {% include 'TrendixAdminBundle::sidebarMenu.html.twig' %}
+        {% endif %}
     </aside>
 
     {#
