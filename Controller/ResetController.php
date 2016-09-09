@@ -179,7 +179,7 @@ class ResetController extends BaseController
             'user' => $user,
             'confirmationUrl' => $url
         ));
-        $this->sendEmailMessage($rendered, $this->getParameter('from_email.no_reply_address'), $user->getEmail());
+        $this->sendEmailMessage($rendered, $this->getParameter('no_reply_address'), $user->getEmail());
     }
 
     /**
