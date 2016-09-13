@@ -10,6 +10,7 @@ admin:
   actions: Actions
   logout: Log out
   pass_changed: Password changed successfully
+  export: Export
 
 list:
   confirm_remove: Do you wish to delete the selected item?

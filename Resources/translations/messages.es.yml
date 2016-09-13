@@ -9,6 +9,8 @@ admin:
   actions: Acciones
   logout: Cerrar sesión
   pass_changed: Contraseña cambiada con éxito
+  export: Exportar
+
 
 list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?
