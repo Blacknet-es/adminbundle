@@ -82,9 +82,11 @@ class BaseController extends Controller
             'principalMenu' => $menu->getArrayMenu()
         );
 
-        $panel = $this->getParameter('custom_menu');
-        if($panel) {
-            $data['customMenu'] = $panel;
+        if($this->container->hasParameter('custom_menu')) {
+            $panel = $this->getParameter('custom_menu');
+            if($panel) {
+                $data['customMenu'] = $panel;
+            }
         }
 
         return $data;

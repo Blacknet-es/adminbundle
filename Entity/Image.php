@@ -32,7 +32,11 @@ class Image
      */
     protected $originalImage;
 
-    private $uploadDir;
+    /**
+     * @var string
+     * @ORM\Column(name="upload_dir", type="string", length=255, nullable=true)
+     */
+    protected $uploadDir = 'uploads/images';
 
     /**
      * Image constructor.
