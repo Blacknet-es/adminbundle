@@ -329,6 +329,8 @@ class ListaFactory
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class && $key2 == $this->orderColumn) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $col = 'a'.$this->joinListField[$table].'.'.$field;
+            } elseif ($key2 == $this->orderColumn) {
+                $col = 'a.' . $this->orderColumn;
             }
         }
 
