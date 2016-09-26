@@ -186,6 +186,14 @@
         $('select').select2();
     </script>
 
+    {% if (admin_notification_module is defined and admin_notification_module) %}
+        {% javascripts
+        '@TrendixNotificationsBundle/Resources/public/notifications.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endif %}
+
     {% for var in _context %}
         {{ functions.appendJavascript(var) }}
     {% endfor %}

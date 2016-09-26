@@ -51,7 +51,13 @@
             <li class="dropdown">
                 <a data-toggle="dropdown" href="">
                     <i class="tm-icon zmdi zmdi-notifications"></i>
-                    <i class="tmn-counts">9</i>
+                    <i class="tmn-counts notifications-badge"></i>
+                </a>
+            {#
+            <li class="dropdown">
+                <a data-toggle="dropdown" href="">
+                    <i class="tm-icon zmdi zmdi-notifications"></i>
+                    <i class="tmn-counts notifications-badge"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg pull-right">
                     <div class="listview" id="notifications">
@@ -85,6 +91,7 @@
 
                 </div>
             </li>
+            #}
             {% endif %}
             {# End Notifications #}
             {% if customMenu is defined %}
