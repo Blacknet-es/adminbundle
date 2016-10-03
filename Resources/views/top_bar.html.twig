@@ -49,7 +49,7 @@
             {# Notifications #}
             {% if (admin_notification_module is defined and admin_notification_module) %}
             <li class="dropdown">
-                <a data-toggle="dropdown" href="">
+                <a {% if admin_notification_module != true %}data-toggle="dropdown"{% endif %} href="{{ admin_notification_module }}">
                     <i class="tm-icon zmdi zmdi-notifications"></i>
                     <i class="tmn-counts notifications-badge"></i>
                 </a>
