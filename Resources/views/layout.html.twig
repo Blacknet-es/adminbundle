@@ -187,10 +187,7 @@
     </script>
 
     {% if (admin_notification_module is defined and admin_notification_module) %}
-        {% javascripts
-        'bundles/notifications/js/notifications.js'
-        %}
-        <script src="{{ asset_url }}"></script>
+        <script src="{{ 'bundles/notifications/js/notifications.js' }}"></script>
         {% endjavascripts %}
     {% endif %}
 
