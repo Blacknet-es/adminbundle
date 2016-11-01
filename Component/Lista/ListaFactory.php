@@ -163,6 +163,7 @@ class ListaFactory
         }
         if(array_key_exists('page', $this->options)) {
             $this->pag = $this->options['page'];
+            $this->firstResult = ($this->pag-1) * $this->maxResults;
         }
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
