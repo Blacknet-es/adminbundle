@@ -163,6 +163,7 @@ class ListaFactory
         }
         if(array_key_exists('page', $this->options)) {
             $this->pag = $this->options['page'];
+            $this->firstResult = ($this->pag-1) * $this->maxResults;
         }
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
@@ -329,6 +330,8 @@ class ListaFactory
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class && $key2 == $this->orderColumn) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $col = 'a'.$this->joinListField[$table].'.'.$field;
+            } elseif ($key2 == $this->orderColumn) {
+                $col = 'a.' . $this->orderColumn;
             }
         }
 

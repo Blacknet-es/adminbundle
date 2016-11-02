@@ -36,9 +36,13 @@ class QueryList extends ListaAbstractType
         }
 
         foreach($this->actions as $action) {
-            $options = array('route' => $action[2]);
-            if(isset($action[3])) {
-                $options['route_list_params'] = $action[3];
+            if($action[2]) {
+                $options = array('route' => $action[2]);
+                if(isset($action[3])) {
+                    $options['route_list_params'] = $action[3];
+                }
+            } else {
+                $options['url'] = $action[3];
             }
             $builder->addAction($action[0], $action[1], $options);
         }

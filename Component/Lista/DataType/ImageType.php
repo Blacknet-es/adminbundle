@@ -20,6 +20,7 @@ class ImageType extends DataAbstractType
             'alt' => $this->getLabel(),
             'width' => '',
             'height' => '',
+            'only_url' => false
         );
     }
 
@@ -34,6 +35,11 @@ class ImageType extends DataAbstractType
             unset($options['dir']);
         }
         unset($options['label']);
+
+        if (isset($options['only_url']) && $options['only_url'] == true) {
+            return $dir . $value;
+        }
+
         $options = $this->handleOptions($options);
 
         if($value) {
