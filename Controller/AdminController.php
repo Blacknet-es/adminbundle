@@ -2,6 +2,8 @@
 
 namespace Trendix\AdminBundle\Controller;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -87,5 +89,48 @@ class AdminController extends BaseController
 
         return $response;
 
+    }
+
+    /**
+     * @Route("/upload_file", name="admin_upload_file")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function uploadFileAction(Request $request)
+    {
+        try {
+            $file = null;
+            $name = null;
+            $dir = $this->get('kernel')->getRootDir() . '/../web/uploads/';
+            if($request->getMethod() == 'POST') {
+                $name = uniqid();
+                foreach ($request->files as $uploadedFile) {
+                    $file = $this->findUploadedFile($uploadedFile);
+                    $name = $name . '_' . $file->getClientOriginalName();
+                    $file = $file->move($dir, $name);
+                }
+            }
+            return new JsonResponse(array('file' => $dir . $name));
+        } catch (\Exception $e) {
+            return new JsonResponse(array('Se ha producido un error: '.$e->getMessage()), 500);
+        }
+
+    }
+
+    /**
+     * Busca recursivamente el fichero subido dentro de un array asociativo
+     * @param $uploadedFile
+     * @return null
+     */
+    private function findUploadedFile($uploadedFile)
+    {
+        if ($uploadedFile instanceof UploadedFile) {
+            return $uploadedFile;
+        } elseif (is_array($uploadedFile)) {
+            foreach ($uploadedFile as $uf) {
+                return $this->findUploadedFile($uf);
+            }
+        }
+
+        return null;
     }
 }

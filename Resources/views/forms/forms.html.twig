@@ -292,3 +292,27 @@
         </script>
     </div>
 {% endblock %}
+
+
+{% block trendix_file_widget %}
+    {% set target = form.path.vars.full_name %}
+    <div {{ block('widget_container_attributes') }}>
+        {% block trendix_file_html %}
+        {{ form_row(form.path) }}
+        <div class="hidden">
+            {{ form_widget(form.fileupload, {'attr': {'data-url': path('admin_upload_file'), 'data-target': target}}) }}
+        </div>
+        <div class="condition hidden" data-condition="doc audio">
+            <p>Si no subes ningún fichero, se conservará el anterior al guardar el formulario.</p>
+            <a href="#" class="upload-button btn btn-info">
+                {% if editar is defined and editar %}
+                    Cambiar fichero
+                {% else %}
+                    Subir fichero
+                {% endif %}
+            </a>
+            <i class="zmdi zmdi-check upload-confirm hidden btn btn-info" style="font-size:1.2em"></i>
+        </div>
+        {% endblock %}
+    </div>
+{% endblock %}
