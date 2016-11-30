@@ -28,6 +28,11 @@ class GalleryType extends DataAbstractType
         $arrayValue = $value;
         $arrayTransformed = array();
 
+        // Fix error in app_dev
+        if (empty($arrayValue)) {
+            return $arrayTransformed;
+        }
+
         foreach ($arrayValue as $key => $value) {
             $img = new ImageType($value, $options);
             $arrayTransformed[$key] = $img->getDataTransformer($value, $options);
