@@ -2,12 +2,14 @@
 
 namespace Trendix\AdminBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
 use Trendix\AdminBundle\Component\Lista\QueryList;
+use Trendix\AdminBundle\Entity\User;
 use Trendix\AdminBundle\Utility\Menu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,7 +18,15 @@ use Symfony\Component\HttpFoundation\Request;
 class BaseController extends Controller
 {
     private $data = array();
+
+    /**
+     * @var EntityManager
+     */
     public $em;
+
+    /**
+     * @var User
+     */
     public $user;
 
     public function __construct()
