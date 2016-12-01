@@ -22,6 +22,9 @@ services:
           arguments: ["@service_container"]
           tags:
               - { name: form.type }
+  admin.sitemap_generator:
+            class: Trendix\AdminBundle\Component\Sitemap\SitemapGenerator
+            arguments: ["@service_container"]
   admin.locale_listener:
           class: Trendix\AdminBundle\EventListener\LocaleListener
           arguments: ['%kernel.default_locale%']
