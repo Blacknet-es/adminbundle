@@ -1,0 +1,27 @@
+{% if includeMaps is defined and includeMaps %}
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyCYRUc_hKH3Yy2TOlEz066wfbpDzMY31Rk&signed_in=true&libraries=places"></script>
+{% endif %}
+{% javascripts
+'@TrendixAdminBundle/Resources/public/js/gmaps.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script>
+    $(document).ready(function(){
+        var map = new GMaps({
+            div: '#{{ id }}',
+            lat: {{ location.latitude }},
+            lng: {{ location.longitude }},
+            height: {% if height is defined %}{{ height }}{% else %}400{% endif %},
+            width: {% if width is defined %}{{ height }}{% else %}1110{% endif %}
+        });
+        {% if noMarkers is not defined or not noMarkers %}
+            map.addMarker({
+                lat: {{ location.latitude }},
+                lng: {{ location.longitude }},
+                title: '{{ name }}'
+            });
+        {% endif %}
+    });
+</script>
