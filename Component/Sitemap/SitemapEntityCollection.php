@@ -82,7 +82,7 @@ class SitemapEntityCollection
             'function' => 'findAll',
             'criteria' => null,
             'path' => '',
-            'path_params' => array('id', 'getId'),
+            'path_params' => array('id' => 'getId'),
             'slug_param' => '',
             'last_mod' => new \DateTime(),
             'change_freq' => SitemapUrl::CHANGEFREQ_DAILY,

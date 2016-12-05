@@ -45,9 +45,8 @@ class SitemapGenerator
      */
     private $finalCollection;
 
-    public function __construct(Sitemap $sitemap = null, Container $container)
+    public function __construct(Container $container)
     {
-        $this->sitemap = $sitemap->getSitemap();
         $this->container = $container;
         $this->em = $this->container->get('doctrine.orm.default_entity_manager');
         $this->templating = $this->container->get('templating');
@@ -66,8 +65,9 @@ class SitemapGenerator
         return $this;
     }
 
-    public function render()
+    public function render(Sitemap $sitemap)
     {
+        $this->sitemap = $sitemap->getSitemap();
         foreach ($this->sitemap as $element) {
             if ($element instanceof SitemapUrl) {
                 $this->finalCollection->add($element);
@@ -85,7 +85,7 @@ class SitemapGenerator
     private function processEntityCollection(SitemapEntityCollection $collection)
     {
         $repo = $this->em->getRepository($collection->getEntity());
-        $result = $this->{$collection->getFunction()}($collection->getCriteria());
+        $result = $repo->{$collection->getFunction()}($collection->getCriteria());
         if (!empty($result)) {
             foreach ($result as $item) {
                 $path = $this->getPath($item, $collection);
@@ -96,22 +96,20 @@ class SitemapGenerator
     }
 
     /**
-     * @param Entity $item
      * @param SitemapEntityCollection $collection
      * @return string
      */
-    private function getPath(Entity $item, SitemapEntityCollection $collection)
+    private function getPath($item, SitemapEntityCollection $collection)
     {
         $path_params = $this->getPathParams($item, $collection);
         return $this->router->generate($collection->getPath(), $path_params);
     }
 
     /**
-     * @param Entity $item
      * @param SitemapEntityCollection $collection
      * @return array
      */
-    private function getPathParams(Entity $item, SitemapEntityCollection $collection)
+    private function getPathParams($item, SitemapEntityCollection $collection)
     {
         $path_params = $collection->getPathParams();
         $return_path_params = array();

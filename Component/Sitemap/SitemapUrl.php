@@ -29,7 +29,7 @@ class SitemapUrl implements SitemapUrlInterface
      * @param string $changefreq
      * @param float $priority
      */
-    public function __construct($loc, \DateTime $lastmod = null, $changefreq = null, $priority = null)
+    public function __construct($loc, \DateTime $lastmod = null, $changefreq = self::CHANGEFREQ_DAILY, $priority = 1)
     {
         $this
             ->setLoc($loc)
@@ -62,6 +62,9 @@ class SitemapUrl implements SitemapUrlInterface
      */
     public function setLastmod(\DateTime $lastmod = null)
     {
+        if($lastmod === null){
+            $lastmod = new \DateTime();
+        }
         $this->lastmod = $lastmod;
         return $this;
     }
