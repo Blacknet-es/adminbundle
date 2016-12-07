@@ -3391,6 +3391,7 @@ declare( 'atom.Color', {
 		green:  '#008000',
 		aqua:   '#00ffff',
 		teal:   '#008080',
+		vuala:  '#b05a40',
 		blue:   '#0000ff',
 		navy:   '#000080',
 		fuchsia:'#ff00ff',

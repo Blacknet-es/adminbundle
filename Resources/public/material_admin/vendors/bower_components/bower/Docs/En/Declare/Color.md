@@ -20,6 +20,7 @@ Set of color names & hex values
 * `#008000` - green
 * `#00ffff` - aqua
 * `#008080` - teal
+* `#b05a40` - vuala
 * `#0000ff` - blue
 * `#000080` - navy
 * `#ff00ff` - fuchsia

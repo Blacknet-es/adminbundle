@@ -8006,8 +8006,14 @@ a.waves-effect .waves-ripple {
 .bgm-teal {
   background-color: #009688 !important;
 }
+.bgm-vuala {
+  background-color: #cd6e52 !important;
+}
 .c-teal {
   color: #009688 !important;
+}
+.c-vuala {
+  color: #cd6e52 !important;
 }
 .bgm-green {
   background-color: #4caf50 !important;
@@ -9415,6 +9421,9 @@ a.lv-footer:hover {
 }
 .tab-nav[data-tab-color="teal"] > li > a:after {
   background: #009688;
+}
+.tab-nav[data-tab-color="vuala"] > li > a:after {
+  background: #cd6e52;
 }
 .tab-nav[data-tab-color="amber"] > li > a:after {
   background: #ffc107;
@@ -11998,6 +12007,9 @@ a.thumbnail.active {
 .modal[data-modal-color="teal"] .modal-content {
   background: #009688;
 }
+.modal[data-modal-color="vuala"] .modal-content {
+  background: #cd6e52;
+}
 .modal[data-modal-color="orange"] .modal-content {
   background: #ff9800;
 }
@@ -12120,6 +12132,9 @@ a.thumbnail.active {
 }
 .panel-group[data-collapse-color="teal"] .panel-collapse .panel-heading.active .panel-title > a:after {
   background: #009688;
+}
+.panel-group[data-collapse-color="vuala"] .panel-collapse .panel-heading.active .panel-title > a:after {
+    background: #cd6e52;
 }
 .panel-group[data-collapse-color="black"] .panel-collapse .panel-heading.active .panel-title > a:after {
   background: #000000;
@@ -14021,13 +14036,24 @@ html.ismobile .page-loader {
 [data-current-skin="teal"] {
   background-color: #009688;
 }
+[data-current-skin="vuala"] {
+    background-color: #cd6e52;
+}
 [data-current-skin="teal"] .ss-icon {
   color: #009688;
+}
+[data-current-skin="teal"] .ss-icon {
+    color: #cd6e52;
 }
 @media (max-width: 767px) {
   [data-current-skin="teal"] .ha-menu {
     background: #009688;
   }
+}
+@media (max-width: 767px) {
+    [data-current-skin="teal"] .ha-menu {
+        background: #cd6e52;
+    }
 }
 [data-current-skin="pink"] {
   background-color: #e91e63;
@@ -14094,6 +14120,9 @@ html.ismobile .page-loader {
 }
 .preloader.pls-teal .plc-path {
   stroke: #009688;
+}
+.preloader.pls-vuala .plc-path {
+  stroke: #cd6e52;
 }
 .preloader.pls-gray .plc-path {
   stroke: #9e9e9e;

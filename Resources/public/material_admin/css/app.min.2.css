@@ -1195,14 +1195,28 @@ html.ismobile .page-loader {
   background-color: #009688;
 }
 
+[data-current-skin="vuala"] {
+    background-color: #cd6e52;
+}
+
 [data-current-skin="teal"] .ss-icon {
   color: #009688;
+}
+
+[data-current-skin="vuala"] .ss-icon {
+    color: #cd6e52;
 }
 
 @media (max-width: 767px) {
   [data-current-skin="teal"] .ha-menu {
     background: #009688;
   }
+}
+
+@media (max-width: 767px) {
+    [data-current-skin="vuala"] .ha-menu {
+        background: #cd6e52;
+    }
 }
 
 [data-current-skin="pink"] {
@@ -1289,6 +1303,10 @@ html.ismobile .page-loader {
 
 .preloader.pls-teal .plc-path {
   stroke: #009688;
+}
+
+.preloader.pls-vuala .plc-path {
+  stroke: #cd6e52;
 }
 
 .preloader.pls-gray .plc-path {
