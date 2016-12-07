@@ -1,0 +1,9 @@
+{% extends "TrendixAdminBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+<div class="container">
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+</div>
+{% endblock content %}
