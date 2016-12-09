@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset>
+    {% for url in urls %}
+        <url>
+            {# comprueba que hostname no est� ya incluido en url #}
+            <loc>
+                {{ url.loc }}
+            </loc>
+            {% if url.lastmod is defined %}
+                <lastmod>{{ url.lastmod.format("d-m-Y H:i:s")}}</lastmod>
+            {% endif %}
+            {% if url.changefreq is defined %}
+                <changefreq>{{ url.changefreq }}</changefreq>
+            {% endif %}
+            {% if url.priority is defined %}
+                <priority>{{ url.priority }}</priority>
+            {% endif %}
+        </url>
+    {% endfor %}
+</urlset>

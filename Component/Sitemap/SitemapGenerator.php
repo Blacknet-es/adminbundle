@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class used for generate sitemap XML
@@ -76,7 +77,9 @@ class SitemapGenerator
             }
         }
 
-        return $this->templating->render($this->template, array('urls' => $this->finalCollection));
+        $response = $this->templating->renderResponse($this->template, array('urls' => $this->finalCollection));
+        $response->headers->set('Content-Type', 'application/xml; charset=utf-8');
+        return $response;
     }
 
     /**
@@ -102,7 +105,7 @@ class SitemapGenerator
     private function getPath($item, SitemapEntityCollection $collection)
     {
         $path_params = $this->getPathParams($item, $collection);
-        return $this->router->generate($collection->getPath(), $path_params);
+        return $this->router->generate($collection->getPath(), $path_params, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**
