@@ -28,6 +28,9 @@ class AdminController extends BaseController
      */
     public function AdminIndexAction()
     {
+        if($this->container->hasParameter('admin_home_redirect')) {
+            return $this->redirectToRoute($this->container->getParameter('admin_home_redirect'));
+        }
         $lista = $this->createList(new UserLista());
 
         $this->addData('lista', $lista->createView());
