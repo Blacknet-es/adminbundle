@@ -412,7 +412,12 @@ $(document).ready(function(){
                // [groupName, [list of button]]
                ['style', ['bold', 'italic', 'underline', 'clear']],
                ['para', ['ul', 'ol', 'paragraph']],
-           ]
+           ],
+           onpaste: function (e) { //prevent css styles
+               var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+               e.preventDefault();
+               document.execCommand('insertText', false, bufferText);
+           }
         });
     }
 
