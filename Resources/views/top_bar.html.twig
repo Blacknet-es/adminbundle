@@ -6,7 +6,7 @@
 {% endif %}
 
 <ul class="header-inner">
-    {% if hideMenu is not defined and not hideMenu %}
+    {% if hideMenu is not defined or not hideMenu %}
         <li id="menu-trigger" data-trigger="#sidebar">
             <div class="line-wrap">
                 <div class="line top"></div>
