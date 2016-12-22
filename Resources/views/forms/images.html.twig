@@ -95,7 +95,7 @@
             galleries['{{form[name].vars.id}}'] = true;
             $('#image_add_button_{{form[name].vars.id}}').click(function(event){
                 initializeImageManager('{{ form[name].vars.id }}', options);
-                $('#image_upload_modal').modal('show');
+                $('#image_upload_modal').modal({backdrop: 'static', keyboard: false});
             });
             $( "#gallery_preview_{{form[name].vars.id}}" ).sortable({
                 placeholder: "gallery-image-container placeholder",

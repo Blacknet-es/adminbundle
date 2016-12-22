@@ -2,7 +2,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block body_class %}
-    login-content
+    login-content {{ admin_theme|default("blue") }}
 {% endblock %}
 
 {% block body %}

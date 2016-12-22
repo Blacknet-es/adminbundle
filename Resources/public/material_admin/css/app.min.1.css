@@ -7652,7 +7652,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 11;
+  z-index: 1000;
   background-color: #000000;
 }
 
@@ -15181,6 +15181,20 @@ a.thumbnail.active {
   transition-duration: 300ms;
 }
 
+a.top-bar-logo {
+  position: fixed;
+  height: 70px;
+  width: 100%;
+  text-align: center;
+  top: 10px;
+}
+
+a.top-bar-logo img {
+  max-width: 50%;
+  max-height: 50px;
+  margin-left: -30px;
+}
+
 .four-zero footer > a:hover {
   background: rgba(0, 0, 0, 0.2);
 }
@@ -15188,6 +15202,17 @@ a.thumbnail.active {
 .login-content {
   overflow: hidden;
   height: 100%;
+}
+
+body.login-content.vuala:before {
+  background: #cd6e52;
+}
+.vuala .lc-block {
+  background: #f5f0e4;
+}
+.vuala .lc-block .form-control {
+  color: #42180C;
+  background-color: #f5f0e4;
 }
 
 .lc-block {

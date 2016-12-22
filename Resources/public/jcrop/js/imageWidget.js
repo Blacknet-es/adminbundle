@@ -174,7 +174,7 @@ function cropImage(id, options){
                 $('#image_preview_image_'+id+' img').css('cursor: hand; cursor: pointer;');
                 $('#image_preview_image_'+id+' img').click(function(e){
                     if($( event.target ).is( "img" )){
-                        $('<div class="modal hide fade"><img src="'+options.uploadConfig.webDir + $('#selected_image').val()+'"/></div>').modal();
+                        $('<div class="modal hide fade"><img src="'+options.uploadConfig.webDir + $('#selected_image').val()+'"/></div>').modal({backdrop: 'static', keyboard: false});
                         return false;
                     }
                 });
