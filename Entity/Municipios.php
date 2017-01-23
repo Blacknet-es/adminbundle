@@ -1,6 +1,6 @@
 <?php
 
-namespace Trendix\VoilaBundle\Entity;
+namespace Trendix\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +15,7 @@ class Municipios
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class Municipios
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Provincias", inversedBy="municipios")
+     * @ORM\ManyToOne(targetEntity="Trendix\AdminBundle\Entity\Provincias", inversedBy="municipios")
      * @ORM\JoinColumn(name="id_provincia", referencedColumnName="id")
      */
     private $provincia;

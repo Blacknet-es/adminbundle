@@ -1,6 +1,6 @@
 <?php
 
-namespace Trendix\VoilaBundle\Entity;
+namespace Trendix\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -45,7 +45,7 @@ class Provincias
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Municipios", mappedBy="provincia")
+     * @ORM\OneToMany(targetEntity="Trendix\AdminBundle\Entity\Municipios", mappedBy="provincia")
      */
     private $municipios;
 
