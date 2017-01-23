@@ -36,6 +36,59 @@ class Municipios
      */
     private $municipio;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Municipios
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProvincia()
+    {
+        return $this->provincia;
+    }
+
+    /**
+     * @param int $provincia
+     * @return Municipios
+     */
+    public function setProvincia($provincia)
+    {
+        $this->provincia = $provincia;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMunicipio()
+    {
+        return $this->municipio;
+    }
+
+    /**
+     * @param string $municipio
+     * @return Municipios
+     */
+    public function setMunicipio($municipio)
+    {
+        $this->municipio = $municipio;
+        return $this;
+    }
 
 }
 

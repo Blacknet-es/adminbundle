@@ -49,6 +49,95 @@ class Provincias
      */
     private $municipios;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Provincias
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvincia()
+    {
+        return $this->provincia;
+    }
+
+    /**
+     * @param string $provincia
+     * @return Provincias
+     */
+    public function setProvincia($provincia)
+    {
+        $this->provincia = $provincia;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdPais()
+    {
+        return $this->idPais;
+    }
+
+    /**
+     * @param int $idPais
+     * @return Provincias
+     */
+    public function setIdPais($idPais)
+    {
+        $this->idPais = $idPais;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIso()
+    {
+        return $this->iso;
+    }
+
+    /**
+     * @param string $iso
+     * @return Provincias
+     */
+    public function setIso($iso)
+    {
+        $this->iso = $iso;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMunicipios()
+    {
+        return $this->municipios;
+    }
+
+    /**
+     * @param string $municipios
+     * @return Provincias
+     */
+    public function setMunicipios($municipios)
+    {
+        $this->municipios = $municipios;
+        return $this;
+    }
 
 }
 
