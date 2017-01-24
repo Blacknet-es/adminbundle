@@ -90,5 +90,9 @@ class Municipios
         return $this;
     }
 
+    function __toString()
+    {
+        return $this->municipio;
+    }
 }
 

@@ -139,5 +139,9 @@ class Provincias
         return $this;
     }
 
+    function __toString()
+    {
+        return $this->provincia;
+    }
 }
 

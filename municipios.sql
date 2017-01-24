@@ -16,23 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `provincias`
---
-
-DROP TABLE IF EXISTS `provincias`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `provincias` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `provincia` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
-  `id_pais` int(5) NOT NULL,
-  `iso` varchar(4) COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `provincias`
 --
 
@@ -42,22 +25,6 @@ INSERT INTO `provincias` VALUES (1,'Álava',1,'VI'),(2,'Albacete',1,'AB'),(3,'Al
 /*!40000 ALTER TABLE `provincias` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `municipios`
---
-
-DROP TABLE IF EXISTS `municipios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `municipios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_provincia` int(11) DEFAULT NULL,
-  `municipio` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id` (`id`),
-  KEY `IDX_BBFAB58653AF4E34` (`id_provincia`)
-) ENGINE=MyISAM AUTO_INCREMENT=8123 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `municipios`
