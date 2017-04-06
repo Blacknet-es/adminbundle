@@ -15274,6 +15274,10 @@ body.login-content.vuala:before {
 }
 
 .login-navigation > li {
+
+  border-radius: 10px;
+  padding: 0 5px;
+  font-size: 12px;
   display: inline-block;
   margin: 0 2px;
   -webkit-transition: all;
@@ -15298,22 +15302,6 @@ body.login-content.vuala:before {
 }
 
 .login-navigation > li > span {
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-
-.login-navigation > li:not(:hover) {
-  font-size: 0px;
-  border-radius: 100%;
-}
-
-.login-navigation > li:hover {
-  border-radius: 10px;
-  padding: 0 5px;
-  font-size: 12px;
-}
-
-.login-navigation > li:hover > span {
   opacity: 1;
   filter: alpha(opacity=100);
 }
