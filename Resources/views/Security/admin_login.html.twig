@@ -55,6 +55,13 @@
                         Forgot Password?
                     </a>
                 </li>
+                {% if registerButton %}
+                    <li data-block="#l-forget-password" class="bgm-green">
+                        <a href="{{ registerButton }}">
+                            Register/Registro
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </form>
     </div>

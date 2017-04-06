@@ -92,7 +92,8 @@ class BaseController extends Controller
             'principalMenu' => $menu->getArrayMenu(),
             'hideTitle' => $this->container->hasParameter('hide_title') ? $this->getParameter('hide_title') : null,
             'titleLogo' => $this->container->hasParameter('title_logo') ? $this->getParameter('title_logo') : null,
-            'hideMenu' => false
+            'hideMenu' => false,
+            'registerButton' => $this->container->hasParameter('register_button') ? $this->getParameter('register_button') : null
         );
 
         if($this->container->hasParameter('custom_menu')) {
