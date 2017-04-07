@@ -118,9 +118,9 @@
     width: 850px;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 720px) {
     #image_upload_modal .modal-dialog {
-        width: 300px;
+        width: 100%;
     }
 }
 
