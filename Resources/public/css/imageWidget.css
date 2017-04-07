@@ -116,10 +116,13 @@
 #image_upload_modal .modal-dialog
 {
     width: 850px;
+    background: red;
 }
 
 @media screen and (max-width: 850px) {
-    .modal-dialog { width: 400px; }
+    #image_upload_modal .modal-dialog {
+        width: 400px;
+    }
 }
 
 #image_upload_modal .tab-content
