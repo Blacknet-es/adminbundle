@@ -3,6 +3,8 @@ security:
     username: Usuario
     password: Contraseña
     remember_me: Recuérdame
+    forgotten: ¿Olvidó su contraseña?
+    register: Registro
 
 admin:
   please_wait: Por favor, espere...

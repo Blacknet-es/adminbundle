@@ -3,6 +3,8 @@ security:
     username: Username
     password: Password
     remember_me: Remember me
+    forgotten: Forgot password?
+    register: Register
 
 
 admin:

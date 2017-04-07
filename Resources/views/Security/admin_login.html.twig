@@ -52,13 +52,13 @@
             <ul class="login-navigation">
                 <li data-block="#l-forget-password" class="bgm-orange">
                     <a href="{{ path('reset_request') }}">
-                        Forgot Password?
+                        {{ 'security.login.forgotten'|trans }}
                     </a>
                 </li>
                 {% if registerButton %}
                     <li data-block="#l-forget-password" class="bgm-green">
                         <a href="{{ registerButton }}">
-                            Register/Registro
+                            {{ 'security.login.register'|trans }}
                         </a>
                     </li>
                 {% endif %}
