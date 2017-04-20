@@ -10,35 +10,27 @@
     <title>{% block title %}{{ app_name|trans }}{% endblock %}</title>
 
     <!-- CSS -->
-    {% block stylesheets %}
-        {% stylesheets
-        'bundles/trendixadmin/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/vendors/bower_components/animate.css/animate.min.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/css/app.min.1.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/css/app.min.2.css' filter='cssrewrite'
-        'bundles/trendixadmin/material_admin/vendors/summernote/dist/summernote.css' filter='cssrewrite'
-        'bundles/trendixadmin/jcrop/css/jquery.Jcrop.min.css' filter='cssrewrite'
-        'bundles/trendixadmin/pickadate/lib/themes/classic.css' filter='cssrewrite'
-        'bundles/trendixadmin/pickadate/lib/themes/classic.date.css' filter='cssrewrite'
-        'bundles/trendixadmin/pickadate/lib/themes/classic.time.css' filter='cssrewrite'
-        '@TrendixAdminBundle/Resources/public/css/imageWidget.css' filter='cssrewrite'
-        '@TrendixAdminBundle/Resources/public/css/base.css' filter='cssrewrite'
-        %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-        {% endstylesheets %}
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    {% block css %}
+    <link rel="stylesheet" href="{{ asset('/components/fullcalendar/dist/fullcalendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/components/animate.css/animate.min.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/components/bootstrap-sweetalert/lib/sweet-alert.css') }}">
+    <link rel="stylesheet" href="{{ asset('/components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/css/trendixadmin/material_admin/less/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/material_admin/vendors/summernote/dist/summernote.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/jcrop/css/jquery.Jcrop.min.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/pickadate/lib/themes/classic.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/pickadate/lib/themes/classic.date.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/pickadate/lib/themes/classic.time.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/css/imageWidget.css' ) }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/css/base.css') }}">
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     {% endblock %}
 
-    {% javascripts
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery/dist/jquery.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script src="{{ asset('/js/jquery.js') }}"></script>
+    <script src="{{ asset('/js/bootstrap.js') }}"></script>
     <script
             src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"
             integrity="sha256-55Jz3pBCF8z9jBO1qQ7cIf0L+neuPTD1u7Ytzrp2dqo="
@@ -138,46 +130,39 @@
 
 
 {% block javascripts %}
-    {% javascripts
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot/jquery.flot.resize.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/flot.curvedlines/curvedLines.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/sparklines/jquery.sparkline.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/moment/min/moment.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/Waves/dist/waves.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bootstrap-growl/bootstrap-growl.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/js/flot-charts/curved-line-chart.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/js/flot-charts/line-chart.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/summernote/dist/summernote-updated.min.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/js/charts.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/js/functions.js'
-    '@TrendixAdminBundle/Resources/public/material_admin/js/demo.js'
-    '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.js'
-    '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.date.js'
-    '@TrendixAdminBundle/Resources/public/pickadate/lib/picker.time.js'
-    '@TrendixAdminBundle/Resources/public/js/datepicker.js'
-    '@TrendixAdminBundle/Resources/public/js/jscolor.min.js'
-    '@TrendixAdminBundle/Resources/public/js/image_uploader.js'
-    '@TrendixAdminBundle/Resources/public/js/conditional_fields.js'
-    '@TrendixAdminBundle/Resources/public/js/actions.js'
-    '@TrendixAdminBundle/Resources/public/jcrop/js/jquery.color.js'
-    '@TrendixAdminBundle/Resources/public/jcrop/js/jquery.fileupload.js'
-    '@TrendixAdminBundle/Resources/public/jcrop/js/jquery.Jcrop.min.js'
-    '@TrendixAdminBundle/Resources/public/jcrop/js/imageWidget.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    {% javascripts
-    '@TrendixAdminBundle/Resources/public/material_admin/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js'
-    %}
-<!--[if IE 9 ]><script src="{{ asset_url }}"></script><![endif]-->
 
-    {% endjavascripts %}
+    <script src="{{ asset('/components/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('/components/flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('/components/flot.curvedlines/curvedLines.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/vendors/sparklines/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ asset('/components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js') }}"></script>
+    <script src="{{ asset('/components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('/components/fullcalendar/dist/fullcalendar.min.js') }}"></script>
+    <script src="{{ asset('/components/simpleWeather/jquery.simpleWeather.min.js') }}"></script>
+    <script src="{{ asset('/components/Waves/dist/waves.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/vendors/bootstrap-growl/bootstrap-growl.min.js') }}"></script>
+    <script src="{{ asset('/components/bootstrap-sweetalert/lib/sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/js/flot-charts/curved-line-chart.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/js/flot-charts/line-chart.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/vendors/summernote/dist/summernote-updated.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/js/charts.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/js/functions.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/material_admin/js/demo.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/pickadate/lib/picker.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/pickadate/lib/picker.date.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/pickadate/lib/picker.time.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/js/datepicker.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/js/jscolor.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/js/image_uploader.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/js/conditional_fields.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/js/actions.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/jcrop/js/jquery.color.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/jcrop/js/jquery.fileupload.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/jcrop/js/jquery.Jcrop.min.js') }}"></script>
+    <script src="{{ asset('/bundles/trendixadmin/jcrop/js/imageWidget.js') }}"></script>
+
+
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script src="//code.highcharts.com/4.2.2/highcharts.js"></script>
@@ -187,7 +172,7 @@
     </script>
 
     {% if (admin_notification_module is defined and admin_notification_module) %}
-        <script src="/bundles/trendixnotifications/notifications.js"></script>
+        <script src="{{ asset('/bundles/trendixnotifications/notifications.js') }}"></script>
     {% endif %}
 
     {% for var in _context %}

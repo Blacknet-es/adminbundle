@@ -1,11 +1,10 @@
 {% extends "TrendixAdminBundle::layout.html.twig" %}
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block body_class %}
-    login-content {{ admin_theme|default("blue") }}
-{% endblock %}
+{% block body_class %}login-content {{ admin_theme|default("blue") }}{% endblock %}
 
 {% block body %}
+<div class="login-content">
     <!-- Login -->
     <div class="lc-block toggled" id="l-login">
 
@@ -65,4 +64,5 @@
             </ul>
         </form>
     </div>
+</div>
 {% endblock %}

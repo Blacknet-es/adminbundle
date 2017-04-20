@@ -17,6 +17,7 @@ html {
 }
 
 body {
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -15241,6 +15242,8 @@ body.login-content.vuala:before {
 }
 
 .lc-block:not(.lcb-alt) {
+  top: 50%;
+  margin-top: -100px;
   padding: 35px 55px 35px;
 }
 

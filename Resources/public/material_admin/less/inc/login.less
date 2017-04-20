@@ -23,6 +23,8 @@
     } 
     
     &:not(.lcb-alt) {
+        top: 50%;
+        margin-top: -100px;
         padding: 35px 55px 35px;
     }
 
@@ -56,6 +58,9 @@
     bottom: -45px;
 
     & > li {
+        border-radius: 10px;
+        padding: 0 5px;
+        font-size: 12px;
         display: inline-block;
         margin: 0 2px;
         .transition(all);
@@ -119,23 +124,49 @@
 
 body.login-content {
     text-align: center;
-    
-    &:after {
-        content: "";
-        vertical-align: middle; 
-        display: inline-block;
-        width: 1px;
-        height: 100%;
+    min-height: 100vh;
+
+    &.blue {
+        background: @m-blue;
     }
-    
-    &:before {
-        height: 50%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
+
+    &.cyan {
         background: @m-cyan;
-        content: "";
-        z-index: 0;
+    }
+
+    &.green {
+        background: @m-green;
+    }
+
+    &.lightgreen {
+        background: @m-lightgreen;
+    }
+
+    &.lightblue {
+        background: @m-lightblue;
+    }
+
+    &.amber {
+        background: @m-amber;
+    }
+
+    &.teal {
+        background: @m-teal;
+    }
+
+    &.vuala {
+        background: @m-vuala;
+    }
+
+    &.orange {
+        background: @m-orange;
+    }
+
+    &.bluegray {
+        background: @m-bluegray;
+    }
+
+    &.red {
+        background: @m-red;
     }
 }
