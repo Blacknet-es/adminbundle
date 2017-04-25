@@ -9,6 +9,7 @@ class QueryList extends ListaAbstractType
     private $fields;
     private $actions;
     private $downloadable;
+    private $searchableFields;
 
     /**
      * QueryList constructor.
@@ -16,13 +17,15 @@ class QueryList extends ListaAbstractType
      * @param array|string $fields
      * @param array|string $actions
      * @param bool $downloadable
+     * @param array $searchableFields Map indication <alias in select> => <reference in where clause>
      */
-    public function __construct($sql, $fields, $actions, $downloadable = false)
+    public function __construct($sql, $fields, $actions, $downloadable = false, $searchableFields = array())
     {
         $this->sql = $sql;
         $this->fields = !is_array($fields) ? unserialize(trim($fields)) : $fields;
         $this->actions = !is_array($actions) ? unserialize(trim($actions)) : $actions;
         $this->downloadable = $downloadable;
+        $this->searchableFields = $searchableFields;
     }
 
 
@@ -57,6 +60,8 @@ class QueryList extends ListaAbstractType
         return array(
             'sql' => $this->sql,
             'downloadable' => $this->downloadable,
-            'listCall' => $this->sql . '/;/' . $fields . '/;/' . $actions);
+            'listCall' => $this->sql . '/;/' . $fields . '/;/' . $actions,
+            'searchableFields' => $this->searchableFields
+            );
     }
 }
