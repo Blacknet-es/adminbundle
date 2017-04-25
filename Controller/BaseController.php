@@ -271,11 +271,12 @@ class BaseController extends Controller
      * @param $fields
      * @param $actions
      * @param bool $downloadable
+     * @param array $searchableFields
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function renderQuery(Request $request, $sql, $fields, $actions, $downloadable = true)
+    protected function renderQuery(Request $request, $sql, $fields, $actions, $downloadable = true, $searchableFields = array())
     {
-        $list = $this->createList(new QueryList($sql, $fields, $actions, $downloadable));
+        $list = $this->createList(new QueryList($sql, $fields, $actions, $downloadable, $searchableFields));
         $this->addData('lista', $list->createView());
         if ($request->isMethod('POST')) {
             return $this->render('TrendixAdminBundle:Lista:lista.html.twig', $this->getData());
