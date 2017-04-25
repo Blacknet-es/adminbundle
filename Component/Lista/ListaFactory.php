@@ -102,6 +102,11 @@ class ListaFactory
      */
     protected $sql;
 
+    /**
+     * @var array
+     */
+    protected $searchableFields;
+
     public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -117,7 +122,7 @@ class ListaFactory
         $this->pag = 1;
         $this->joinList = 1;
         $this->joinListField = array();
-        $this->orderColumn = 'a.id';
+        $this->orderColumn = 'default';
         $this->orderDirection = 0;
         $this->sql = null;
 
@@ -167,6 +172,12 @@ class ListaFactory
         }
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
+            if($this->orderColumn == 'default') {
+                $this->orderColumn = null;
+            }
+            $this->searchableFields = $this->options['searchableFields'];
+        } elseif($this->orderColumn == 'default') {
+            $this->orderColumn = 'a.id';
         }
         return $this->createBuilder($lista, $options);
     }
@@ -543,18 +554,73 @@ class ListaFactory
      */
     private function getSQLResult($paged)
     {
+        $sql = $this->sql;
+
         $rsm = new ResultSetMapping();
         // First, add the select fields:
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             $rsm->addScalarResult($dataType->getKey(), str_replace('.', '__', $dataType->getKey()));
         }
+
+        // Filter if needed
+        if(isset($this->search) && $this->search != '') {
+            // Use searchable field in the search
+            $selectClause = str_replace('SELECT ', '', $sql);
+            $selectClause = substr($selectClause, 0, strpos($selectClause, "FROM"));
+            $columns = explode(',', $selectClause);
+            $sqlFilter = '';
+            $i = 0;
+            // Then generate the where clause
+            foreach ($this->searchableFields as $alias => $expression) {
+                if($i > 0) {
+                    $sqlFilter .= ' OR ';
+                }
+                $sqlFilter .= " CAST($expression AS CHAR) LIKE '%$this->search%' ";
+                $i++;
+            }
+            $sqlFilter = '(' . $sqlFilter . ')';
+
+            // If there is an order by clause, put the code before it, if not, put it at the end, always checking
+            // if there already is a WHERE clause.
+            if(strpos($sql, 'GROUP BY') !== false) {
+                $this->putWhereInSQL("GROUP BY", $sql, $sqlFilter);
+            } else {
+                $this->putWhereInSQL("ORDER BY", $sql, $sqlFilter);
+            }
+        }
+
+        // Order if needed:
+        $column = $this->orderColumn;
+        $direction = $this->orderDirection ? 'DESC' : 'ASC';
+        if($column) {
+            $sql = strpos($sql, "ORDER BY") ? substr($sql, 0, strpos($sql, "ORDER BY")) : $sql;
+            $sql .= ' ORDER BY ' . $column . ' ' . $direction;
+        }
         // Then, paginate if needed:
-        $sql = $this->sql;
         if ($paged) {
             $sql .= ' LIMIT ' . $this->firstResult . ', ' . $this->maxResults;
         }
         $query = $this->em->createNativeQuery($sql, $rsm);
         $arrayResults = $query->getArrayResult();
         return $arrayResults;
+    }
+
+    /**
+     * @param $clause
+     * @param $sql
+     * @param $sqlFilter
+     */
+    private function putWhereInSQL($clause, &$sql, $sqlFilter)
+    {
+        $parts = explode($clause, $sql);
+        if (strpos($sql, 'WHERE') !== false) {
+            $parts[0] .= 'AND' . $sqlFilter;
+        } else {
+            $parts[0] .= 'WHERE' . $sqlFilter;
+        }
+        if (isset($parts[1])) {
+            $parts[0] .= " $clause " . $parts[1];
+        }
+        $sql = $parts[0];
     }
 }
