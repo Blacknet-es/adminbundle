@@ -123,7 +123,7 @@ class ListaFactory
         $this->joinList = 1;
         $this->joinListField = array();
         $this->orderColumn = 'default';
-        $this->orderDirection = 0;
+        $this->orderDirection = null;
         $this->sql = null;
 
         if ($this->request->request->get('epp')) {
@@ -163,13 +163,25 @@ class ListaFactory
     {
         $this->lista = $lista;
         $this->options = array_merge($lista->getOptions(), $options);
+        // Save original elements per page
         if(array_key_exists('maxResults', $this->options)) {
             $this->maxResults = $this->options['maxResults'];
         }
+        // Save original page
         if(array_key_exists('page', $this->options)) {
             $this->pag = $this->options['page'];
             $this->firstResult = ($this->pag-1) * $this->maxResults;
         }
+        // Save original order column and direction if not existing already
+        if(array_key_exists('order_column', $this->options) && $this->orderColumn == 'default') {
+            $this->orderColumn = $this->options['order_column'];
+        }
+        if(array_key_exists('order_direction', $this->options) && $this->orderDirection === null) {
+            $this->orderDirection = $this->options['order_direction'];
+        } elseif($this->orderDirection === null) {
+            $this->orderDirection = 0;
+        }
+        // Save SQL code if needed
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
             if($this->orderColumn == 'default') {
