@@ -68,7 +68,9 @@ class API {
                 $this->data = [];
                 foreach ($rawResponse as $item) {
                     $processedItem = explode('=', $item);
-                    $this->data[$processedItem[0]] = $processedItem[1];
+                    if(isset($processedItem[1])) {
+                        $this->data[$processedItem[0]] = $processedItem[1];
+                    }
                 }
             } else {
                 $this->data = null;
@@ -81,6 +83,8 @@ class API {
 
     private function processResponse($arrayData)
     {
+        $this->data = $arrayData;
+        /*
         $this->status = $arrayData['status'];
 
         if ($arrayData['datatype'] == 'json') {
@@ -88,6 +92,7 @@ class API {
         } else {
             $this->data = $arrayData['data'];
         }
+        */
     }
 
     public function setURL($url = '')
@@ -209,6 +214,8 @@ class API {
     private function generateOAuthSignature()
     {
         $signableOptions = $this->oauth_data;
+        $signableOptions = array_merge($signableOptions, $this->post);
+        $signableOptions = array_merge($signableOptions, $this->get);
         // Percent encode the entire array (keys and values)
         $newArray = [];
         foreach ($signableOptions as $k => $v) {
