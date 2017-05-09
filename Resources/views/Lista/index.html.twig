@@ -17,12 +17,3 @@
         {% endif %}
     {% endif %}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts
-    '@TrendixAdminBundle/Resources/public/js/Lista/paginator.js'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock %}
