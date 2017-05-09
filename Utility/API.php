@@ -48,7 +48,9 @@ class API {
     public function execute()
     {
         $this->serializeGetData();
-        $this->serializePostData();
+        if($this->method == 'POST') {
+            $this->serializePostData();
+        }
         if($this->oauth_data) {
             $this->headers[] = 'OAuth ' . $this->generateOAuthHeaders();
         }
