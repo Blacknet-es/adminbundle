@@ -103,6 +103,13 @@ class BaseController extends Controller
             }
         }
 
+        if($this->container->hasParameter('locales')) {
+            $locales = $this->getParameter('locales');
+            if($locales) {
+                $data['locales'] = $locales;
+            }
+        }
+
         return $data;
     }
 

@@ -33,7 +33,7 @@ class ImagesController extends BaseController
         //var_dump($request->request->get('config'));
         //var_dump($options);
         if(!file_exists($dir)) {
-            mkdir($dir);
+            mkdir($dir, 0777, true);
             chmod($dir, 0777);
         }
         if($request->getMethod() == 'POST') {

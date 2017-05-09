@@ -93,3 +93,19 @@ select {
 .select2-results {
     border-bottom: 1px solid #AAA;
 }
+
+.actions .locale-selector {
+    width: 50px;
+    height: 35px;
+    box-shadow: none !important;
+    background: 0 0;
+    padding: 6px 0;
+}
+
+.actions .locale-selector:before {
+    border-radius: 0 !important;
+}
+
+.actions .locale-selector[disabled]:hover:before {
+    display: none;
+}

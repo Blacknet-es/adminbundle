@@ -18,6 +18,7 @@ list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?
   page: Pág. %current% de %total%
   search: Buscar
+  locales: Selecciona un idioma a gestionar
 
 images:
   insert: Insertar Imagen

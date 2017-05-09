@@ -18,6 +18,7 @@ list:
   confirm_remove: Do you wish to delete the selected item?
   page: Page %current% of %total%
   search: Search
+  locales: Select a locale to manage
 
 images:
   insert: Insert Image
