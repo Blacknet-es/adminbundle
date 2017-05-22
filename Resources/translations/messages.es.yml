@@ -1,37 +1,37 @@
 security:
   login:
-    username: Usuario
-    password: Contraseña
-    remember_me: Recuérdame
-    forgotten: ¿Olvidó su contraseña?
-    register: Registro
+    username: 'Usuario'
+    password: 'Contraseña'
+    remember_me: 'Recuérdame'
+    forgotten: '¿Olvidó su contraseña?'
+    register: 'Registro'
 
 admin:
-  please_wait: Por favor, espere...
-  actions: Acciones
-  logout: Cerrar sesión
-  pass_changed: Contraseña cambiada con éxito
-  export: Exportar
+  please_wait: 'Por favor, espere...'
+  actions: 'Acciones'
+  logout: 'Cerrar sesión'
+  pass_changed: 'Contraseña cambiada con éxito'
+  export: 'Exportar'
 
 
 list:
-  confirm_remove: ¿Desea eliminar el elemento seleccionado?
-  page: Pág. %current% de %total%
-  search: Buscar
-  locales: Selecciona un idioma a gestionar
+  confirm_remove: '¿Desea eliminar el elemento seleccionado?'
+  page: 'Pág. %current% de %total%'
+  search: 'Buscar'
+  locales: 'Selecciona un idioma a gestionar'
 
 images:
-  insert: Insertar Imagen
-  upload: Subir Imagen
-  crop: Recortar y usar
-  drop: Suelta tu fichero aquí
-  or: o
-  select: Selecciona un fichero
-  adjust: Por favor, ajuste la selección a su imagen
-  select_image: Por favor, seleccione o suba una imagen
-  close: Cerrar
-  cancel: Cancelar
-  add: Añadir Imagen
-  edit: Editar
-  invalid: El fichero subido no es válido o está corrupto.
-  not_supported_format: El fichero subido no usa el formato PNG o JPG.
+  insert: 'Insertar Imagen'
+  upload: 'Subir Imagen'
+  crop: 'Recortar y usar'
+  drop: 'Suelta tu fichero aquí'
+  or: 'o'
+  select: 'Selecciona un fichero'
+  adjust: 'Por favor, ajuste la selección a su imagen'
+  select_image: 'Por favor, seleccione o suba una imagen'
+  close: 'Cerrar'
+  cancel: 'Cancelar'
+  add: 'Añadir Imagen'
+  edit: 'Editar'
+  invalid: 'El fichero subido no es válido o está corrupto.'
+  not_supported_format: 'El fichero subido no usa el formato PNG o JPG.'

@@ -19,15 +19,15 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 admin_login:
-    pattern:  /admin/login
+    path:  /admin/login
     defaults: { _controller: FOSUserBundle:Security:login }
 
 admin_check:
-    pattern:  /admin/login_check
+    path:  /admin/login_check
     defaults: { _controller: FOSUserBundle:Security:check }
 
 admin_logout:
-    pattern:  /admin/logout
+    path:  /admin/logout
     defaults: { _controller: FOSUserBundle:Security:logout }
 
 fos_js_routing:

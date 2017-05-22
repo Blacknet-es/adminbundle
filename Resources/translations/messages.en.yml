@@ -1,37 +1,37 @@
 security:
   login:
-    username: Username
-    password: Password
-    remember_me: Remember me
-    forgotten: Forgot password?
-    register: Register
+    username: 'Username'
+    password: 'Password'
+    remember_me: 'Remember me'
+    forgotten: 'Forgot password?'
+    register: 'Register'
 
 
 admin:
-  please_wait: Please, wait...
-  actions: Actions
-  logout: Log out
-  pass_changed: Password changed successfully
-  export: Export
+  please_wait: 'Please, wait...'
+  actions: 'Actions'
+  logout: 'Log out'
+  pass_changed: 'Password changed successfully'
+  export: 'Export'
 
 list:
-  confirm_remove: Do you wish to delete the selected item?
-  page: Page %current% of %total%
-  search: Search
-  locales: Select a locale to manage
+  confirm_remove: 'Do you wish to delete the selected item?'
+  page: 'Page %current% of %total%'
+  search: 'Search'
+  locales: 'Select a locale to manage'
 
 images:
-  insert: Insert Image
-  upload: Upload Image
-  crop: Crop and Use
-  drop: Drop your file here
-  or: or
-  select: Select a file...
-  adjust: Please adjust selection to your image
-  select_image: Please select or upload an image
-  close: Close
-  cancel: Cancel
-  add: Add Image
-  edit: Edit
-  invalid: The uploaded file is not valid or is corrupted.
-  not_supported_format: The uploaded file is not in PNG o JPG format.
+  insert: 'Insert Image'
+  upload: 'Upload Image'
+  crop: 'Crop and Use'
+  drop: 'Drop your file here'
+  or: 'or'
+  select: 'Select a file...'
+  adjust: 'Please adjust selection to your image'
+  select_image: 'Please select or upload an image'
+  close: 'Close'
+  cancel: 'Cancel'
+  add: 'Add Image'
+  edit: 'Edit'
+  invalid: 'The uploaded file is not valid or is corrupted.'
+  not_supported_format: 'The uploaded file is not in PNG o JPG format.'
