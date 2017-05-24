@@ -59,7 +59,9 @@
     </div>
 </div>
 <script>
-    $('#image_upload_modal').on({
-        'hidden.bs.modal': destroyImageManager
-    });
+    if(window['destroyImageManager']) {
+        $('#image_upload_modal').on({
+            'hidden.bs.modal': destroyImageManager
+        });
+    }
 </script>

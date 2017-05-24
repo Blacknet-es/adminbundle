@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\UserBundle\Controller\SecurityController as BaseSecController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
 
 class SecurityController extends BaseSecController
 {
@@ -18,8 +19,9 @@ class SecurityController extends BaseSecController
     protected function renderLogin(array $data)
     {
 
-        $requestAttributes = $this->container->get('request')->attributes;
-        if ($requestAttributes->get('_route') == 'admin_login') {
+        $path = $this->container->get('request_stack')->getCurrentRequest()->getPathInfo();
+        $route = $this->container->get('router')->match($path)['_route'];
+        if ($route == 'admin_login') {
             $template = 'TrendixAdminBundle:Security:admin_login.html.twig';
         } else {
             $template = 'FOSUserBundle:Security:login.html.twig';

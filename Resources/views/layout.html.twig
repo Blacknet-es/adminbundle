@@ -8,7 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ app_name|trans }}{% endblock %}</title>
-
+    {% if app.environment == 'dev' %}
+        {% set resourceSuffix = '?v=' ~date().timestamp %}
+    {% else %}
+        {% set resourceSuffix = '' %}
+    {% endif %}
     <!-- CSS -->
     {% block css %}
     <link rel="stylesheet" href="{{ asset('/components/fullcalendar/dist/fullcalendar.min.css') }}">
@@ -16,20 +20,20 @@
     <link rel="stylesheet" href="{{ asset('/components/bootstrap-sweetalert/lib/sweet-alert.css') }}">
     <link rel="stylesheet" href="{{ asset('/components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css' ) }}">
-    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}{{ resourceSuffix  }}">
     <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/vendors/summernote/dist/summernote.css' ) }}">
     <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/jcrop/css/jquery.Jcrop.min.css' ) }}">
     <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/pickadate/lib/themes/classic.css' ) }}">
     <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/pickadate/lib/themes/classic.date.css' ) }}">
     <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/pickadate/lib/themes/classic.time.css' ) }}">
     <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/css/imageWidget.css' ) }}">
-    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/css/base.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/trendixadmin/css/base.css') }}{{ resourceSuffix  }}">
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     {% endblock %}
 
-    <script src="{{ asset('/js/header.js') }}"></script>
+    <script src="{{ asset('/js/header.js') }}?v={{ date().timestamp  }}"></script>
 
     <script
             src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"
@@ -130,7 +134,7 @@
 
 
 {% block javascripts %}
-    <script src="{{ asset('/js/footer.js') }}"></script>
+    <script src="{{ asset('/js/footer.js') }}{{ resourceSuffix  }}"></script>
 
 
     <script src="{{ asset('/bundles/fosjsrouting/js/router.js') }}"></script>
