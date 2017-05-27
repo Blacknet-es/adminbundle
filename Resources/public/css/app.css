@@ -15806,3 +15806,8 @@ select.chosen {
 .mCSB_inside > .mCSB_container {
   margin-right: 0;
 }
+
+ul.login-navigation > li > a {
+  font-size: 14px !important;
+  color: #fff;
+}
