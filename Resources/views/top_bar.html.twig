@@ -26,11 +26,12 @@
 
             {# Messages #}
             {% if (admin_message_module is defined and admin_message_module) %}
-            <li class="dropdown">
-                <a data-toggle="dropdown" href="">
+            <li {#class="dropdown"#}>
+                <a {#data-toggle="dropdown"#} href="{{ path(admin_message_link) }}">
                     <i class="tm-icon zmdi zmdi-email"></i>
-                    <i class="tmn-counts">6</i>
+                    <i class="tmn-counts" id="message-counter">0</i>
                 </a>
+                {#
                 <div class="dropdown-menu dropdown-menu-lg pull-right">
                     <div class="listview">
                         <div class="lv-header">
@@ -52,6 +53,7 @@
                         <a class="lv-footer" href="">View All</a>
                     </div>
                 </div>
+                #}
             </li>
             {% endif %}
             {# End Messages #}

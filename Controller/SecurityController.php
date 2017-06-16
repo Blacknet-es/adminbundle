@@ -20,9 +20,17 @@ class SecurityController extends BaseSecController
 
         $requestAttributes = $this->container->get('request')->attributes;
         if ($requestAttributes->get('_route') == 'admin_login') {
-            $template = 'TrendixAdminBundle:Security:admin_login.html.twig';
+            if($this->container->hasParameter('admin_login_template')) {
+                $template = $this->getParameter('admin_login_template');
+            } else {
+                $template = 'TrendixAdminBundle:Security:admin_login.html.twig';
+            }
         } else {
-            $template = 'FOSUserBundle:Security:login.html.twig';
+            if($this->container->hasParameter('login_template')) {
+                $template = $this->getParameter('login_template');
+            } else {
+                $template = 'FOSUserBundle:Security:login.html.twig';
+            }
         }
         $data['app_name'] = $this->getParameter('app_name');
         $data['registerButton'] = $this->getParameter('register_button');
