@@ -33,9 +33,15 @@ class SecurityController extends BaseSecController
             }
         }
         $data['app_name'] = $this->getParameter('app_name');
-        $data['registerButton'] = $this->getParameter('register_button');
-        if($this->getParameter('login_title')) {
+        if($this->container->hasParameter('register_button')) {
+            $data['registerButton'] = $this->getParameter('register_button');
+        } else {
+            $data['registerButton'] = false;
+        }
+        if($this->container->hasParameter('login_title')) {
             $data['loginTitle'] = $this->getParameter('login_title');
+        } else {
+            $data['loginTitle'] = null;
         }
         return $this->render($template, $data);
     }

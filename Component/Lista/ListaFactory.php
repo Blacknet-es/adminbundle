@@ -178,7 +178,7 @@ class ListaFactory
         }
         if(array_key_exists('order_direction', $this->options) && $this->orderDirection === null) {
             $this->orderDirection = $this->options['order_direction'];
-        } else {
+        } elseif($this->orderDirection === null) {
             $this->orderDirection = 0;
         }
         // Save SQL code if needed
@@ -344,13 +344,15 @@ class ListaFactory
     {
         $dataTypes = $this->listaBuilder->getChilds();
         $col = $this->orderColumn;
+
         // We need the complete column for ordering
         foreach ($dataTypes as $key => $dataType) {
             $key2 = $key;
             if (strstr($key, '.')) {
                 $key2 = explode('.', $key)[1];
             }
-            if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class && $key2 == $this->orderColumn) {
+
+            if (($dataType instanceof JoinType || $dataType->getParent() == JoinType::class) && $key2 == $this->orderColumn) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $col = 'a'.$this->joinListField[$table].'.'.$field;
             } elseif ($key2 == $this->orderColumn) {
