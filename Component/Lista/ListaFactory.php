@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Trendix\AdminBundle\Component\Lista\DataType\GalleryType;
 use Trendix\AdminBundle\Component\Lista\DataType\JoinType;
+use Trendix\AdminBundle\Component\Lista\DataType\TextType;
 
 class ListaFactory
 {
@@ -391,7 +392,13 @@ class ListaFactory
                         $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
                     }
 
-                    $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
+                    $options = $dt->getOptions();
+                    if($dt instanceof TextType && isset($options['translate']) && $options['translate']) {
+                        $value = $this->container->get('translator')->trans($field);
+                    } else {
+                        $value = $field;
+                    }
+                    $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($value, $dt->getOptions());
                     if (!isset($this->labels[$key])) {
                         $this->labels[$key] = $dt->getLabel();
                     }
