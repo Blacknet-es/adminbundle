@@ -84,6 +84,8 @@
                     {% for key, row in lista.data %}
                         <tr data-row-id="{% if row.original_id is defined %}
                                             {{ row.original_id }}
+                                        {% elseif row.id is defined %} {# Allows overriding the ID with a JoinType #}
+                                            {{ row.id }}
                                         {% else %}
                                             {{ loop.index }}
                                         {% endif %}
@@ -100,7 +102,13 @@
                                             <i class="zmdi zmdi-{{ action.icon }}"></i>
                                         </a>
                                         {% else %}
-                                        <a href="{{ action.url }}" data-row-id="{{ row.original_id }}"
+                                        <a href="{{ action.url }}" data-row-id="{% if row.original_id is defined %}
+                                            {{ row.original_id }}
+                                        {% elseif row.id is defined %}
+                                            {{ row.id }}
+                                        {% else %}
+                                            {{ loop.index }}
+                                        {% endif %}"
                                             {% if action.text %}
                                                 data-toggle="admin-tooltip" title="{{ action.text|trans }}"
                                             {% endif %}

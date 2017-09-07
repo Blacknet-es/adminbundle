@@ -231,7 +231,8 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class) {
+                if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class
+                    && !$dataType->isHidden()) {
                     $select[] = 'a.'.$dataType->getKey();
                 }
             }
@@ -251,7 +252,7 @@ class ListaFactory
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $addSelect = $this->getSelectsJoinType($dataType);
-                if(!isset($dataType->getOptions()['hidden']) || !$dataType->getOptions()['hidden']) {
+                if(!$dataType->isHidden()) {
                     $this->qb->addSelect($addSelect);
                 }
                 if (!in_array($table, $joinedTables)) {
@@ -382,10 +383,10 @@ class ListaFactory
                 if (strstr($key, '.')) {
                     $key = explode('.', $key)[1];
                 }
-                // If the field is hidden, the key won't exist in the array
+                // If the field is hidden, the key may not exist in the array
                 if(isset($row[$key])) {
                     $field = $row[$key];
-                    if ($dt instanceof DataAbstractType) {
+                    if ($dt instanceof DataAbstractType && !$dt->isHidden()) {
                         if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
                             $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
                         }
