@@ -6,7 +6,7 @@ namespace Trendix\AdminBundle\Utility;
  * Utilidades con cadenas
  */
 
-class string {
+class StringHelper {
     private $original;
     
     public function __construct($string = '')

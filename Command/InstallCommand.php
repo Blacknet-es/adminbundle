@@ -49,12 +49,12 @@ class InstallCommand extends ContainerAwareCommand
             return 0;
         }
         $output->writeln('Installing bower and npm packages locally...');
-        system('bower install', $success);
         /*$this->checkCommand($success, $io);
         if(!$success) {
             return 0;
         }*/
         system('npm install', $success);
+        system('bower install', $success);
         $this->checkCommand($success, $io);
         /*if(!$success) {
             return 0;
