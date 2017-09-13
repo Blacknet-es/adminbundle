@@ -13,13 +13,15 @@
         <div id="data-table-basic-header" class="bootgrid-header container-fluid">
             <div class="row">
                 <div class="col-sm-12 actionBar">
-                    <div class="search form-group pull-left">
-                        <div class="input-group">
-                            <span class="zmdi icon input-group-addon glyphicon-search"></span>
-                            <input class="search-field form-control" placeholder="{{ 'list.search'|trans }}"
-                                   type="text" value="{{ lista.search }}">
+                    {% if hideSearch is not defined or not hideSearch %}
+                        <div class="search form-group pull-left">
+                            <div class="input-group">
+                                <span class="zmdi icon input-group-addon glyphicon-search"></span>
+                                <input class="search-field form-control" placeholder="{{ 'list.search'|trans }}"
+                                       type="text" value="{{ lista.search }}">
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div class="actions btn-group pull-left">
                         <div class="dropdown btn-group">
                             <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
