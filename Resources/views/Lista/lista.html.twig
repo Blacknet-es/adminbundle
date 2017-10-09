@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card lista-card">
     {% if lista.downloadable %}
         <form class="hidden" method="post" id="list-download" action="{{ url('download_list') }}">
             <input type="hidden" name="class" value="{{ lista.listClass }}">

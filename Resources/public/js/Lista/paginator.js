@@ -9,18 +9,18 @@ $(document).ready(function() {
         var page = $(this).data('page');
 
         $listaForm.find('.pag').val(page);
-        processListaForm();
+        processListaForm($(this).closest('.lista-card'));
     });
 
     $(document).on('click', '.page-size-selector', function(e) {
         e.preventDefault();
         $listaForm.find('.max').val($(this).data('value'));
-        processListaForm();
+        processListaForm($(this).closest('.lista-card'));
     });
 
     $(document).on('change', 'input.search-field', function() {
         $listaForm.find('.search').val($(this).val());
-        processListaForm();
+        processListaForm($(this).closest('.lista-card'));
     });
 
     $(document).on('click', '.update-value', function(e) {
@@ -33,7 +33,7 @@ $(document).ready(function() {
         var colField = $(column).data("value");
         var value = parseInt($(this).data('value')) ? 1 : 0;
         $listaForm.find('.update_field').val(id + ',' + colField + ',' + value);
-        processListaForm();
+        processListaForm($(this).closest('.lista-card'));
     });
 
     $(document).on('click', '.column-header-anchor.sortable', function() {
@@ -44,17 +44,17 @@ $(document).ready(function() {
         }
         $listaForm.find('.order_column').val($(this).data('value'));
         $listaForm.find('.order_direction').val(direction);
-        processListaForm();
+        processListaForm($(this).closest('.lista-card'));
     });
 
-    function processListaForm()
+    function processListaForm(card)
     {
         $.ajax({
             url: location.href,
             type: 'post',
             data: $listaForm.serialize()
         }).done(function (data) {
-            $('#content > .container').html(data);
+            card.parent().html(data);
         });
     }
 
