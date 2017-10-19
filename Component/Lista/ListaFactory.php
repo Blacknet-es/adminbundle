@@ -355,7 +355,7 @@ class ListaFactory
             if (strstr($key, '.')) {
                 $key2 = explode('.', $key)[1];
             }
-            if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class && $key2 == $this->orderColumn) {
+            if (($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) && $key2 == $this->orderColumn) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $col = 'a'.$this->joinListField[$table].'.'.$field;
             } elseif ($key2 == $this->orderColumn) {
