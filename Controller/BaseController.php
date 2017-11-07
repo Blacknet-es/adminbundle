@@ -228,6 +228,11 @@ class BaseController extends Controller
             $j = 1;
             foreach($row as $key => $cell) {
                 if(!is_array($cell) && $key != 'original_id' && $key != 'actions') {
+                    if(strstr($cell, 'zmdi-close') !== false) {
+                        $cell = $this->get('translator')->trans('admin.no');
+                    } elseif(strstr($cell, 'zmdi-check') !== false) {
+                        $cell = $this->get('translator')->trans('admin.yes');
+                    }
                     $phpExcelObject->getActiveSheet()->setCellValue($this->numToLetter($j).$i, $cell);
                     $j++;
                 }
