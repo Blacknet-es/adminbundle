@@ -405,6 +405,11 @@ class ListaFactory
                             $this->labels[$key] = $dt->getLabel();
                         }
                     }
+                } else {
+                    $finalResult[$line][$dt->getLabel()] = '';
+                    if ($dt instanceof DataAbstractType && !$dt->isHidden() && !isset($this->labels[$key])) {
+                        $this->labels[$key] = $dt->getLabel();
+                    }
                 }
             }
 
