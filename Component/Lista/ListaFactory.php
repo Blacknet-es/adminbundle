@@ -378,6 +378,17 @@ class ListaFactory
     {
         $dataTypes = $this->listaBuilder->getChilds();
         $finalResult = array();
+        $sqlFields = null;
+                        
+        // If this is a QueryList, add the fields options:
+        if(array_key_exists('sql', $this->options)) {
+            $fields = unserialize(explode('/;/', $this->options['listCall'])[1]);
+            $sqlFields = array();
+            foreach($fields as $field) {
+                $sqlFields[$field[0]] = $field;
+            }
+        }
+
         foreach ($result as $line => $row) {
             foreach ($dataTypes as $key => $dt) {
                 if (strstr($key, '.')) {
@@ -386,21 +397,26 @@ class ListaFactory
                 if(isset($row[$key])) {
                     $field = $row[$key];
                     if ($dt instanceof DataAbstractType && !$dt->isHidden()) {
+                        $options = $dt->getOptions();
+                        if($sqlFields != null && isset($sqlFields[$key]) && isset($sqlFields[$key][3])) {
+                            $options = array_merge($options, $sqlFields[$key][3]);
+                        }
+
                         if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
-                            $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
+                            $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $options);
                         }
 
                         if ($dt instanceof JoinType or $dt->getParent() == JoinType::class) {
-                            $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
+                            $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $options);
                         }
 
-                        $options = $dt->getOptions();
                         if($dt instanceof TextType && isset($options['translate']) && $options['translate']) {
                             $value = $this->container->get('translator')->trans($field);
                         } else {
                             $value = $field;
                         }
-                        $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($value, $dt->getOptions());
+            
+                        $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($value, $options);
                         if (!isset($this->labels[$key])) {
                             $this->labels[$key] = $dt->getLabel();
                         }
