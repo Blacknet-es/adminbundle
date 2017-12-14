@@ -16,6 +16,8 @@ $(document).ready(function() {
 
     $(document).on('click', 'a.download-file', function(e) {
         e.preventDefault();
-        $('#list-download').submit();
+        console.log('ee');
+        console.log($(this).closest('form'));
+        $(this).closest('.lista-card').find('form.list-download').submit();
     });
 });/* aa */

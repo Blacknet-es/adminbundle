@@ -179,9 +179,9 @@ class ListaFactory
         }
         if(array_key_exists('order_direction', $this->options) && $this->orderDirection === null) {
             $this->orderDirection = $this->options['order_direction'];
-        } elseif($this->orderDirection === null) {
+        } /*else {
             $this->orderDirection = 0;
-        }
+        }*/
         // Save SQL code if needed
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
@@ -232,7 +232,8 @@ class ListaFactory
         $select = array();
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
-                if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class) {
+                if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class
+                    && !$dataType->isHidden()) {
                     $select[] = 'a.'.$dataType->getKey();
                 }
             }
@@ -252,7 +253,7 @@ class ListaFactory
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $addSelect = $this->getSelectsJoinType($dataType);
-                if(!isset($dataType->getOptions()['hidden']) || !$dataType->getOptions()['hidden']) {
+                if(!$dataType->isHidden()) {
                     $this->qb->addSelect($addSelect);
                 }
                 if (!in_array($table, $joinedTables)) {
@@ -355,15 +356,13 @@ class ListaFactory
             if (strstr($key, '.')) {
                 $key2 = explode('.', $key)[1];
             }
-
-            if (($dataType instanceof JoinType || $dataType->getParent() == JoinType::class) && $key2 == $this->orderColumn) {
+            if (($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) && $key2 == $this->orderColumn) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
                 $col = 'a'.$this->joinListField[$table].'.'.$field;
             } elseif ($key2 == $this->orderColumn) {
                 $col = 'a.' . $this->orderColumn;
             }
         }
-
         $direction = $this->orderDirection ? 'DESC' : 'ASC';
         $this->qb->orderBy($col, $direction);
         return $this;
@@ -380,37 +379,57 @@ class ListaFactory
     {
         $dataTypes = $this->listaBuilder->getChilds();
         $finalResult = array();
+        $sqlFields = null;
+                        
+        // If this is a QueryList, add the fields options:
+        if(array_key_exists('sql', $this->options)) {
+            $fields = unserialize(explode('/;/', $this->options['listCall'])[1]);
+            $sqlFields = array();
+            foreach($fields as $field) {
+                $sqlFields[$field[0]] = $field;
+            }
+        }
+
         foreach ($result as $line => $row) {
             foreach ($dataTypes as $key => $dt) {
                 if (strstr($key, '.')) {
                     $key = explode('.', $key)[1];
                 }
 
-                // If the field is hidden, the key won't exist in the array
                 if(isset($row[$key])) {
                     $field = $row[$key];
-                    if ($dt instanceof DataAbstractType) {
+                    if ($dt instanceof DataAbstractType && !$dt->isHidden()) {
+                        $options = $dt->getOptions();
+                        if($sqlFields != null && isset($sqlFields[$key]) && isset($sqlFields[$key][3])) {
+                            $options = array_merge($options, $sqlFields[$key][3]);
+                        }
+
                         if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
-                            $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $dt->getOptions());
+                            $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $options);
                         }
 
                         if ($dt instanceof JoinType or $dt->getParent() == JoinType::class) {
-                            $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $dt->getOptions());
+                            $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $options);
                         }
 
-                        $options = $dt->getOptions();
                         if($dt instanceof TextType && isset($options['translate']) && $options['translate']) {
                             $value = $this->container->get('translator')->trans($field);
                         } else {
                             $value = $field;
                         }
-                        $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($value, $dt->getOptions());
+
+                        $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($value, $options);
                         if (!isset($this->labels[$key])) {
                             $this->labels[$key] = $dt->getLabel();
                         }
                     }
+                } else {
+                    $finalResult[$line][$dt->getLabel()] = '';
+                    if ($dt instanceof DataAbstractType && !$dt->isHidden() && !isset($this->labels[$key])) {
+                        $this->labels[$key] = $dt->getLabel();
+                    }
                 }
-                }
+            }
 
             $finalResult[$line]['actions'] = $this->getActions($row);
         }

@@ -28,7 +28,12 @@ class DateType extends DataAbstractType
     {
         if($value) {
             $options = array_merge($this->configureOptions(), $options);
-            return $value->format($options['format']);
+            if($value instanceof \DateTime) {
+                return $value->format($options['format']);               
+            } else {
+                $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value);
+                return $date->format($options['format']);
+            }
         } else {
             return '';
         }

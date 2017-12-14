@@ -61,6 +61,7 @@ class QueryList extends ListaAbstractType
             'sql' => $this->sql,
             'downloadable' => $this->downloadable,
             'listCall' => $this->sql . '/;/' . $fields . '/;/' . $actions,
+            'fields' => $fields,
             'searchableFields' => $this->searchableFields
             );
     }

@@ -1,6 +1,6 @@
-<div class="card">
+<div class="card lista-card">
     {% if lista.downloadable %}
-        <form class="hidden" method="post" id="list-download" action="{{ url('download_list') }}">
+        <form class="hidden list-download" method="post" id="list-download" action="{{ url('download_list') }}">
             <input type="hidden" name="class" value="{{ lista.listClass }}">
             <input type="hidden" name="call" value="{{ lista.listCall }}">
             <input type="hidden" name="title" value="{{ title }}">
@@ -95,6 +95,8 @@
                     {% for key, row in lista.data %}
                         <tr data-row-id="{% if row.original_id is defined %}
                                             {{ row.original_id }}
+                                        {% elseif row.id is defined %} {# Allows overriding the ID with a JoinType #}
+                                            {{ row.id }}
                                         {% else %}
                                             {{ loop.index }}
                                         {% endif %}
@@ -111,7 +113,13 @@
                                             <i class="zmdi zmdi-{{ action.icon }}"></i>
                                         </a>
                                         {% else %}
-                                        <a href="{{ action.url }}" data-row-id="{{ row.original_id }}"
+                                        <a href="{{ action.url }}" data-row-id="{% if row.original_id is defined %}
+                                            {{ row.original_id }}
+                                        {% elseif row.id is defined %}
+                                            {{ row.id }}
+                                        {% else %}
+                                            {{ loop.index }}
+                                        {% endif %}"
                                             {% if action.text %}
                                                 data-toggle="admin-tooltip" title="{{ action.text|trans }}"
                                             {% endif %}
