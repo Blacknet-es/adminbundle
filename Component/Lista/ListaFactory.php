@@ -297,6 +297,7 @@ class ListaFactory
     private function countBuilder()
     {
         $this->qb->select('COUNT(a.id)');
+        $this->qb->addGroupBy('a.id');
         $this->configureJoins();
         return $this;
     }
