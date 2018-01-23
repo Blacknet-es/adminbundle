@@ -17,7 +17,8 @@ class DateType extends DataAbstractType
     public function configureOptions()
     {
         return array (
-            'format' => 'd-m-Y H:i:s'
+            'format' => 'd-m-Y H:i:s',
+            'interval' => null
         );
     }
 
@@ -28,6 +29,9 @@ class DateType extends DataAbstractType
     {
         if($value) {
             $options = array_merge($this->configureOptions(), $options);
+            if($options['interval']) {
+                $value = $value->add(new \DateInterval($options['interval']));
+            }
             if($value instanceof \DateTime) {
                 return $value->format($options['format']);               
             } else {

@@ -3,7 +3,7 @@
 {% block body_class %}login-content {{ admin_theme|default("blue") }}{% endblock %}
 
 {% block body %}
-<div class="login-content">
+<div class="login-content" {% if admin_primary_color is defined %}style="background-color: {{ admin_primary_color }};"{% endif %}>
     <!-- Login -->
     <div class="lc-block toggled" id="l-login">
 

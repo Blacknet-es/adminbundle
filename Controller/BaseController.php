@@ -113,6 +113,9 @@ class BaseController extends Controller
             $data['admin_message_module'] = $this->getParameter('admin_message_module');
             $data['admin_message_link'] = $this->getParameter('admin_message_link');
         }
+        if($this->container->hasParameter('admin_primary_color')) {
+            $data['admin_primary_color'] = $this->getParameter('admin_primary_color');
+        }
 
         return $data;
     }
