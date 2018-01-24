@@ -36,6 +36,21 @@ class StringHelper {
 
     static public function slugify($text)
     {
+        // replace all tildes
+        $text = ereg_replace("[áàâãª]","a",$text);
+        $text = ereg_replace("[ÁÀÂÃ]","A",$text);
+        $text = ereg_replace("[éèê]","e",$text);
+        $text = ereg_replace("[ÉÈÊ]","E",$text);
+        $text = ereg_replace("[íìî]","i",$text);
+        $text = ereg_replace("[ÍÌÎ]","I",$text);
+        $text = ereg_replace("[óòôõº]","o",$text);
+        $text = ereg_replace("[ÓÒÔÕ]","O",$text);
+        $text = ereg_replace("[úùû]","u",$text);
+        $text = ereg_replace("[ÚÙÛ]","U",$text);
+        $text = str_replace(" ","-",$text);
+        $text = str_replace("ñ","n",$text);
+        $text = str_replace("Ñ","N",$text);
+
         // replace non letter or digits by -
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);
 
