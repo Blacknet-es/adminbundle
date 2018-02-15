@@ -116,6 +116,12 @@ class BaseController extends Controller
         if($this->container->hasParameter('admin_primary_color')) {
             $data['admin_primary_color'] = $this->getParameter('admin_primary_color');
         }
+        if($this->container->hasParameter('use_side_bar')) {
+            $data['useSideBar'] = $this->getParameter('use_side_bar');
+        }
+        if($this->container->hasParameter('side_bar_template')) {
+            $data['sideBarTemplate'] = $this->getParameter('side_bar_template');
+        }
 
         return $data;
     }

@@ -52,11 +52,16 @@
         {% endif %}
     </aside>
 
-    {#
-    <aside id="chat" class="sidebar c-overflow">
-        {% include 'TrendixAdminBundle::right_sidebar.html.twig' %}
-    </aside>
-    #}
+
+    {% if useSideBar is defined and useSideBar %}
+        <aside id="chat" class="sidebar c-overflow">
+            {% if sideBarTemplate is defined and sideBarTemplate %}
+                {% include sideBarTemplate %}
+            {% else %}
+                {% include 'TrendixAdminBundle::right_sidebar.html.twig' %}
+            {% endif %}
+        </aside>
+    {% endif %}
 
 
     <section id="content">
