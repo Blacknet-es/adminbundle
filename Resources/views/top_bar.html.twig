@@ -122,7 +122,7 @@
 
             {# Filtros #}
             {% if useSideBar is defined and useSideBar %}
-            <li class="dropdown" data-ma-action="sidebar-open" data-ma-target="#chat">
+            <li id="rightbar-trigger" class="dropdown" data-trigger="#rightbar">
                 <a href=""><i class="tm-icon zmdi {% if sideBarIcon is defined %}{{ sideBarIcon }}{% else %}zmdi-search{% endif %}"></i></a>
             </li>
             {% endif %}

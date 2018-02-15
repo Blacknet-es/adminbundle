@@ -11356,21 +11356,21 @@ a.lv-footer:hover {
   box-shadow: none;
 }
 
-#chat {
+#rightbar {
   padding: 20px 0;
   width: 280px;
   right: -300px;
 }
 
-#chat.toggled {
+#rightbar.toggled {
   right: 0;
 }
 
-#chat .chat-search {
+#rightbar .chat-search {
   padding: 20px 20px 15px 20px;
 }
 
-#chat .chat-search .form-control {
+#rightbar .chat-search .form-control {
   background-image: url("../img/icons/search-2.png");
   background-repeat: no-repeat;
   background-position: left center;
@@ -11383,13 +11383,13 @@ a.lv-footer:hover {
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  #chat .chat-search .form-control {
+  #rightbar .chat-search .form-control {
     background-image: url("../img/icons/search-2@2x.png");
     background-size: 24px 24px;
   }
 }
 
-#chat .chat-search .form-control:focus {
+#rightbar .chat-search .form-control:focus {
   background-position: right center;
   padding: 0 30px 0 0;
 }
@@ -11429,11 +11429,11 @@ a.lv-footer:hover {
  * For Stupid IE9
  */
 
-.ie9 #chat {
+.ie9 #rightbar {
   right: 0;
 }
 
-.ie9 #chat:not(.toggled) {
+.ie9 #rightbar:not(.toggled) {
   display: none;
 }
 

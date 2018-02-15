@@ -97,7 +97,7 @@ $(document).ready(function(){
      */
     (function(){
         //Toggle
-        $('body').on('click', '#menu-trigger, #chat-trigger', function(e){
+        $('body').on('click', '#menu-trigger, #rightbar-trigger', function(e){
             e.preventDefault();
             var x = $(this).data('trigger');
 
@@ -119,19 +119,19 @@ $(document).ready(function(){
                 $elem = '#sidebar';
                 $elem2 = '#menu-trigger';
 
-                $('#chat-trigger').removeClass('open');
+                $('#rightbar-trigger').removeClass('open');
 
-                if (!$('#chat').hasClass('toggled')) {
+                if (!$('#rightbar').hasClass('toggled')) {
                     $('#header').toggleClass('sidebar-toggled');
                 }
                 else {
-                    $('#chat').removeClass('toggled');
+                    $('#rightbar').removeClass('toggled');
                 }
             }
 
-            if (x == '#chat') {
-                $elem = '#chat';
-                $elem2 = '#chat-trigger';
+            if (x == '#rightbar') {
+                $elem = '#rightbar';
+                $elem2 = '#rightbar-trigger';
 
                 $('#menu-trigger').removeClass('open');
 
