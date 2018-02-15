@@ -40,7 +40,16 @@
 
 {% block body %}
 <header id="header" class="clearfix" data-current-skin="{{ admin_theme|default("blue") }}">
-    <div class="container">
+    <div class="{% spaceless %}
+            {# Boque que determina la clase del content #}
+            {% block header_class %}
+            {% if content_class is defined %}
+                {{ content_class }}
+            {% else %}
+                container
+            {% endif %}
+            {% endblock %}
+        {% endspaceless %}">
         {% include 'TrendixAdminBundle::top_bar.html.twig' %}
     </div>
 </header>
@@ -55,17 +64,28 @@
 
     {% if useSideBar is defined and useSideBar %}
         <aside id="chat" class="sidebar c-overflow">
+        {% block sidebar_content %}
             {% if sideBarTemplate is defined and sideBarTemplate %}
                 {% include sideBarTemplate %}
             {% else %}
                 {% include 'TrendixAdminBundle::right_sidebar.html.twig' %}
             {% endif %}
+        {% endblock %}
         </aside>
     {% endif %}
 
 
     <section id="content">
-        <div class="container">
+        <div class="{% spaceless %}
+            {# Boque que determina la clase del content #}
+            {% block content_class %}
+            {% if content_class is defined %}
+                {{ content_class }}
+            {% else %}
+                container
+            {% endif %}
+            {% endblock %}
+        {% endspaceless %}">
         {% block content %}{% endblock %}
         </div>
     </section>

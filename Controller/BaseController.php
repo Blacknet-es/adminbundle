@@ -122,6 +122,9 @@ class BaseController extends Controller
         if($this->container->hasParameter('side_bar_template')) {
             $data['sideBarTemplate'] = $this->getParameter('side_bar_template');
         }
+        if($this->container->hasParameter('content_class')) {
+            $data['content_class'] = $this->getParameter('content_class');
+        }
 
         return $data;
     }

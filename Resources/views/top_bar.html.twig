@@ -65,6 +65,8 @@
                     <i class="tm-icon zmdi zmdi-notifications"></i>
                     <i class="tmn-counts notifications-badge"></i>
                 </a>
+            </li>
+
             {#
             <li class="dropdown">
                 <a data-toggle="dropdown" href="">
@@ -105,6 +107,7 @@
             </li>
             #}
             {% endif %}
+
             {# End Notifications #}
             {% if customMenu is defined %}
                 {% include customMenu %}
@@ -115,6 +118,13 @@
                         <i class="tm-icon zmdi zmdi-close-circle" title="{{ 'admin.logout'|trans }}"></i>
                     </a>
                 </li>
+            {% endif %}
+
+            {# Filtros #}
+            {% if useSideBar is defined and useSideBar %}
+            <li class="dropdown" data-ma-action="sidebar-open" data-ma-target="#chat">
+                <a href=""><i class="tm-icon zmdi {% if sideBarIcon is defined %}{{ sideBarIcon }}{% else %}zmdi-search{% endif %}"></i></a>
+            </li>
             {% endif %}
         </ul>
     </li>
