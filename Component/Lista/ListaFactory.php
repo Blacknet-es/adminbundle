@@ -30,6 +30,11 @@ class ListaFactory
     protected $qb;
 
     /**
+     * @var QueryBuilder QueryBuilder use to get the numbers for pagination
+     */
+    protected $countQb;
+
+    /**
      * @var ListaAbstractBuilder
      */
     protected $listaBuilder;
@@ -111,7 +116,7 @@ class ListaFactory
     /**
      * @var array Guarda como claves los alias del select, y como valores la cadena utilizada para seleccionar el valor (por ejemplo: a.id)
      * Para columnas normales, el alias será nombreColumna_posicion.
-     * Para columnas Join, el alias será posicionTabla_nombreColumna.
+     * Para columnas Join, el alias será aliasTabla_nombreColumna.
      */
     protected $selectAliases;
 
@@ -218,6 +223,7 @@ class ListaFactory
             $arrayResults = $this->getSQLResult(true);
         } else {
             $this->qb = $this->em->getRepository($lista->getClass())->createQueryBuilder('a');
+            $this->countQb = $this->em->getRepository($lista->getClass())->createQueryBuilder('a');
             $this->selectBuilder(); //Select Fields
             $this->filterBuilder(); //Generate filters
             $this->orderBuilder(); //Order Options
@@ -253,6 +259,7 @@ class ListaFactory
         }
 
         $this->qb->select($select);
+        $this->countQb->select('COUNT(a.id)');
 
         $this->configureJoins();
         $this->qb->where('1=1');
@@ -271,6 +278,7 @@ class ListaFactory
                 }
                 if (!in_array($table, $joinedTables)) {
                     $this->qb->leftJoin('a.'.$table, 'a'.$this->joinListField[$table]);
+                    $this->countQb->leftJoin('a.'.$table, 'a'.$this->joinListField[$table]);
                     $joinedTables[] = $table;
                 }
             }
@@ -298,20 +306,17 @@ class ListaFactory
         if($this->sql) {
             return count($this->getSQLResult(false));
         }
-        $this->qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
 
-        $this
-            ->countBuilder()
-            ->filterBuilder()
-        ;
-
-        return $this->qb->getQuery()->getArrayResult()[0][1];
+        $this->countQb->setMaxResults(1);
+        return $this->countQb->getQuery()->getArrayResult()[0][1];
     }
 
     private function countBuilder()
     {
         $this->qb->select('COUNT(a.id)');
         $this->configureJoins();
+
+        $this->qb->addGroupBy('a.id');
         return $this;
     }
 
@@ -319,6 +324,7 @@ class ListaFactory
     {
         if (isset($this->options['permanent_filter'])) {
             $this->qb->andWhere($this->options['permanent_filter']);
+            $this->countQb->andWhere($this->options['permanent_filter']);
         }
 
         // Rellenamos la query para la búsqueda
@@ -351,8 +357,11 @@ class ListaFactory
 
             $this->qb->andWhere($whereClause);
             $this->qb->setParameter('search', '%'.$this->search.'%');
+            $this->countQb->andWhere($whereClause);
+            $this->countQb->setParameter('search', '%'.$this->search.'%');
             if(is_numeric($this->search)) {
                 $this->qb->setParameter('search_num', floatval($this->search));
+                $this->countQb->setParameter('search_num', floatval($this->search));
             }
         }
 
