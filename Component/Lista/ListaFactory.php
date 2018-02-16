@@ -289,9 +289,8 @@ class ListaFactory
             $this->joinList++;
         }
 
-        $this->selectAliases[$this->joinListField[$table].'_'.$field] = 'a'.$this->joinListField[$table].'.'.$field;
-
-        return 'a'.$this->joinListField[$table].'.'.$field;
+        $this->selectAliases['a' . $this->joinListField[$table].'_'.$field] = 'a'.$this->joinListField[$table].'.'.$field;
+        return 'a'.$this->joinListField[$table].'.'.$field . ' AS ' . 'a' . $this->joinListField[$table].'_'.$field;
     }
 
     private function countResults()
@@ -436,12 +435,11 @@ class ListaFactory
                         }
 
                         if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
-                            $finalResult[$line]['id'] = $dt->getDataTransformer($field, $options);
+                            $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $options);
                             $row['id'] = $dt->getDataTransformer($field, $options);
                         }
 
                         if ($dt instanceof JoinType or $dt->getParent() == JoinType::class) {
-                            var_dump($key);
                             $finalResult[$line][$key] = $dt->getDataTransformer($field, $options);
                         }
 
