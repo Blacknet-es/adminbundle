@@ -92,7 +92,7 @@
                     </thead>
 
                     <tbody>
-                    {% for key, row in lista.data %}
+                    {% for index, row in lista.data %}
                         <tr data-row-id="{% if row.original_id is defined %}
                                             {{ row.original_id }}
                                         {% elseif row.id is defined %} {# Allows overriding the ID with a JoinType #}
@@ -101,8 +101,8 @@
                                             {{ loop.index }}
                                         {% endif %}
                                         " class="" aria-selected="false">
-                            {% for label, field in row if label != 'actions' and label != 'original_id' %}
-                                <td class="text-left" style="">{{ field|raw }}</td>
+                            {% for key, field in row if key != 'actions' and key != 'original_id' %}
+                                <td class="text-left" data-col="{{ key}}" style="">{{ field|raw }}</td>
                             {% endfor %}
                             {% if row.actions is defined and row.actions|length > 0 %}
                                 <td class="text-left actions" >

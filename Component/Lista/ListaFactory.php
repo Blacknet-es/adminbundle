@@ -108,6 +108,13 @@ class ListaFactory
      */
     protected $searchableFields;
 
+    /**
+     * @var array Guarda como claves los alias del select, y como valores la cadena utilizada para seleccionar el valor (por ejemplo: a.id)
+     * Para columnas normales, el alias será nombreColumna_posicion.
+     * Para columnas Join, el alias será posicionTabla_nombreColumna.
+     */
+    protected $selectAliases;
+
     public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -115,6 +122,7 @@ class ListaFactory
         $this->qb = null;
         $this->listaBuilder = new ListaBuilder();
         $this->arrayResults = array();
+        $this->selectAliases = array();
         $this->labels = array();
         $this->request = Request::createFromGlobals();
         $this->firstResult = 0; //Empezar por el principio
@@ -230,13 +238,18 @@ class ListaFactory
     private function selectBuilder()
     {
         $select = array();
+        $i = 0;
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof DataAbstractType) {
                 if (!$dataType instanceof JoinType && $dataType->getParent() != JoinType::class
                     && !$dataType->isHidden()) {
-                    $select[] = 'a.'.$dataType->getKey();
+                    $selectDql = 'a.'.$dataType->getKey();
+                    $selectAlias = $dataType->getKey() . '_' . $i;
+                    $select[] = $selectDql . ' AS ' . $selectAlias;
+                    $this->selectAliases[$selectAlias] = $selectDql;
                 }
             }
+            $i++;
         }
 
         $this->qb->select($select);
@@ -264,7 +277,7 @@ class ListaFactory
         }
     }
 
-    /**
+    /** Obtiene la parte del select a añadir para mostrar un JoinType
      * @param $dataType
      * @return string
      */
@@ -275,6 +288,8 @@ class ListaFactory
             $this->joinListField[$table] = $this->joinList;
             $this->joinList++;
         }
+
+        $this->selectAliases[$this->joinListField[$table].'_'.$field] = 'a'.$this->joinListField[$table].'.'.$field;
 
         return 'a'.$this->joinListField[$table].'.'.$field;
     }
@@ -375,6 +390,12 @@ class ListaFactory
         return $this;
     }
 
+    /**
+     * @param $result
+     * @param ListaAbstractType $lista
+     * @return array
+     * @throws \Exception
+     */
     private function transformerBuilder($result, ListaAbstractType $lista)
     {
         $dataTypes = $this->listaBuilder->getChilds();
@@ -390,10 +411,20 @@ class ListaFactory
             }
         }
 
+        $aliases = array_flip($this->selectAliases);
+
         foreach ($result as $line => $row) {
             foreach ($dataTypes as $key => $dt) {
+                //var_dump($key);
+                // Obtenemos la key del campo y, si no tiene la tabla incluida, es porque es la del from, con alias 'a',
+                // por lo que concatenamos el alias de tabla, y buscamos el alias para ese caso.
                 if (strstr($key, '.')) {
-                    $key = explode('.', $key)[1];
+                    // si hay un ., hay que sustituir el punto del join por su alias
+                    $joinTableName = explode('.', $key);
+                    $key = 'a' . $this->joinListField[$joinTableName[0]] . '.' . $joinTableName[1];
+                    $key = $aliases[$key];
+                } else {
+                    $key = $aliases['a.' . $key];
                 }
 
                 if(isset($row[$key])) {
@@ -405,11 +436,13 @@ class ListaFactory
                         }
 
                         if ($dt->getLabel() == 'Id' || $dt->getLabel() == 'id') {
-                            $finalResult[$line]['original_id'] = $dt->getDataTransformer($field, $options);
+                            $finalResult[$line]['id'] = $dt->getDataTransformer($field, $options);
+                            $row['id'] = $dt->getDataTransformer($field, $options);
                         }
 
                         if ($dt instanceof JoinType or $dt->getParent() == JoinType::class) {
-                            $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($field, $options);
+                            var_dump($key);
+                            $finalResult[$line][$key] = $dt->getDataTransformer($field, $options);
                         }
 
                         if($dt instanceof TextType && isset($options['translate']) && $options['translate']) {
@@ -418,19 +451,18 @@ class ListaFactory
                             $value = $field;
                         }
 
-                        $finalResult[$line][$dt->getLabel()] = $dt->getDataTransformer($value, $options);
+                        $finalResult[$line][$key] = $dt->getDataTransformer($value, $options);
                         if (!isset($this->labels[$key])) {
                             $this->labels[$key] = $dt->getLabel();
                         }
                     }
                 } else {
-                    $finalResult[$line][$dt->getLabel()] = '';
+                    $finalResult[$line][$key] = '';
                     if ($dt instanceof DataAbstractType && !$dt->isHidden() && !isset($this->labels[$key])) {
                         $this->labels[$key] = $dt->getLabel();
                     }
                 }
             }
-
             $finalResult[$line]['actions'] = $this->getActions($row);
         }
 
@@ -562,7 +594,7 @@ class ListaFactory
         );
     }
 
-    /**
+    /** Para un campo del listado, separa la parte de antes y después del punto para obtener el alias de la tabla y la columna en cuestión
      * @param $dataType
      * @return array
      */
