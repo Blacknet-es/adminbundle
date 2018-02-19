@@ -3,12 +3,13 @@
 namespace Trendix\AdminBundle\Component\Lista;
 
 
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Trendix\AdminBundle\Component\Lista\DataType\GalleryType;
+use Trendix\AdminBundle\Component\Lista\DataType\JoinManyType;
 use Trendix\AdminBundle\Component\Lista\DataType\JoinType;
 use Trendix\AdminBundle\Component\Lista\DataType\TextType;
 
@@ -259,6 +260,7 @@ class ListaFactory
         }
 
         $this->qb->select($select);
+        $this->qb->groupBy(implode(', ', array_values($this->selectAliases)));
         $this->countQb->select('COUNT(a.id)');
 
         $this->configureJoins();
@@ -272,7 +274,11 @@ class ListaFactory
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
-                $addSelect = $this->getSelectsJoinType($dataType);
+                if($dataType instanceof JoinManyType) {
+                    $addSelect = $this->getSelectsJoinManyType($dataType);
+                } else {
+                    $addSelect = $this->getSelectsJoinType($dataType);
+                }
                 if(!$dataType->isHidden()) {
                     $this->qb->addSelect($addSelect);
                 }
@@ -297,8 +303,28 @@ class ListaFactory
             $this->joinList++;
         }
 
-        $this->selectAliases['a' . $this->joinListField[$table].'_'.$field] = 'a'.$this->joinListField[$table].'.'.$field;
-        return 'a'.$this->joinListField[$table].'.'.$field . ' AS ' . 'a' . $this->joinListField[$table].'_'.$field;
+        $alias = 'a' . $this->joinListField[$table] . '_' . $field;
+        $dql = 'a' . $this->joinListField[$table] . '.' . $field;
+        $this->selectAliases[$alias] = $dql;
+        return $dql . ' AS ' . $alias;
+    }
+
+    /** Obtiene la parte del select a añadir para mostrar un JoinManyType
+     * @param JoinManyType $dataType
+     * @return string
+     */
+    private function getSelectsJoinManyType($dataType)
+    {
+        list($table, $field) = $this->getJoinTableAndField($dataType);
+        if (!isset($this->joinListField[$table])) {
+            $this->joinListField[$table] = $this->joinList;
+            $this->joinList++;
+        }
+
+        $alias = 'a' . $this->joinListField[$table] . '_' . $field;
+        $dql = $dataType->getDqlTransformer('a' . $this->joinListField[$table], $field);
+        $this->selectAliases[$alias] = $dql;
+        return $dql . ' AS ' . $alias;
     }
 
     private function countResults()
@@ -430,6 +456,9 @@ class ListaFactory
                     // si hay un ., hay que sustituir el punto del join por su alias
                     $joinTableName = explode('.', $key);
                     $key = 'a' . $this->joinListField[$joinTableName[0]] . '.' . $joinTableName[1];
+                    if($dt instanceof JoinManyType) {
+                        $key = $dt->getDqlTransformer('a' . $this->joinListField[$joinTableName[0]], $joinTableName[1]);
+                    }
                     $key = $aliases[$key];
                 } else {
                     $key = $aliases['a.' . $key];

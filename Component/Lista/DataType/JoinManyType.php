@@ -29,20 +29,26 @@ class JoinManyType extends DataAbstractType
     /**
      * {@inheritdoc}
      */
+    public function getDqlTransformer($tableAlias, $field)
+    {
+        $options = $this->getOptions();
+        $mode = "GROUP_CONCAT(#col SEPARATOR ',')";
+        if(isset($options['mode'])) {
+            $mode = $options['mode'];
+        }
+        $dql = str_replace('#col', $tableAlias . '.' . $field, $mode);
+        return $dql;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getDataTransformer($value, $options = array())
     {
-        $arrayValue = $value;
-        $arrayTransformed = array();
-
-        // Fix error in app_dev
-        if (empty($arrayValue)) {
-            return $arrayTransformed;
+        if (isset($options['data_transformer'])) {
+            $transformer = new $options['data_transformer']($this->getKey(), $this->getOptions());
+            return $transformer->getDataTransformer($value, $options);
         }
-
-        foreach ($arrayValue as $key => $value) {
-            $arrayTransformed[$key] = $value;
-        }
-
-        return $arrayTransformed;
+        return $value;
     }
 }
