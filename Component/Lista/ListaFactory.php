@@ -460,7 +460,7 @@ class ListaFactory
                         $key = $dt->getDqlTransformer('a' . $this->joinListField[$joinTableName[0]], $joinTableName[1]);
                     }
                     $key = $aliases[$key];
-                } else {
+                } elseif(!$this->sql) {
                     $key = $aliases['a.' . $key];
                 }
 
