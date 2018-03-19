@@ -9,7 +9,7 @@
         }
     },
     "require": {
-        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "friendsofsymfony/jsrouting-bundle": "^2.2",
         "liuggio/excelbundle": "^2.0",
         "knplabs/knp-snappy-bundle": "~1.4",
         "h4cc/wkhtmltopdf-amd64": "~0.12.3",
