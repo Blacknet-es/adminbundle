@@ -570,10 +570,15 @@ class ListaFactory
     private function getUrlParams($options, $row = array())
     {
         $params = $options['route_params'];
+        $aliases = array_flip($this->selectAliases);
         foreach ($options['route_list_params'] as $urlParam => $rowKey) {
             // If the key does not exist, we try using it as a value
             if(isset($row[$rowKey])) {
                 $params[$urlParam] = $row[$rowKey];
+            } elseif(isset($aliases[$rowKey]) && isset($row[$aliases[$rowKey]])) {
+                $params[$urlParam] = $row[$aliases[$rowKey]];
+            } elseif(isset($aliases['a.'.$rowKey]) && isset($row[$aliases['a.'.$rowKey]])) {
+                $params[$urlParam] = $row[$aliases['a.'.$rowKey]];
             } else {
                 $params[$urlParam] = $rowKey;
             }
