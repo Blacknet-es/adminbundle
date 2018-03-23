@@ -1,140 +1,140 @@
 
 {% if titleLogo is defined and titleLogo %}
-        <a href="{{ path('admin') }}" class="top-bar-logo">
-            <img src="{{ titleLogo }}" alt="{{ app_name }}"/>
-        </a>
+    <a href="{{ path('admin') }}" class="top-bar-logo">
+        <img src="{{ titleLogo }}" alt="{{ app_name }}"/>
+    </a>
 {% endif %}
 
-<ul class="header-inner">
-    {% if hideMenu is not defined or not hideMenu %}
-        <li id="menu-trigger" data-trigger="#sidebar">
-            <div class="line-wrap">
-                <div class="line top"></div>
-                <div class="line center"></div>
-                <div class="line bottom"></div>
-            </div>
-        </li>
-    {% endif %}
-    {% if titleLogo is not defined or not titleLogo %}
-        <li class="logo hidden-xs">
-            <a href="{{ path('admin') }}">{{ app_name|default('Admin')|trans }} {% if title is defined and (hideTitle is not defined or not hideTitle) %}> {{ title|trans }}{% endif %}</a>
-        </li>
-    {% endif %}
 
-    <li class="pull-right">
-        <ul class="top-menu">
-
-            {# Messages #}
-            {% if (admin_message_module is defined and admin_message_module) %}
-            <li {#class="dropdown"#}>
-                <a {#data-toggle="dropdown"#} href="{{ path(admin_message_link) }}">
-                    <i class="tm-icon zmdi zmdi-email"></i>
-                    <i class="tmn-counts" id="message-counter">0</i>
-                </a>
-                {#
-                <div class="dropdown-menu dropdown-menu-lg pull-right">
-                    <div class="listview">
-                        <div class="lv-header">
-                            Messages
-                        </div>
-                        <div class="lv-body">
-                            <a class="lv-item" href="">
-                                <div class="media">
-                                    <div class="pull-left">
-                                        <img class="lv-img-sm" src="{{ asset('bundles/admin/img/profile-pics/1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lv-title">David Belle</div>
-                                        <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <a class="lv-footer" href="">View All</a>
-                    </div>
-                </div>
-                #}
-            </li>
-            {% endif %}
-            {# End Messages #}
-
-            {# Notifications #}
-            {% if (admin_notification_module is defined and admin_notification_module) %}
-            <li class="dropdown">
-                <a {% if admin_notification_module != true %}data-toggle="dropdown"{% endif %} href="{{ admin_notification_module }}">
-                    <i class="tm-icon zmdi zmdi-notifications"></i>
-                    <i class="tmn-counts notifications-badge"></i>
-                </a>
-            </li>
-
-            {#
-            <li class="dropdown">
-                <a data-toggle="dropdown" href="">
-                    <i class="tm-icon zmdi zmdi-notifications"></i>
-                    <i class="tmn-counts notifications-badge"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg pull-right">
-                    <div class="listview" id="notifications">
-                        <div class="lv-header">
-                            Notification
-
-                            <ul class="actions">
-                                <li class="dropdown">
-                                    <a href="" data-clear="notification">
-                                        <i class="zmdi zmdi-check-all"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="lv-body">
-                            <a class="lv-item" href="">
-                                <div class="media">
-                                    <div class="pull-left">
-                                        <img class="lv-img-sm" src="img/profile-pics/1.jpg" alt="">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="lv-title">David Belle</div>
-                                        <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <a class="lv-footer" href="">View Previous</a>
-                    </div>
-
-                </div>
-            </li>
-            #}
-            {% endif %}
-
-            {# End Notifications #}
-            {% if customMenu is defined %}
-                {% include customMenu %}
-            {% endif %}
-            {% if app.user is defined and app.user %}
-                <li class="dropdown">
-                    <a href="{{ path('admin_logout') }}">
-                        <i class="tm-icon zmdi zmdi-close-circle" title="{{ 'admin.logout'|trans }}"></i>
-                    </a>
-                </li>
-            {% endif %}
-
-            {# Filtros #}
-            {% if useSideBar is defined and useSideBar %}
-            <li id="rightbar-trigger" class="dropdown" data-trigger="#rightbar">
-                <a href=""><i class="tm-icon zmdi {% if sideBarIcon is defined %}{{ sideBarIcon }}{% else %}zmdi-search{% endif %}"></i></a>
-            </li>
-            {% endif %}
-        </ul>
-    </li>
-</ul>
-
+{% if hideMenu is not defined or not hideMenu %}
+    <div class="navigation-trigger" data-ma-action="aside-open" data-ma-target=".sidebar">
+        <div class="navigation-trigger__inner">
+            <i class="navigation-trigger__line"></i>
+            <i class="navigation-trigger__line"></i>
+            <i class="navigation-trigger__line"></i>
+        </div>
+    </div>
+{% endif %}
+{% if titleLogo is not defined or not titleLogo %}
+    <div class="header__logo hidden-sm-down">
+        <h1>
+        <a href="{{ path('admin') }}">{{ app_name|default('Admin')|trans }} {% if title is defined and (hideTitle is not defined or not hideTitle) %}> {{ title|trans }}{% endif %}</a>
+        </h1>
+    </div>
+{% endif %}
 
 <!-- Top Search Content -->
-<div id="top-search-wrap">
-    <div class="tsw-inner">
-        <i id="top-search-close" class="zmdi zmdi-arrow-left"></i>
-        <input type="text">
+{#
+<form class="search">
+    <div class="search__inner">
+        <input type="text" class="search__text" placeholder="Search for people, files, documents...">
+        <i class="zmdi zmdi-search search__helper" data-ma-action="search-close"></i>
     </div>
-</div>
+</form>
+#}
+
+<!-- ACTION ICONS -->
+<ul class="top-nav">
+    {# Messages #}
+    {% if (admin_message_module is defined and admin_message_module) %}
+    <li {#class="dropdown"#}>
+        <a {#data-toggle="dropdown"#} href="{{ path(admin_message_link) }}" class="top-nav__notify">
+            <i class="zmdi zmdi-email"></i>
+        </a>
+        {#
+        <div class="dropdown-menu dropdown-menu-lg pull-right">
+            <div class="listview">
+                <div class="lv-header">
+                    Messages
+                </div>
+                <div class="lv-body">
+                    <a class="lv-item" href="">
+                        <div class="media">
+                            <div class="pull-left">
+                                <img class="lv-img-sm" src="{{ asset('bundles/admin/img/profile-pics/1.jpg') }}" alt="">
+                            </div>
+                            <div class="media-body">
+                                <div class="lv-title">David Belle</div>
+                                <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <a class="lv-footer" href="">View All</a>
+            </div>
+        </div>
+        #}
+    </li>
+    {% endif %}
+    {# End Messages #}
+
+    {# Notifications #}
+    {% if (admin_notification_module is defined and admin_notification_module) %}
+    <li class="dropdown">
+        <a {% if admin_notification_module != true %}data-toggle="dropdown"{% endif %} href="{{ admin_notification_module }}">
+            <i class="tm-icon zmdi zmdi-notifications"></i>
+            <i class="tmn-counts notifications-badge"></i>
+        </a>
+    </li>
+
+    {#
+    <li class="dropdown">
+        <a data-toggle="dropdown" href="">
+            <i class="tm-icon zmdi zmdi-notifications"></i>
+            <i class="tmn-counts notifications-badge"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg pull-right">
+            <div class="listview" id="notifications">
+                <div class="lv-header">
+                    Notification
+
+                    <ul class="actions">
+                        <li class="dropdown">
+                            <a href="" data-clear="notification">
+                                <i class="zmdi zmdi-check-all"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lv-body">
+                    <a class="lv-item" href="">
+                        <div class="media">
+                            <div class="pull-left">
+                                <img class="lv-img-sm" src="img/profile-pics/1.jpg" alt="">
+                            </div>
+                            <div class="media-body">
+                                <div class="lv-title">David Belle</div>
+                                <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <a class="lv-footer" href="">View Previous</a>
+            </div>
+
+        </div>
+    </li>
+    #}
+    {% endif %}
+
+    {# End Notifications #}
+    {% if customMenu is defined %}
+        {% include customMenu %}
+    {% endif %}
+    {% if app.user is defined and app.user %}
+        <li class="dropdown">
+            <a href="{{ path('admin_logout') }}">
+                <i class="tm-icon zmdi zmdi-close-circle" title="{{ 'admin.logout'|trans }}"></i>
+            </a>
+        </li>
+    {% endif %}
+
+    {# Filtros #}
+    {% if useSideBar is defined and useSideBar %}
+    <li data-ma-action="aside-open" data-ma-target="#rightbar">
+        <a href=""><i class="zmdi {% if sideBarIcon is defined %}{{ sideBarIcon }}{% else %}zmdi-search{% endif %}"></i></a>
+    </li>
+    {% endif %}
+</ul>
+<!-- END ACTION ICONS -->

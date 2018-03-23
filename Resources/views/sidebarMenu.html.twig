@@ -1,6 +1,6 @@
 {% import _self as menu %}
 
-<ul class="main-menu">
+<ul class="navigation">
     {% for option in principalMenu %}
         {{ menu.link(option, loop.index, principalMenu|length) }}
     {% endfor %}
@@ -26,7 +26,7 @@
 {% endif %}
 
 {% spaceless %}
-<li {% if link.id != null %}id="{{ link.id }}"{% endif %} class="{% if class is defined %}{{ class }}{% endif %} {% if link.submenu|length > 0 %}sub-menu{% endif %}">
+<li {% if link.id != null %}id="{{ link.id }}"{% endif %} class="{% if class is defined %}{{ class }}{% endif %} {% if link.submenu|length > 0 %}navigation__sub{% endif %}">
     <a href="{{ path }}">
         {% if link.icon != null %}<i class="zmdi zmdi-{{ link.icon }}"></i>{% endif %}
         {{ link.label }}

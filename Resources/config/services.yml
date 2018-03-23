@@ -1,7 +1,7 @@
 services:
-  admin.lista.factory:
-        class: Trendix\AdminBundle\Component\Lista\ListaFactory
-        arguments: ["@service_container", "@doctrine.orm.default_entity_manager"]
+  Trendix\AdminBundle\Component\Lista\ListaFactory:
+        arguments: ["@service_container","@doctrine.orm.entity_manager"]
+        public: true
   trendix_image:
         class: Trendix\AdminBundle\Form\ImageType
         arguments: ["@doctrine.orm.entity_manager"]
@@ -35,3 +35,7 @@ services:
           arguments: ['@session']
           tags:
               - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin }
+
+  admin.lista.factory:
+    alias: Trendix\AdminBundle\Component\Lista\ListaFactory
+    public: true
