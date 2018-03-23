@@ -61,11 +61,7 @@
     <div class="{% spaceless %}
         {# Boque que determina la clase del content #}
         {% block content_class %}
-        {% if content_class is defined %}
-            {{ content_class }}
-        {% else %}
-            container
-        {% endif %}
+        {% if content_class is defined %}{{ content_class }}{% endif %}
         {% endblock %}
     {% endspaceless %}">
     {% block content %}{% endblock %}

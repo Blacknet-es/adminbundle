@@ -3,67 +3,49 @@
 {% block body_class %}login-content {{ admin_theme|default("blue") }}{% endblock %}
 
 {% block body %}
-<div class="login-content" {% if admin_primary_color is defined %}style="background-color: {{ admin_primary_color }};"{% endif %}>
-    <!-- Login -->
-    <div class="lc-block toggled" id="l-login">
+<div class="login">
 
-        <form action="{{ path("admin_check") }}" method="post" name="loginform">
-            {% if loginTitle is defined and loginTitle %}
-                <h1>{{ loginTitle }}</h1>
-            {% endif %}
+    <!-- Login -->
+    <div class="login__block active" id="l-login">
+        <div class="login__block__header" {% if error %}style="background-color: #f33;"{% endif %}>
+            <i class="zmdi zmdi-account-circle"></i>
+            Introduce tus datos de usuario
             {% if error %}
                 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            <div class="input-group m-b-20">
-                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                <div class="fg-line">
+
+            <div class="actions actions--inverse login__block__actions">
+                <div class="dropdown">
+                    <i data-toggle="dropdown" class="zmdi zmdi-more-vert actions__item" aria-expanded="false"></i>
+
+                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(0px, 5px, 0px); top: 0px; left: 0px; will-change: transform;" x-out-of-boundaries="">
+                        {% if registerButton %}
+                            <a class="dropdown-item" href="{{ path(registerButton) }}">{{ 'security.login.register'|trans }}</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('reset_request') }}">{{ 'security.login.forgotten'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form action="{{ path("admin_check") }}" method="post" name="loginform">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+            <div class="login__block__body">
+                <div class="form-group form-group--float form-group--centered">
                     <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}"
-                           required="required" placeholder="{{ 'security.login.username'|trans }}">
+                           required="required">
+                    <label>{{ 'security.login.username'|trans }}</label>
+                    <i class="form-group__bar"></i>
                 </div>
-            </div>
 
-            <div class="input-group m-b-20">
-                <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
-                <div class="fg-line">
-                    <input type="password" class="form-control" id="password" name="_password" required="required"
-                           placeholder="{{ 'security.login.password'|trans }}">
+                <div class="form-group form-group--float form-group--centered">
+                    <input type="password" class="form-control" id="password" name="_password" required="required">
+                    <label>{{ 'security.login.password'|trans }}</label>
+                    <i class="form-group__bar"></i>
                 </div>
+
+                <button href="javascript:$('form').submit();" class="btn btn--icon login__block__btn"><i class="zmdi zmdi-long-arrow-right"></i></button>
             </div>
-
-            <div class="clearfix"></div>
-
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="remember_me" name="_remember_me" value="on">
-                    <i class="input-helper"></i>
-                    {{ 'security.login.remember_me'|trans }}
-                </label>
-            </div>
-
-            <button type="submit" class="btn btn-login btn-danger btn-float waves-effect waves-circle waves-float"
-                    id="_submit" name="_submit">
-                <i class="zmdi zmdi-arrow-forward"></i>
-            </button>
-            {#
-            <ul class="login-navigation">
-                <li data-block="#l-register" class="bgm-red">Register</li>
-                <li data-block="#l-forget-password" class="bgm-orange">Forgot Password?</li>
-            </ul>#}
-            <ul class="login-navigation">
-                <li data-block="#l-forget-password" class="bgm-orange">
-                    <a href="{{ path('reset_request') }}">
-                        {{ 'security.login.forgotten'|trans }}
-                    </a>
-                </li>
-                {% if registerButton %}
-                    <li data-block="#l-forget-password" class="bgm-green">
-                        <a href="{{ path(registerButton) }}">
-                            {{ 'security.login.register'|trans }}
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
         </form>
     </div>
 </div>

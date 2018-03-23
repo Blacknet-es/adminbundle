@@ -15,20 +15,20 @@ trendix_images:
     options:
         expose: true
 
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
 admin_login:
     path:  /admin/login
-    defaults: { _controller: FOSUserBundle:Security:login }
+    defaults: { _controller: TrendixAdminBundle:Security:login }
 
 admin_check:
     path:  /admin/login_check
-    defaults: { _controller: FOSUserBundle:Security:check }
+    defaults: { _controller: TrendixAdminBundle:Security:check }
 
 admin_logout:
     path:  /admin/logout
-    defaults: { _controller: FOSUserBundle:Security:logout }
+    defaults: { _controller: TrendixAdminBundle:Security:logout }
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

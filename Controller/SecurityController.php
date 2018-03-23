@@ -17,8 +17,7 @@ class SecurityController extends BaseSecController
 
     protected function renderLogin(array $data)
     {
-
-        $requestAttributes = $this->container->get('request')->attributes;
+        $requestAttributes = $this->container->get('request_stack')->getCurrentRequest()->attributes;
         if ($requestAttributes->get('_route') == 'admin_login') {
             if($this->container->hasParameter('admin_login_template')) {
                 $template = $this->getParameter('admin_login_template');
