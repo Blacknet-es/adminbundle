@@ -281,6 +281,9 @@ class User extends BaseUser
 
     function __toString()
     {
+        if (empty($this->lastName) && empty($this->name)) {
+            return $this->username;
+        }
         return $this->lastName . ', ' . $this->name;
     }
 }

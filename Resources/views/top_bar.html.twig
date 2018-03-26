@@ -122,13 +122,6 @@
     {% if customMenu is defined %}
         {% include customMenu %}
     {% endif %}
-    {% if app.user is defined and app.user %}
-        <li class="dropdown">
-            <a href="{{ path('admin_logout') }}">
-                <i class="tm-icon zmdi zmdi-close-circle" title="{{ 'admin.logout'|trans }}"></i>
-            </a>
-        </li>
-    {% endif %}
 
     {# Filtros #}
     {% if useSideBar is defined and useSideBar %}

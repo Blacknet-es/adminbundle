@@ -1,5 +1,22 @@
 {% import _self as menu %}
 
+{% if app.user is defined and app.user %}
+<div class="user">
+    <div class="user__info" data-toggle="dropdown">
+        <img class="user__img" src="/bundles/trendixadmin/img/profile-pics/{{ random(9) }}.jpg" alt="">
+        <div>
+            <div class="user__name">{{ app.user }}</div>
+            <div class="user__email">{{ app.user.email }}</div>
+        </div>
+    </div>
+
+    <div class="dropdown-menu">
+        <!-- <a class="dropdown-item" href="#">View Profile</a> -->
+        <a class="dropdown-item" href="{{ path('admin_logout') }}">{{ 'admin.logout'|trans }}</a>
+    </div>
+</div>
+{% endif %}
+
 <ul class="navigation">
     {% for option in principalMenu %}
         {{ menu.link(option, loop.index, principalMenu|length) }}
