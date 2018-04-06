@@ -193,9 +193,9 @@ class ListaFactory
         }
         if(array_key_exists('order_direction', $this->options) && $this->orderDirection === null) {
             $this->orderDirection = $this->options['order_direction'];
-        } /*else {
+        } else {
             $this->orderDirection = 0;
-        }*/
+        }
         // Save SQL code if needed
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
