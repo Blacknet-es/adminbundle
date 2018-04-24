@@ -49,7 +49,7 @@ class FileType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => TrendixFile::class,
-            'type' => 'hidden',  // the types to render the lat and lng fields as
+            'type' => HiddenType::class,  // the types to render the lat and lng fields as
             'options' => array(), // the options for both the fields
         ));
     }

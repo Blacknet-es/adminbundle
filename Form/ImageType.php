@@ -4,6 +4,7 @@ namespace Trendix\AdminBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -27,8 +28,8 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('image', 'hidden')
-            ->add('originalImage', 'hidden');
+            ->add('image', HiddenType::class)
+            ->add('originalImage', HiddenType::class);
 
         //$builder->get('image')->addModelTransformer(new ImageTransformer($this->manager));
     }

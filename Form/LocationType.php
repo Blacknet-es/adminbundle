@@ -5,6 +5,7 @@ namespace Trendix\AdminBundle\Form;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -38,7 +39,7 @@ class LocationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Trendix\AdminBundle\Entity\Location',
-            'type'           => 'hidden',  // the types to render the lat and lng fields as
+            'type'           => HiddenType::class,  // the types to render the lat and lng fields as
             'options'        => array(), // the options for both the fields
             'lat_options'  => array(),   // the options for just the lat field
             'lng_options' => array(),    // the options for just the lng field
