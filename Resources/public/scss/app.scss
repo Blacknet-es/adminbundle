@@ -148,3 +148,34 @@ ul.login-navigation > li {
   padding: 5px 10px;
   border-radius: 3px;
 }
+
+section#actionButtons {
+  position: fixed;
+  right: 45px;
+  bottom: 45px;
+  z-index: 998;
+
+  span.action {
+    .btn.action-button {
+      line-height: 36px;
+      height: 55px;
+      width: 55px;
+      font-size: 24px;
+      border-radius: 50%;
+    }
+
+    .action-label {
+      opacity: 0;
+      background-color: #444;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-right: 10px;
+      transition: opacity ease-in-out 0.1s;
+    }
+
+    &:hover .action-label {
+      opacity: 1;
+    }
+  }
+}

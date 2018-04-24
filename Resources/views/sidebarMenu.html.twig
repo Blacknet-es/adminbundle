@@ -23,39 +23,39 @@
     {% endfor %}
 </ul>
 
-{% macro link(link, position, totalElements) %}
-
-{% set path = 'javascript:void(0);' %}
-{% if link.route != null and link.route != '' %}
-    {% set path = path(link.route, link.params) %}
-{% endif %}
-
-{% if position == 1%}
-    {% set class = 'first' %}
-{% endif %}
-
-{% if position == totalElements %}
-    {% set class = 'last' %}
-{% endif %}
-
-{% if link.id == 'dashboard' %}
-    {% set class = 'current first' %}
-{% endif %}
-
-{% spaceless %}
-<li {% if link.id != null %}id="{{ link.id }}"{% endif %} class="{% if class is defined %}{{ class }}{% endif %} {% if link.submenu|length > 0 %}navigation__sub{% endif %}">
-    <a href="{{ path }}">
-        {% if link.icon != null %}<i class="zmdi zmdi-{{ link.icon }}"></i>{% endif %}
-        {{ link.label }}
-    </a>
-    {% if link.submenu|length > 0 %}
-        {# submenu #}
-        <ul>
-            {% for suboption in link.submenu %}
-                {{ _self.link(suboption, loop.index, link.submenu|length) }}
-            {% endfor %}
-        </ul>
+{% macro link(option, position, totalElements) %}
+    {% import _self as linkMacro %}
+    {% set path = 'javascript:void(0);' %}
+    {% if option.route != null and option.route != '' %}
+        {% set path = path(option.route, option.params) %}
     {% endif %}
-</li>
-{% endspaceless %}
+
+    {% if position == 1 %}
+        {% set class = 'first' %}
+    {% endif %}
+
+    {% if position == totalElements %}
+        {% set class = 'last' %}
+    {% endif %}
+
+    {% if option.id == 'dashboard' %}
+        {% set class = 'current first' %}
+    {% endif %}
+
+    {% spaceless %}
+    <li {% if option.id != null %}id="{{ option.id }}"{% endif %} class="{% if class is defined %}{{ class }}{% endif %} {% if option.submenu|length > 0 %}navigation__sub{% endif %}">
+        <a href="{{ path }}">
+            {% if option.icon != null %}<i class="zmdi zmdi-{{ option.icon }}"></i>{% endif %}
+            {{ option.label }}
+        </a>
+        {% if option.submenu|length > 0 %}
+            {# submenu #}
+            <ul>
+                {% for suboption in option.submenu %}
+                    {{ linkMacro.link(suboption, loop.index, option.submenu|length) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+    {% endspaceless %}
 {% endmacro %}
