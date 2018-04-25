@@ -422,3 +422,12 @@ table {
 {
   display: none;
 }
+
+.select2-container--default .select2-selection--single {
+  height: 44px !important;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+}
