@@ -4,6 +4,7 @@ namespace Trendix\AdminBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +27,7 @@ class GalleryType extends ImageType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('gallery', 'collection', array(
+            ->add('gallery', CollectionType::class, array(
                 'entry_type' => HiddenType::class,
                 'allow_add' => true,
                 'allow_delete' => true
