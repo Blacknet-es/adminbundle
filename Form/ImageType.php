@@ -40,7 +40,7 @@ class ImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $uploadConfig = array(
-            'uploadUrl' => __DIR__.'/../../../../web/uploads/images/',       // required - see explanation below (you can also put just a dir path)
+            'uploadUrl' => __DIR__.'/../../../../public/uploads/images/',       // required - see explanation below (you can also put just a dir path)
             'webDir' => '/uploads/images/',              // required - see explanation below (you can also put just a dir path)
             'fileExt' => '*.jpg;*.png;*.jpeg',    //optional
         );

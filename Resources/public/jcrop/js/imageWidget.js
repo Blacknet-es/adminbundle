@@ -83,7 +83,7 @@ function initJCrop(id, options){
     }
     $('#image_preview img').remove();
     $('#image_preview').html('<img src="'+options.uploadConfig.webDir + $('#selected_image').val() + '" id="image_preview_image"/>');
-    $('#image_preview img').load(function(){
+    $('#image_preview img').on('load', function(){
 
 
         $('#image_preview img').Jcrop({
