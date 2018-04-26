@@ -40,15 +40,6 @@
                         </div>
                     </div>
                     <div class="actions pull-right">
-                        {% if locales is defined and locales %}
-                            {{ 'list.locales'|trans }}:
-                            {% for locale in locales %}
-                                <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': locale})) }}"
-                                   class="btn btn-default locale-selector
-                                    {% if app.request.locale == locale %}disabled-button" disabled="disabled{% endif %}"
-                                >{{ locale | upper }}</a>
-                            {% endfor %}
-                        {% endif %}
                         {% if lista.downloadable %}
                             <a href="#" class="download-file" title="{{ 'Descargar en Excel'|trans }}" >
                                 <i class="zmdi zmdi-download"></i>

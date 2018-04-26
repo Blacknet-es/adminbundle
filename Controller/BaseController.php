@@ -125,6 +125,9 @@ class BaseController extends Controller
         if($this->container->hasParameter('content_class')) {
             $data['content_class'] = $this->getParameter('content_class');
         }
+        if($this->container->hasParameter('translatable')) {
+            $data['locales'] = $this->getParameter('locales');
+        }
 
         return $data;
     }
