@@ -230,7 +230,12 @@ class ListaFactory
             $this->orderBuilder(); //Order Options
             $this->pagerBuilder(); //Page Options
             //Obtain raw array results
-            $arrayResults = $this->qb->getQuery()->getArrayResult();
+            $query = $this->qb->getQuery();
+            // Check if the translatable extension is being used
+            if($this->container->hasParameter('translatable')) {
+                $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
+            }
+            $arrayResults = $query->getArrayResult();
         }
 
         //Return data transformed array resutls with label key
