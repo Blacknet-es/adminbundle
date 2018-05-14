@@ -89,7 +89,7 @@ class Gallery
 
     public function getWebPath($index = 0)
     {
-        return null === $this->gallery || count($this->gallery) == 0 ? null : '/'.$this->getUploadDir().'/'.$this->gallery[$index];
+        return null === $this->gallery || count($this->gallery) == 0 ? null : '/'.$this->getUploadDir().'/gallery/cropped/'.$this->gallery[$index];
     }
 
     function __toString()
