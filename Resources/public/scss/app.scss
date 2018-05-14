@@ -436,4 +436,9 @@ textarea.form-control {
   border: 1px solid #e8e8e8;
   background-color: #f8f8f8;
   margin-bottom: 10px;
+
+  img {
+    display: inline-block;
+    max-height: 200px;
+  }
 }
