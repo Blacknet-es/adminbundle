@@ -92,6 +92,11 @@ class Gallery
         return null === $this->gallery || count($this->gallery) == 0 ? null : '/'.$this->getUploadDir().'/gallery/cropped/'.$this->gallery[$index];
     }
 
+    public function getWebThumbnailPath($index = 0)
+    {
+        return null === $this->gallery || count($this->gallery) == 0 ? null : '/'.$this->getUploadDir().'/gallery/thumb/'.$this->gallery[$index];
+    }
+
     function __toString()
     {
         return $this->getWebPath();
