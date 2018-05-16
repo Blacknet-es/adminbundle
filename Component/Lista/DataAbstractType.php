@@ -85,6 +85,14 @@ abstract class DataAbstractType implements DataTypeInterface
         return isset($this->getOptions()['hidden']) && $this->getOptions()['hidden'];
     }
 
+    /** Returns if the current field has the "hidden" option set to true
+     * @return bool
+     */
+    public function isInvisible()
+    {
+        return isset($this->getOptions()['invisible']) && $this->getOptions()['invisible'];
+    }
+
     /**
      * Get the label, title or header of filed list
      * @return string

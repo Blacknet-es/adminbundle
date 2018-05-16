@@ -121,6 +121,8 @@ class ListaFactory
      */
     protected $selectAliases;
 
+    protected $invisibleColumns = [];
+
     public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -490,6 +492,10 @@ class ListaFactory
                         $finalResult[$line][$key] = $dt->getDataTransformer($value, $options);
                         if (!isset($this->labels[$key])) {
                             $this->labels[$key] = $dt->getLabel();
+                            // Si la columna es invisible, indicar
+                            if($dt->isInvisible()) {
+                                $this->invisibleColumns[$key] = true;
+                            }
                         }
                     }
                 } else {
@@ -606,6 +612,7 @@ class ListaFactory
             'sql' => $this->sql ? $this->sql : null,
             'listClass' => get_class($this->lista),
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
+            'invisibleColumns' => $this->invisibleColumns
         );
     }
 

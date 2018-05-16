@@ -66,7 +66,7 @@
                     <thead>
                     <tr>
                         {% for field, label in lista.labels %}
-                            <th data-column-id="id" class="text-left" style="">
+                            <th data-column-id="id" class="text-left {% if lista.invisibleColumns[field] is defined %}hidden{% endif %}" style="">
                                 <a href="javascript:void(0);" class="column-header-anchor sortable" data-value="{{ field }}">
                                     <span class="text">{{ label|trans }}</span>
                                 </a>
@@ -102,7 +102,7 @@
                                         {% endif %}
                                         " class="" aria-selected="false">
                             {% for key, field in row if key != 'actions' and key != 'original_id' %}
-                                <td class="text-left" data-col="{{ key}}" style="">{{ field|raw }}</td>
+                                <td class="text-left {% if lista.invisibleColumns[key] is defined %}hidden{% endif %}" data-col="{{ key }}" style="">{{ field|raw }}</td>
                             {% endfor %}
                             {% if row.actions is defined and row.actions|length > 0 %}
                                 <td class="text-left actions" >
