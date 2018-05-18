@@ -362,6 +362,7 @@ table {
 #image_upload_modal .modal-dialog
 {
   width: 850px;
+  max-width: none;
 }
 
 @media screen and (max-width: 720px) {
