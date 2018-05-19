@@ -23,6 +23,7 @@
 
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
     {% endblock %}
 
     <script src="{{ asset('/js/header.js') }}"></script>
@@ -138,8 +139,9 @@
     <!-- ../vendors -->
     {#
     <script src="/bundles/trendixadmin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/bundles/trendixadmin/vendors/bower_components/popper.js/dist/umd/popper.min.js"></script>
     #}
+    <script src="/bundles/trendixadmin/vendors/bower_components/popper.js/dist/umd/popper.min.js"></script>
+
     <script src="/bundles/trendixadmin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/bundles/trendixadmin/vendors/bower_components/jquery.scrollbar/jquery.scrollbar.min.js"></script>
     <script src="/bundles/trendixadmin/vendors/bower_components/jquery-scrollLock/jquery-scrollLock.min.js"></script>
@@ -154,6 +156,7 @@
     <script src="/bundles/trendixadmin/vendors/jquery.sparkline/jquery.sparkline.min.js"></script>
     <script src="/bundles/trendixadmin/vendors/bower_components/moment/min/moment.min.js"></script>
     <script src="/bundles/trendixadmin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
 
 
     <!-- App functions and actions -->
@@ -166,6 +169,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script type="text/javascript">
         $('select').select2();
+        $('.html-editor').summernote();
     </script>
 
     {% if (admin_notification_module is defined and admin_notification_module) %}
