@@ -52,7 +52,7 @@ $(document).ready(function() {
             type: 'post',
             data: $listaForm.serialize()
         }).done(function (data) {
-            $('#content > .container').html(data);
+            $('#main > div').html(data);
         });
     }
 
