@@ -27,12 +27,10 @@ $(document).ready(function() {
         e.preventDefault();
         var row = $(this).closest('tr');
         // We need the element real ID, the position of the column being toggled, and the desired value:
-        var id = row.children('td').first().text();
-        var col = row.children().index($(this).closest('td'));
-        var column = $(this).closest('table').find('thead tr').children('th').eq(col).children('a');
-        var colField = $(column).data("value");
+        var id = row.data('row-id');
+        var col = $(this).find('[data-original-col]').data('original-col');
         var value = parseInt($(this).data('value')) ? 1 : 0;
-        $listaForm.find('.update_field').val(id + ',' + colField + ',' + value);
+        $listaForm.find('.update_field').val(id + ',' + col + ',' + value);
         processListaForm();
     });
 

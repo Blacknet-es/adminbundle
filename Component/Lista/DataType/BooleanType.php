@@ -41,7 +41,7 @@ class BooleanType extends DataAbstractType
                 $class = 'zmdi-close disabled-red';
             }
         }
-        $result = '<div class="zmdi ' . $class . '"></div>';
+        $result = '<div data-original-col="' . $this->key . '" class="zmdi ' . $class . '"></div>';
         if($options['editable']) {
             $val = $value ? 0 : 1;
             $result = '<a href="#" class="update-value" data-value="' . $val . '">' . $result . '</a>';
