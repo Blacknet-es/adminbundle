@@ -169,7 +169,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script type="text/javascript">
         $('select').select2();
-        $('.html-editor').summernote();
+        $('.html-editor').summernote({
+
+        });
     </script>
 
     {% if (admin_notification_module is defined and admin_notification_module) %}
