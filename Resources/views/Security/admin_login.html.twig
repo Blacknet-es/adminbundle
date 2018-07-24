@@ -4,9 +4,11 @@
 
 {% block body %}
 <div class="login-content" {% if admin_primary_color is defined %}style="background-color: {{ admin_primary_color }};"{% endif %}>
+    {% if adminLogo is defined and adminLogo %}
+        <img src="{{ adminLogo }}" class="login-logo"/>
+    {% endif %}
     <!-- Login -->
     <div class="lc-block toggled" id="l-login">
-
         <form action="{{ path("admin_check") }}" method="post" name="loginform">
             {% if loginTitle is defined and loginTitle %}
                 <h1>{{ loginTitle }}</h1>

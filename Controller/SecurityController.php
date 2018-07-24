@@ -43,6 +43,7 @@ class SecurityController extends BaseSecController
         } else {
             $data['loginTitle'] = null;
         }
+        $data['adminLogo'] = $this->container->hasParameter('admin_logo') ? $this->getParameter('admin_logo') : null;
 
         if($this->container->hasParameter('admin_primary_color')) {
             $data['admin_primary_color'] = $this->getParameter('admin_primary_color');
