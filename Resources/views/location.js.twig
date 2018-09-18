@@ -1,11 +1,8 @@
 {% if includeMaps is defined and includeMaps %}
     <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyCYRUc_hKH3Yy2TOlEz066wfbpDzMY31Rk&signed_in=true&libraries=places"></script>
 {% endif %}
-{% javascripts
-'@TrendixAdminBundle/Resources/public/js/gmaps.js'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+
+<script type="text/javascript" src="/public/bundles/trendixadmin/js/gmaps.js"></script>
 
 <script>
     $(document).ready(function(){
