@@ -37,7 +37,6 @@ class QueryList extends ListaAbstractType
             $label = isset($field[2]) ? $field[2] : $name;
             $builder->add($name, $type, array('label' => $label));
         }
-
         foreach($this->actions as $action) {
             if($action[2]) {
                 $options = array('route' => $action[2]);
@@ -47,7 +46,11 @@ class QueryList extends ListaAbstractType
             } else {
                 $options['url'] = $action[3];
             }
-            $builder->addAction($action[0], $action[1], $options);
+            if(isset($action[4])) {
+                $builder->addAction($action[0], $action[1], $options, $action[4]);
+            } else {
+                $builder->addAction($action[0], $action[1], $options);
+            }
         }
 
         return $this;
