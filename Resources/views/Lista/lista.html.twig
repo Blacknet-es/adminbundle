@@ -41,7 +41,7 @@
                     </div>
                     <div class="actions pull-right">
                         {% if lista.downloadable %}
-                            <a href="#" class="download-file" title="{{ 'Descargar en Excel'|trans }}" >
+                            <a href="#" class="download-file" title="{{ 'admin.excel_download'|trans }}" >
                                 <i class="zmdi zmdi-download"></i>
                             </a>
                         {% endif %}
@@ -98,7 +98,7 @@
 
                                     {% for action in row.actions %}
                                         {% if action.action == 'delete' %}
-                                        <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
+                                        <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'admin.remove_element'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
                                             <i class="zmdi zmdi-{{ action.icon }}"></i>
                                         </a>
                                         {% else %}
@@ -191,7 +191,7 @@
             </div>
         {% else %}
             <div class="card-body card-padding">
-                {{ 'No hay elementos'|trans }}
+                {{ 'admin.no_elements'|trans }}
             </div>
         {% endif %}
     </div>
