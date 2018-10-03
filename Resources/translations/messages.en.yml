@@ -13,6 +13,11 @@ admin:
   logout: Log out
   pass_changed: Password changed successfully
   export: Export
+  accept: Accept
+  cancel: Cancel
+  no_elements: No elements
+  remove_element: Remove element
+  excel_download: Download Excel file
 
 list:
   confirm_remove: Do you wish to delete the selected item?

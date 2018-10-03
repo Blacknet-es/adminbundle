@@ -12,6 +12,11 @@ admin:
   logout: Cerrar sesión
   pass_changed: Contraseña cambiada con éxito
   export: Exportar
+  accept: Aceptar
+  cancel: Cancelar
+  no_elements: No hay elementos
+  remove_element: Eliminar Elemento
+  excel_download: Descargar en Excel
 
 
 list:

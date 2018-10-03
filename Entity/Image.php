@@ -121,7 +121,7 @@ class Image
 
     public function getWebPath()
     {
-        return null === $this->image ? null : '/'.$this->getUploadDir().'/'.$this->image;
+        return null === $this->image ? '' : '/'.$this->getUploadDir().'/'.$this->image;
     }
 
     function __toString()
