@@ -3,7 +3,6 @@
 
 namespace Trendix\AdminBundle\Utility;
 
-use Itbid\AdministracionBundle\Controller\ItbidBaseController;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class API {

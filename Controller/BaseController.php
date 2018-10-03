@@ -128,6 +128,9 @@ class BaseController extends Controller
         if($this->container->hasParameter('translatable')) {
             $data['locales'] = $this->getParameter('locales');
         }
+        if($this->container->hasParameter('admin_theme')) {
+            $data['admin_theme'] = $this->getParameter('admin_theme');
+        }
 
         return $data;
     }
