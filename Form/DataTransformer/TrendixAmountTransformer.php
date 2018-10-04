@@ -34,7 +34,7 @@ class TrendixAmountTransformer implements DataTransformerInterface
      * @param  float $float
      * @return String
      */
-    public function reverseTransform($float)
+    public function transform($float)
     {
         $number = new Numeric($float, $this->divisa, $this->decimales);
         return $number->FloatToAmount();
@@ -47,7 +47,7 @@ class TrendixAmountTransformer implements DataTransformerInterface
      * @return float
      * @throws TransformationFailedException if error
      */
-    public function transform($string)
+    public function reverseTransform($string)
     {
 
         if (null === $string) {
