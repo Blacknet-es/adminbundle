@@ -14,7 +14,7 @@ class QueryList extends ListaAbstractType
     /**
      * QueryList constructor.
      * @param string $sql
-     * @param array|string $fields
+     * @param array|string $fields Cada campo debe tener los siguientes valores: 0 => nombre del campo en la consulta, 1 => tipo de campo, 2 => label (string) o array de opciones (debe incluir el label)
      * @param array|string $actions
      * @param bool $downloadable
      * @param array $searchableFields Map indication <alias in select> => <reference in where clause>
@@ -28,14 +28,29 @@ class QueryList extends ListaAbstractType
         $this->searchableFields = $searchableFields;
     }
 
-
+    /**
+     * @param ListaAbstractBuilder $builder
+     * @param array $options
+     * @return $this|ListaAbstractType
+     */
     public function buildList(ListaAbstractBuilder $builder, array $options)
     {
         foreach($this->fields as $field) {
             $name = $field[0];
             $type = isset($field[1]) ? $field[1] : 'text';
-            $label = isset($field[2]) ? $field[2] : $name;
-            $builder->add($name, $type, array('label' => $label));
+            $fieldOptions = [];
+            // Si está definido el tercer parámetro de las opciones
+            if(isset($field[2])) {
+                // Si es un array, usar como array de opciones
+                if(is_array($field[2])) {
+                    $fieldOptions = $field[2];
+                } else { // Si no, crear array de opciones incluyendo el label
+                    $fieldOptions = array('label' => $field[2]);
+                }
+            } else { // Si no hay label, utilizamos el name del campo
+                $fieldOptions = array('label' => $name);
+            }
+            $builder->add($name, $type, $fieldOptions);
         }
         foreach($this->actions as $action) {
             if($action[2]) {
