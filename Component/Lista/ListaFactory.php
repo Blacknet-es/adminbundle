@@ -665,6 +665,17 @@ class ListaFactory
     private function updateRow($values)
     {
         list($id, $column, $value) = explode(',', $values);
+
+        // Parche para arreglar el problema de los campos editables en sycgestión, que de momento se queda en symfony 2.8
+        $class = $this->lista->getClass();
+        if(!method_exists(new $class, 'get' . ucfirst($column)) && !method_exists(new $class, 'is' . ucfirst($column))) {
+            $parts = explode('_', $column);
+            if(method_exists(new $class, 'get' . ucfirst($parts[0])) || method_exists(new $class, 'is' . ucfirst($parts[0]))) {
+                $column = $parts[0];
+            } elseif(method_exists(new $class, 'get' . ucfirst($parts[1])) || method_exists(new $class, 'is' . ucfirst($parts[1]))) {
+                $column = $parts[1];
+            }
+        }
         $qb = $this->em->getRepository($this->lista->getClass())->createQueryBuilder('a');
         $q = $qb->update($this->lista->getClass(), 'a')
             ->set('a.'.$column, '?1')
