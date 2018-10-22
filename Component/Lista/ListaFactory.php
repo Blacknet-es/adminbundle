@@ -123,6 +123,8 @@ class ListaFactory
 
     protected $invisibleColumns = [];
 
+    protected $requestFields = [];
+
     public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -160,17 +162,19 @@ class ListaFactory
             $this->search = addslashes($this->request->request->get('search'));
         }
 
-        if ($this->request->request->get('order_column')) {
+        if ($this->request->request->has('order_column')) {
             $this->orderColumn = $this->request->request->get('order_column');
         }
 
-        if ($this->request->request->get('order_direction')) {
+        if ($this->request->request->has('order_direction')) {
             $this->orderDirection = $this->request->request->get('order_direction');
         }
 
         if ($this->request->request->get('update_field')) {
             $this->toggleField = $this->request->request->get('update_field');
         }
+
+        $this->requestFields = $this->request->request->all();
     }
 
     /**
@@ -193,11 +197,13 @@ class ListaFactory
         if(array_key_exists('order_column', $this->options) && $this->orderColumn == 'default') {
             $this->orderColumn = $this->options['order_column'];
         }
-        if(array_key_exists('order_direction', $this->options) && $this->orderDirection === null) {
+        if(array_key_exists('order_direction', $this->options)) {
             $this->orderDirection = $this->options['order_direction'];
-        } else {
-            $this->orderDirection = 0;
         }
+        if(array_key_exists('order_direction', $this->requestFields)) {
+            $this->orderDirection = $this->requestFields['order_direction'];
+        }
+
         // Save SQL code if needed
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
