@@ -111,13 +111,15 @@
             {% endfor -%}
         </div>
     {%- else -%}
-        <div {{ block('widget_container_attributes') }} class="row">
-            {%- for child in form %}
-                {{- form_widget(child, {
-                    parent_label_class: label_attr.class|default(''),
-                    translation_domain: choice_translation_domain,
-                }) -}}
-            {% endfor -%}
+        <div class="container-fluid">
+            <div {{ block('widget_container_attributes') }} class="row">
+                {%- for child in form %}
+                    {{- form_widget(child, {
+                        parent_label_class: label_attr.class|default(''),
+                        translation_domain: choice_translation_domain,
+                    }) -}}
+                {% endfor -%}
+            </div>
         </div>
     {%- endif %}
 {%- endblock choice_widget_expanded %}
