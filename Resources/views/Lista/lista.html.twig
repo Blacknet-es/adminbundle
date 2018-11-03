@@ -136,36 +136,36 @@
                             {% if (lista.totalPage > 1) %}
                                 <ul class="pagination">
                                     {% if lista.currentPage > 1 %}
-                                        <li class="first" aria-disabled="false">
-                                            <a data-page="1" class="button"><i class="zmdi zmdi-more-horiz"></i></a>
+                                        <li class="page-item pagination-first">
+                                            <a data-page="1" class="page-link"></a>
                                         </li>
-                                        <li class="prev" aria-disabled="false">
-                                            <a data-page="{{ lista.currentPage - 1 }}" class="button"><i class="zmdi zmdi-chevron-left"></i></a>
+                                        <li class="page-item pagination-prev">
+                                            <a data-page="{{ lista.currentPage - 1 }}" class="page-link"></a>
                                         </li>
                                         {% set first = max(1, lista.currentPage-5) %}
                                         {% for p in first..lista.currentPage - 1 %}
-                                            <li class="page-{{ p }}" aria-disabled="false" aria-selected="true">
-                                                <a data-page="{{ p }}" class="button">{{ p }}</a>
+                                            <li class="page-{{ p }} page-item">
+                                                <a data-page="{{ p }}" class="page-link">{{ p }}</a>
                                             </li>
                                         {% endfor %}
                                     {% endif %}
 
-                                    <li class="page-{{ lista.currentPage }} active" aria-disabled="true" aria-selected="false">
-                                        <a data-page="{{ lista.currentPage }}" class="button">{{ lista.currentPage }}</a>
+                                    <li class="page-{{ lista.currentPage }} page-link active">
+                                        <a data-page="{{ lista.currentPage }}" class="page-link">{{ lista.currentPage }}</a>
                                     </li>
 
                                     {% if lista.currentPage < lista.totalPage %}
                                         {% set last = min(lista.totalPage, lista.currentPage+5) %}
                                         {% for p in lista.currentPage + 1..last %}
-                                            <li class="page-{{ p }}" aria-disabled="false" aria-selected="true">
-                                                <a data-page="{{ p }}" class="button">{{ p }}</a>
+                                            <li class="page-{{ p }} page-link">
+                                                <a data-page="{{ p }}" class="page-link">{{ p }}</a>
                                             </li>
                                         {% endfor %}
-                                        <li class="next" aria-disabled="false">
-                                            <a data-page="{{ lista.currentPage + 1}}" class="button"><i class="zmdi zmdi-chevron-right"></i></a>
+                                        <li class="page-item pagination-next">
+                                            <a data-page="{{ lista.currentPage + 1}}" class="page-link"></a>
                                         </li>
-                                        <li class="last" aria-disabled="false">
-                                            <a data-page="{{ lista.totalPage }}" class="button"><i class="zmdi zmdi-more-horiz"></i></a>
+                                        <li class="page-itme pagination-last">
+                                            <a data-page="{{ lista.totalPage }}" class="page-link"></a>
                                         </li>
                                     {% endif %}
                                 </ul>
