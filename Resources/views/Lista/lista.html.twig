@@ -21,23 +21,16 @@
                         </div>
                     {% endif %}
                     <div class="actions btn-group pull-left">
-                        <div class="dropdown btn-group">
-                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
-                                    {% if lista.maxResults == 10 %}disabled-button" disabled="disabled{% endif %}"
-                                    data-toggle="dropdown" data-value="10"><span class="dropdown-text">10</span>
-                                <span class="caret"></span>
-                            </button>
-                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
-                                    {% if lista.maxResults == 25 %}disabled-button" disabled="disabled{% endif %}"
-                                    data-toggle="dropdown" data-value="25"><span class="dropdown-text">25</span>
-                                <span class="caret"></span>
-                            </button>
-                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
-                                    {% if lista.maxResults == 50 %}disabled-button" disabled="disabled{% endif %}"
-                                    data-toggle="dropdown" data-value="50"><span class="dropdown-text">50</span>
-                                <span class="caret"></span>
-                            </button>
-                        </div>
+                        <button type="button" class="btn btn-light page-size-selector
+                                {% if lista.maxResults == 10 %}disabled-button" disabled="disabled{% endif %}"
+                                data-value="10">10</button>
+                        <button type="button" class="btn btn-light page-size-selector
+                                {% if lista.maxResults == 25 %}disabled-button" disabled="disabled{% endif %}"
+                                data-value="25">25</button>
+                        <button type="button" class="btn btn-light page-size-selector
+                                {% if lista.maxResults == 50 %}disabled-button" disabled="disabled{% endif %}"
+                                data-value="50">50</span>
+                        </button>
                     </div>
                     <div class="actions pull-right">
                         {% if lista.downloadable %}
