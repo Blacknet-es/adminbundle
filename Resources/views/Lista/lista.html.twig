@@ -150,21 +150,21 @@
                                         {% endfor %}
                                     {% endif %}
 
-                                    <li class="page-{{ lista.currentPage }} page-link active">
+                                    <li class="page-{{ lista.currentPage }} page-item active">
                                         <a data-page="{{ lista.currentPage }}" class="page-link">{{ lista.currentPage }}</a>
                                     </li>
 
                                     {% if lista.currentPage < lista.totalPage %}
                                         {% set last = min(lista.totalPage, lista.currentPage+5) %}
                                         {% for p in lista.currentPage + 1..last %}
-                                            <li class="page-{{ p }} page-link">
+                                            <li class="page-{{ p }} page-item">
                                                 <a data-page="{{ p }}" class="page-link">{{ p }}</a>
                                             </li>
                                         {% endfor %}
                                         <li class="page-item pagination-next">
                                             <a data-page="{{ lista.currentPage + 1}}" class="page-link"></a>
                                         </li>
-                                        <li class="page-itme pagination-last">
+                                        <li class="page-item pagination-last">
                                             <a data-page="{{ lista.totalPage }}" class="page-link"></a>
                                         </li>
                                     {% endif %}
