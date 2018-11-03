@@ -23,7 +23,7 @@
                 {% if form[name].vars.value %}
                     <img src="{{ options.uploadConfig.webDir ~ form[name].vars.value|replace({'cropped': 'thumb'}) }}" id="{{ form[name].vars.id }}_preview" style="cursor:hand; cursor: pointer"/>
                 {% else %}
-                    <img src="http://placehold.it/{{ options.cropConfig.minWidth }}x{{ options.cropConfig.minHeight}}" id="{{ form[name].vars.id }}_preview"/>
+                    <img src="//placehold.it/{{ options.cropConfig.minWidth }}x{{ options.cropConfig.minHeight}}" id="{{ form[name].vars.id }}_preview"/>
                 {% endif %}
             </div>
         </div>
