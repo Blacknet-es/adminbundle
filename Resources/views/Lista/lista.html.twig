@@ -21,23 +21,16 @@
                         </div>
                     {% endif %}
                     <div class="actions btn-group pull-left">
-                        <div class="dropdown btn-group">
-                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
-                                    {% if lista.maxResults == 10 %}disabled-button" disabled="disabled{% endif %}"
-                                    data-toggle="dropdown" data-value="10"><span class="dropdown-text">10</span>
-                                <span class="caret"></span>
-                            </button>
-                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
-                                    {% if lista.maxResults == 25 %}disabled-button" disabled="disabled{% endif %}"
-                                    data-toggle="dropdown" data-value="25"><span class="dropdown-text">25</span>
-                                <span class="caret"></span>
-                            </button>
-                            <button aria-expanded="false" type="button" class="btn btn-default page-size-selector
-                                    {% if lista.maxResults == 50 %}disabled-button" disabled="disabled{% endif %}"
-                                    data-toggle="dropdown" data-value="50"><span class="dropdown-text">50</span>
-                                <span class="caret"></span>
-                            </button>
-                        </div>
+                        <button type="button" class="btn btn-light page-size-selector
+                                {% if lista.maxResults == 10 %}disabled-button" disabled="disabled{% endif %}"
+                                data-value="10">10</button>
+                        <button type="button" class="btn btn-light page-size-selector
+                                {% if lista.maxResults == 25 %}disabled-button" disabled="disabled{% endif %}"
+                                data-value="25">25</button>
+                        <button type="button" class="btn btn-light page-size-selector
+                                {% if lista.maxResults == 50 %}disabled-button" disabled="disabled{% endif %}"
+                                data-value="50">50</span>
+                        </button>
                     </div>
                     <div class="actions pull-right">
                         {% if lista.downloadable %}
@@ -136,36 +129,36 @@
                             {% if (lista.totalPage > 1) %}
                                 <ul class="pagination">
                                     {% if lista.currentPage > 1 %}
-                                        <li class="first" aria-disabled="false">
-                                            <a data-page="1" class="button"><i class="zmdi zmdi-more-horiz"></i></a>
+                                        <li class="page-item pagination-first">
+                                            <a data-page="1" class="page-link"></a>
                                         </li>
-                                        <li class="prev" aria-disabled="false">
-                                            <a data-page="{{ lista.currentPage - 1 }}" class="button"><i class="zmdi zmdi-chevron-left"></i></a>
+                                        <li class="page-item pagination-prev">
+                                            <a data-page="{{ lista.currentPage - 1 }}" class="page-link"></a>
                                         </li>
                                         {% set first = max(1, lista.currentPage-5) %}
                                         {% for p in first..lista.currentPage - 1 %}
-                                            <li class="page-{{ p }}" aria-disabled="false" aria-selected="true">
-                                                <a data-page="{{ p }}" class="button">{{ p }}</a>
+                                            <li class="page-{{ p }} page-item">
+                                                <a data-page="{{ p }}" class="page-link">{{ p }}</a>
                                             </li>
                                         {% endfor %}
                                     {% endif %}
 
-                                    <li class="page-{{ lista.currentPage }} active" aria-disabled="true" aria-selected="false">
-                                        <a data-page="{{ lista.currentPage }}" class="button">{{ lista.currentPage }}</a>
+                                    <li class="page-{{ lista.currentPage }} page-item active">
+                                        <a data-page="{{ lista.currentPage }}" class="page-link">{{ lista.currentPage }}</a>
                                     </li>
 
                                     {% if lista.currentPage < lista.totalPage %}
                                         {% set last = min(lista.totalPage, lista.currentPage+5) %}
                                         {% for p in lista.currentPage + 1..last %}
-                                            <li class="page-{{ p }}" aria-disabled="false" aria-selected="true">
-                                                <a data-page="{{ p }}" class="button">{{ p }}</a>
+                                            <li class="page-{{ p }} page-item">
+                                                <a data-page="{{ p }}" class="page-link">{{ p }}</a>
                                             </li>
                                         {% endfor %}
-                                        <li class="next" aria-disabled="false">
-                                            <a data-page="{{ lista.currentPage + 1}}" class="button"><i class="zmdi zmdi-chevron-right"></i></a>
+                                        <li class="page-item pagination-next">
+                                            <a data-page="{{ lista.currentPage + 1}}" class="page-link"></a>
                                         </li>
-                                        <li class="last" aria-disabled="false">
-                                            <a data-page="{{ lista.totalPage }}" class="button"><i class="zmdi zmdi-more-horiz"></i></a>
+                                        <li class="page-item pagination-last">
+                                            <a data-page="{{ lista.totalPage }}" class="page-link"></a>
                                         </li>
                                     {% endif %}
                                 </ul>
