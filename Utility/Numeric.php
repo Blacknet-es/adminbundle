@@ -42,6 +42,8 @@ class Numeric
      */
     private $sesion;
 
+    protected static $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     public function __construct($value = null, $divisa = null, $decimales = null)
     {
         $this->value = floatval($value);
@@ -213,5 +215,24 @@ class Numeric
     static public function getPuntuacionDistancia(Proveedor $proveedor, float $distancia)
     {
         return round(((float)1-(is_null($proveedor->getDistance()) ? 0 : $proveedor->getDistance() /$distancia))*100,2);
+    }
+
+    /**
+     * Devuelve el código de letras de un número (BASE 25) Si no es númerico devuelve A (0)
+     * @param $number
+     * @return string
+     */
+    public static function getLetterFromNumber($number)
+    {
+        if (!is_numeric($number)) {
+            return 'A';
+        }
+        $code = '';
+        $total = strlen(self::$letters);
+        if ($number >= $total) {
+            return self::getLetterFromNumber(floor($number/$total) - 1).self::$letters[$number % $total];
+        } else {
+            return $code . self::$letters[$number];
+        }
     }
 }
