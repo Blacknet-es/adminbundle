@@ -12,6 +12,12 @@
     {{- parent() -}}
 {%- endblock form_widget_simple %}
 
+{% block entity_hidden_row -%}
+    <div style="display: none;">
+        {{- form_row(form) -}}
+    </div>
+{%- endblock entity_hidden_row %}
+
 {% block textarea_widget -%}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control textarea-autosize')|trim}) %}
     {{- parent() -}}
