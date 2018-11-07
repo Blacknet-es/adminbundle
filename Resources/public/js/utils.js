@@ -7,4 +7,4 @@ $(document).on('click', '.actions a[data-action], .btn[data-action]', function(e
         console.log($(this));
         window[action]($(this));
     }
-})
+});
