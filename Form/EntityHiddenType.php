@@ -22,21 +22,6 @@ use Trendix\AdminBundle\Form\DataTransformer\HiddenEntityTransformer;
 class EntityHiddenType extends AbstractType
 {
     /**
-     * @var DataTransformerInterface $transformer
-     */
-    private $transformer;
-
-    /**
-     * @inheritDoc
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        // attach the specified model transformer for this entity list field
-        // this will convert data between object and string formats
-        //$builder->addModelTransformer(new HiddenEntityTransformer($options['em'], $options['class']));
-    }
-
-    /**
      * @inheritDoc
      */
     public function getParent()
