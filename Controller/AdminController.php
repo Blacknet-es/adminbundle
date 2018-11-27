@@ -60,7 +60,7 @@ class AdminController extends BaseController
     {
         $this->initializeEntityManager();
         $subscriber = $this->em->getRepository('TrendixAdminBundle:NewsletterSubscriber')->find($id);
-        $this->em->delete($subscriber);
+        $this->em->remove($subscriber);
         $this->em->flush();
 
         return $this->redirectToRoute('admin_subscriber_index');
