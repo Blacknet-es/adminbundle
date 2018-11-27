@@ -63,7 +63,10 @@ class AdminController extends BaseController
         $this->em->remove($subscriber);
         $this->em->flush();
 
-        return $this->redirectToRoute('admin_subscriber_index');
+        return new JsonResponse([
+            'type' => 'OK',
+            'reload' => true
+        ]);
     }
 
     /**

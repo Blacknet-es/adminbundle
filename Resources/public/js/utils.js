@@ -27,13 +27,13 @@ $('body').on('click', '[data-ajax-action]', function() {
         url: $e.data('ajax-action'),
         type: 'post'
     }).done(function(data) {
-        window.location.reload();
+        handleResponse(data);
     });
 
     function handleResponse(data)
     {
         if (data.type == 'OK') {
-            if (data.reload != undefined) {
+            if (data.reload != undefined && data.reload) {
                 window.location.reload();
             }
         }
