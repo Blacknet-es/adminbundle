@@ -9,6 +9,38 @@ $(document).on('click', '.actions a[data-action], .btn[data-action]', function(e
     }
 });
 
+$('body').on('click', '[data-ajax-action]', function() {
+    var $e = $(this);
+    var $modal = $('#TrendixAdminAjaxConfirmModal');
+    var $btn = $('#btnTrendixAdminAjaxConfirmModal');
+
+    if ($e.data('confirm') == true) {
+        $modal.find('.modal-title').html($e.data('title'));
+        $modal.find('.modal-body').html($e.data('message'));
+        $btn.data('ajax-action', $e.data('ajax-action')).attr('data-ajax-action', $e.data('ajax-action'));
+
+        $modal.modal('show');
+        return false;
+    }
+
+    $.ajax({
+        url: $e.data('ajax-action'),
+        type: 'post'
+    }).done(function(data) {
+        handleResponse(data);
+    });
+
+    function handleResponse(data)
+    {
+        if (data.type == 'OK') {
+            if (data.reload != undefined && data.reload) {
+                window.location.reload();
+            }
+        }
+        return true;
+    }
+});
+
 $(document).on('click', '.confirm-edit-modal', function(e) {
     e.preventDefault();
 
@@ -32,26 +64,3 @@ $(document).on('click', '.confirm-edit-modal', function(e) {
 $(document).on('click', '.save-confirm-form', function(e) {
     $(this).closest('form').submit();
 });
-
-
-function action_editar_campo(){
-    var $editableRow = $storedElement.find('dd.editableField');
-    var $editInput = $editableRow.find('div.editInput');
-    var $value = $editableRow.find('span.propertyValue');
-    var type = $editableRow.data('type');
-
-    // Si es date le realizamos un trato especial
-    if(type == 'datetime'){
-        $editInput.find('input[name*="_date"]').val($editableRow.data('datevalue'));
-        $editInput.find('input[name*="_time"]').val($editableRow.data('timevalue'));
-    }else if(type == 'date'){
-
-    }else{
-        $editInput.find('input,select').val($editableRow.data('originalvalue'));
-    }
-
-    $editInput.show();
-    $value.hide();
-
-    $modalEditarCampo.modal('hide');
-}

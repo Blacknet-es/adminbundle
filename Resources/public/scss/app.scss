@@ -505,3 +505,15 @@ textarea.form-control {
 .input-group .custom-file, .input-group .custom-select, .input-group .form-control {
   width: auto;
 }
+
+/* SELECT 2*/
+.select2-container--default .select2-selection--single {
+  background-color: transparent !important;
+  border: 0px !important;
+  border-radius: 0px !important;
+  height: inherit !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: inherit !important;
+}

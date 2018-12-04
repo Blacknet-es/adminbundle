@@ -6,10 +6,14 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Exception\ValidatorException;
+use Trendix\AdminBundle\EventListener\DiscriminatorEntry;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name = "_user_type", type = "string")
+ * @DiscriminatorEntry(value = "base")
  */
 class User extends BaseUser
 {

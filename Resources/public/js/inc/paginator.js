@@ -15,6 +15,8 @@ $(document).ready(function() {
     $(document).on('click', '.page-size-selector', function(e) {
         e.preventDefault();
         $listaForm.find('.max').val($(this).data('value'));
+        // Cuando se cambie el numero de elementos por pagina cambiamos a la pagina 1
+        $listaForm.find('.pag').val(1);
         processListaForm();
     });
 

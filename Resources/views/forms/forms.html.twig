@@ -12,6 +12,10 @@
     {{- parent() -}}
 {%- endblock form_widget_simple %}
 
+{% block entity_hidden_widget -%}
+    <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ form.vars.value }}">
+{%- endblock entity_hidden_widget %}
+
 {% block textarea_widget -%}
     {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control textarea-autosize')|trim}) %}
     {{- parent() -}}
