@@ -323,3 +323,51 @@
         {% endblock %}
     </div>
 {% endblock %}
+
+
+{# Confirm type#}
+{% block confirm_widget %}
+    {% set modal_attr = attr|merge({'id': id ~ '_modal'}) %}
+    {% set disabled_attr = attr|merge({'id': id ~ '_disabled'}) %}
+    {% set action_attr = attr|merge({'id': id}) %}
+    {% if attr['data-widget'] is defined %}
+        {% set widget = attr['data-widget'] %}
+    {% else %}
+        {% set widget = 'text' %}
+    {% endif %}
+    <div class="input-append" id="{{ disabled_attr.id }}">
+        {% if widget == 'textarea' %}
+            <textarea disabled="disabled" value="{{ form.vars.value }}">{{ form.vars.value }}</textarea>
+        {% else %}
+            <input type="{{ widget }}" disabled="disabled" value="{{ form.vars.value }}">
+        {% endif %}
+        <span class="add-on">
+            <a data-toggle="modal" href="#{{ modal_attr.id }}">
+                <i class="zmdi zmdi-edit" ></i>
+            </a>
+            <a class="d-none save-confirm-form btn btn-success">
+                <i class="zmdi zmdi-floppy" ></i>
+            </a>
+        </span>
+    </div>
+    {{ form_widget(form, {'attr': {'class': 'd-none', 'type': widget}}) }}
+    {% spaceless %}
+        <div id="{{ modal_attr.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>{{ 'str_confirmar_cambio'|trans }}</h3>
+            </div>
+            <div class="modal-body">
+                <p>{{ 'str_confirmar_cambio_mensaje'|trans }}</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" data-dismiss="modal" aria-hidden="true">{{ 'str_cancelar'|trans }}</a>
+                <a class="btn btn-primary confirm-edit-modal" data-action="toggle_confirm_input" data-id="{{ action_attr.id }}">{{ 'str_aceptar'|trans }}</a>
+            </div>
+        </div>
+        </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}
