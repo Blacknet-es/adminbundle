@@ -62,5 +62,25 @@ $(document).on('click', '.confirm-edit-modal', function(e) {
 });
 
 $(document).on('click', '.save-confirm-form', function(e) {
-    $(this).closest('form').submit();
+    // First, go back to disabled status
+    var container = $(this).closest('.input-append');
+    container.find('input').attr('disabled', 'disabled');
+    container.find('.add-on a[data-toggle]').removeClass('d-none');
+    container.find('.save-confirm-form').addClass('d-none');
+    var form = $(this).closest('form');
+    var data = form.serialize();
+    console.log(form);
+    console.log(data);
+    // Second, do ajax call
+    $.ajax({
+        url: form.attr('action'),
+        method: 'POST',
+        data: data
+    }).done(function(data) {
+        // Last, call the callback method, if any
+        var callback = form.data('callback');
+        if(callback && window[callback]) {
+            window[callback](data);
+        }
+    });
 });

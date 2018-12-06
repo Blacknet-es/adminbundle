@@ -40,3 +40,8 @@ images:
   edit: Edit
   invalid: The uploaded file is not valid or is corrupted.
   not_supported_format: The uploaded file is not in PNG o JPG format.
+
+
+confirm:
+  confirm_change: Change confirmation
+  confirm_change_msg: Are you sure do you want to edit this field?

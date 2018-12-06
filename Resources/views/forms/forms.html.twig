@@ -361,14 +361,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3>{{ 'str_confirmar_cambio'|trans }}</h3>
+                <h3>{{ 'confirm.confirm_change'|trans }}</h3>
             </div>
             <div class="modal-body">
-                <p>{{ 'str_confirmar_cambio_mensaje'|trans }}</p>
+                <p>{{ 'confirm.confirm_change_msg'|trans }}</p>
             </div>
             <div class="modal-footer">
-                <a class="btn" data-dismiss="modal" aria-hidden="true">{{ 'str_cancelar'|trans }}</a>
-                <a class="btn btn-primary confirm-edit-modal" data-action="toggle_confirm_input" data-id="{{ action_attr.id }}">{{ 'str_aceptar'|trans }}</a>
+                <a class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{ 'No'|trans }}</a>
+                <a class="btn btn-primary confirm-edit-modal" data-action="toggle_confirm_input" data-id="{{ action_attr.id }}">{{ 'admin.yes'|trans }}</a>
             </div>
         </div>
         </div>
