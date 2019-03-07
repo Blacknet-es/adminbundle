@@ -16,7 +16,11 @@
         {% endif %}
 
         {% if lista.primaryAction != null %}
-        {{ buttons.actionButton(lista.primaryAction.url, icon, 'green', lista.primaryAction.text)  }}
+            {% set actionButtonColor = 'green' %}
+            {% if settings is defined and settings['primary_color'] is defined %}
+                {% set actionButtonColor = 'primary' %}
+            {% endif %}
+            {{ buttons.actionButton(lista.primaryAction.url, icon, actionButtonColor, lista.primaryAction.text)  }}
         {% endif %}
     {% endif %}
 {% endblock %}

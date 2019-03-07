@@ -40,3 +40,7 @@ images:
   edit: Editar
   invalid: El fichero subido no es válido o está corrupto.
   not_supported_format: El fichero subido no usa el formato PNG o JPG.
+
+confirm:
+  confirm_change: Confirmación de cambio
+  confirm_change_msg: ¿Estás seguro de que deseas editar este campo?

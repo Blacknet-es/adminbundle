@@ -21,6 +21,23 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+
+        {% if settings is defined and settings['primary_color'] is defined %}
+            <style>
+                [data-ma-theme="green"] .header {
+                    background-color: {{ settings['primary_color'] }};
+                }
+
+                .btn.btn-primary, .btn.btn-primary:hover {
+                    background-color: {{ settings['primary_color'] }};
+                    border-color: {{ settings['primary_color'] }};
+                }
+
+                .btn.bg-primary, .btn.bg-primary:hover {
+                    background-color: {{ settings['primary_color'] }} !important;
+                }
+            </style>
+        {% endif %}
     {% endblock %}
     <script src="{{ asset('/js/header.js') }}"></script>
 
