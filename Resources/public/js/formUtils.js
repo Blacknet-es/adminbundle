@@ -1,4 +1,4 @@
-function action_addFormElementCollection()
+function action_addFormElementCollection($action_button)
 {
     var isValid = true;
     var widgetContainer = false;
@@ -11,8 +11,8 @@ function action_addFormElementCollection()
     }
     var reg = new RegExp(prototype_name, "g");
 
-    // Si estÃ¡ definida la propiedad data-validate se ejecuta su funcion referenciada
-    // DevolverÃ¡ obligatoriamente un boleano
+    // Si está definida la propiedad data-validate se ejecuta su funcion referenciada
+    // Devolverá obligatoriamente un boleano
     if ($action_button.data('validate') != undefined) {
         var validate = $action_button.data('validate');
         isValid = window[validate]();
@@ -49,7 +49,7 @@ function action_addFormElementCollection()
     }
 }
 
-function action_removeFormElementCollection()
+function action_removeFormElementCollection($action_button)
 {
     if ($action_button.data('widget-container') != undefined) {
         var formWidgetcontainer = $action_button.closest('.formWidgetContainer');
