@@ -205,8 +205,7 @@ class ResetController extends BaseController
         $subject = $renderedLines[0];
         $body = implode("\n", array_slice($renderedLines, 1));
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
+        $message = (new \Swift_Message($subject))
             ->setFrom($fromEmail)
             ->setTo($toEmail)
             ->setBody($body);
