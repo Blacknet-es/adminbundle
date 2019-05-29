@@ -7,6 +7,7 @@ function action_addFormElementCollection($action_button)
     }
     var prototype_name = '__name__';
     if ($action_button.data('prototype-name') != undefined) {
+
         prototype_name = $action_button.data('prototype-name');
     }
     var reg = new RegExp(prototype_name, "g");
@@ -14,19 +15,23 @@ function action_addFormElementCollection($action_button)
     // Si está definida la propiedad data-validate se ejecuta su funcion referenciada
     // Devolverá obligatoriamente un boleano
     if ($action_button.data('validate') != undefined) {
+
         var validate = $action_button.data('validate');
         isValid = window[validate]();
     }
 
     if (!isValid) {
+
         return false;
     }
 
     if (widgetContainer) {
+
         var formWidgetcontainer = $action_button.closest('.formWidgetContainer');
         var prototype = formWidgetcontainer.find('#' + $action_button.data('prototype')).html();
         var container = formWidgetcontainer.find('#' + $action_button.data('container'));
     } else {
+
         var prototype = $('#' + $action_button.data('prototype')).html();
         var container = $('#' + $action_button.data('container'));
     }
@@ -41,6 +46,7 @@ function action_addFormElementCollection($action_button)
     $('#' + $(newForm).attr('id')).css('display', 'none').show(400);
 
     if ($action_button.data('callback') != undefined) {
+
         var id_element = $(newForm).attr('id');
         var callback = $action_button.data('callback');
         setTimeout(function() {
@@ -51,9 +57,10 @@ function action_addFormElementCollection($action_button)
 
 function action_removeFormElementCollection($action_button)
 {
+    //Para la clase mas cercana
     if ($action_button.data('widget-container') != undefined) {
-        var formWidgetcontainer = $action_button.closest('.formWidgetContainer');
-        var element = formWidgetcontainer.find('#' + $action_button.data('id'));
+        var element = $action_button.closest('.'+$action_button.data('widget-container') );
+    //Para atacar directamente a un id
     } else {
         var element = $('#'+ $action_button.data('id'));
     }
