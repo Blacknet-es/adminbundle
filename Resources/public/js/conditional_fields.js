@@ -16,8 +16,10 @@ $(document).ready(function() {
             }
             if(act) {
                 $(this).removeClass("hidden");
+                $(this).closest('.form-group').removeClass("hidden");
             } else {
                 $(this).addClass("hidden");
+                $(this).closest('.form-group').addClass("hidden");
             }
         });
     };
