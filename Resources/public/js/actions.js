@@ -20,7 +20,8 @@ $(document).ready(function() {
         console.log($(this).closest('form'));
         $(this).closest('.lista-card').find('form.list-download').submit();
     });
-});/* aa */
+}); /* aa */
+
 $(document).on('click', '.actions a[data-action], .btn[data-action]', function(e) {
     e.preventDefault();
     var action = 'action_' + $(this).data('action');

@@ -77,6 +77,7 @@ $(document).ready(function() {
 });
 
 // Funcionalidades para los bulk y advanced actions:
+
 function action_useBulkAction($action_button) {
     var checkboxes = $($action_button.data('target') + ':checked');
     var ids = [];
@@ -86,7 +87,7 @@ function action_useBulkAction($action_button) {
 
     $.ajax({
         method: 'POST',
-        url: $(this).closest('.bulk-actions-select').find('.list-group-actions').val(),
+        url: $action_button.closest('.bulk-actions-select').find('.list-group-actions').val(),
         data: {
             ids: ids
         }
@@ -94,7 +95,7 @@ function action_useBulkAction($action_button) {
         if(data.success) {
             alert('Acción realizada correctamente');
             window.location.reload();
-        } elseif(data.message) {
+        } else if(data.message) {
             alert(data.message);
         } else {
             alert('Ha habido un error');
