@@ -550,7 +550,9 @@ class ListaFactory
                     'action' => $action->getAction(),
                     'icon' => $action->getIcon(),
                     'url' => $this->getUrlFromAction($action),
-                    'text' => $action->getText()
+                    'text' => $action->getText(),
+                    'view' => $action->getView(),
+                    'viewData' => $action->getViewData(),
                 );
             }
         }
@@ -565,11 +567,15 @@ class ListaFactory
                 continue;
             }
 
+            $isAdvanced = $action instanceof AdvancedActionType;
             $actions[$key] = array(
                 'action' => $action->getAction(),
                 'icon' => $action->getIcon(),
                 'text' => $action->getText(),
-                'url' => $this->getUrlFromAction($action, $row)
+                'url' => $this->getUrlFromAction($action, $row),
+                'advanced' => $isAdvanced,
+                'view' => $isAdvanced ? $action->getView() : '',
+                'viewData' => $isAdvanced ? $action->getViewData() : [],
             );
         }
 

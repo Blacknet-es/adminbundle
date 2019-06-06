@@ -3,6 +3,6 @@
 namespace Trendix\AdminBundle\Component\Lista;
 
 
-class BulkActionType extends ActionType
+class BulkActionType extends AdvancedActionType
 {
 }
