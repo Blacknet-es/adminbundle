@@ -98,48 +98,40 @@
 
                     <tbody>
                     {% for index, row in lista.data %}
-                        <tr data-row-id="{% if row.original_id is defined %}
-                                            {{ row.original_id }}
-                                        {% elseif row.id is defined %} {# Allows overriding the ID with a JoinType #}
-                                            {{ row.id }}
-                                        {% else %}
-                                            {{ loop.index }}
-                                        {% endif %}
-                                        " class="" aria-selected="false">
+                        {% if row.original_id is defined %}
+                            {% set rowId = row.original_id %}
+                        {% elseif row.id is defined %}
+                            {% set rowId = row.id %}
+                        {% else %}
+                            {% set rowId = loop.index %}
+                        {% endif %}
+                        <tr data-row-id="{{ rowId }}" class="" aria-selected="false">
                             {% if (lista.bulkActions | length) > 0 %}
-                                <td class="text-left bulk-check"><input type="checkbox" class="checkbox bulk-checkbox" value="{% spaceless %}{% if row.original_id is defined %}
-                                            {{ row.original_id }}
-                                        {% elseif row.id is defined %}
-                                            {{ row.id }}
-                                        {% else %}
-                                            {{ loop.index }}
-                                        {% endif %}{% endspaceless %}"/></td>
+                                <td class="text-left bulk-check"><input type="checkbox" class="checkbox bulk-checkbox" value="{{ rowId }}"/></td>
                             {% endif %}
                             {% for key, field in row if key != 'actions' and key != 'original_id' %}
                                 <td class="text-left {% if lista.invisibleColumns[key] is defined %}hidden{% endif %}" data-col="{{ key }}" style="">{{ field|raw }}</td>
                             {% endfor %}
                             {% if row.actions is defined and row.actions|length > 0 %}
                                 <td class="text-left actions" >
-
                                     {% for action in row.actions %}
-                                        {% if action.action == 'delete' %}
-                                        <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
-                                            <i class="zmdi zmdi-{{ action.icon }}"></i>
-                                        </a>
+                                        {% if action.advanced %}
+                                            {% set viewData = action.viewData | merge({'id': rowId, 'data': row }) %}
+                                            {% include action.view with viewData only %}
                                         {% else %}
-                                        <a href="{{ action.url }}" data-row-id="{% if row.original_id is defined %}
-                                            {{ row.original_id }}
-                                        {% elseif row.id is defined %}
-                                            {{ row.id }}
-                                        {% else %}
-                                            {{ loop.index }}
-                                        {% endif %}"
-                                            {% if action.text %}
-                                                data-toggle="admin-tooltip" title="{{ action.text|trans }}"
+                                            {% if action.action == 'delete' %}
+                                            <a href="javascript:void(0);" data-ajax-action="{{ action.url }}" data-confirm="true" data-title="{{ 'Eliminar Elemento'|trans }}" data-message="{{ 'list.confirm_remove'|trans }}">
+                                                <i class="zmdi zmdi-{{ action.icon }}"></i>
+                                            </a>
+                                            {% else %}
+                                            <a href="{{ action.url }}" data-row-id="{{ rowId }}"
+                                                {% if action.text %}
+                                                    data-toggle="admin-tooltip" title="{{ action.text|trans }}"
+                                                {% endif %}
+                                                    >
+                                                <i class="zmdi zmdi-{{ action.icon }}"></i>
+                                            </a>
                                             {% endif %}
-                                                >
-                                            <i class="zmdi zmdi-{{ action.icon }}"></i>
-                                        </a>
                                         {% endif %}
                                     {% endfor %}
 
@@ -162,14 +154,19 @@
                                 <div class="form-group pull-left bulk-actions-select">
                                     <div class="input-group">
                                         <label for="list-group-actions">
-                                            Acciones de grupo {{ lista.bulkActions | length }}
+                                            Acciones de grupo
                                         </label>
                                         <select id="list-group-actions" class="list-group-actions" required>
                                             {% for action in lista.bulkActions %}
-                                                <option value="{{ action.url }}">{{ action.text }}</option>
+                                                <option value="{% if action.advanced %}advanced:{{ action.action }}{% else %}{{ action.url }}{% endif %}">{{ action.text }}</option>
                                             {% endfor %}
                                         </select>
                                         <a class="btn btn-primary" href="#" data-action="useBulkAction" data-target=".bulk-checkbox">Enviar</a>
+                                        {% for action in lista.bulkActions %}
+                                            {% if action.advanced %}
+                                                {% include 'TrendixAdminBundle:Lista:bulkModal.html.twig' with {action: action.action, title: action.text, view: action.view, viewData: action.viewData } only %}
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

@@ -84,21 +84,28 @@ function action_useBulkAction($action_button) {
     checkboxes.each(function() {
         ids.push($(this).val());
     });
+    var action = $action_button.closest('.bulk-actions-select').find('.list-group-actions').val();
 
-    $.ajax({
-        method: 'POST',
-        url: $action_button.closest('.bulk-actions-select').find('.list-group-actions').val(),
-        data: {
-            ids: ids
-        }
-    }).done(function(data) {
-        if(data.success) {
-            alert('Acción realizada correctamente');
-            window.location.reload();
-        } else if(data.message) {
-            alert(data.message);
-        } else {
-            alert('Ha habido un error');
-        }
-    });
+    if(action.indexOf('advanced:') != -1) {
+        var actionId = action.replace('advanced:', '');
+        $('#' + actionId + '-ids').val(ids.join(','));
+        $('#advanced-bulk-modal-' + actionId).modal('show');
+    } else {
+        $.ajax({
+            method: 'POST',
+            url: action,
+            data: {
+                ids: ids
+            }
+        }).done(function(data) {
+            if(data.success) {
+                alert('Acción realizada correctamente');
+                window.location.reload();
+            } else if(data.message) {
+                alert(data.message);
+            } else {
+                alert('Ha habido un error');
+            }
+        });
+    }
 }

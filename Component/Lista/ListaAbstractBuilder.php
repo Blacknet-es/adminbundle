@@ -48,15 +48,14 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
 
     /**
      * @param $action
-     * @param null $icon
      * @param null $text
      * @param string $view Template which contains the code to show at the action modal
      * @param array $viewData Data to pass to the template
      * @return $this
      */
-    public function addAdvancedAction($action, $icon = null, $text = null, $view = '', $viewData = [])
+    public function addAdvancedAction($action, $view = '', $viewData = [])
     {
-        $this->actions[$action] = $this->createAdvancedAction($action, $icon, $text, [], $view, $viewData);
+        $this->actions[$action] = $this->createAdvancedAction($action, null, '', [], $view, $viewData);
         return $this;
     }
 
@@ -147,7 +146,7 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
      */
     private function createBulkAction($action, $icon, $text = null, $options = array(), $view = '', $viewData = [])
     {
-        return new BulkActionType($action, $icon, $text, $options, $view, $viewData = []);
+        return new BulkActionType($action, $icon, $text, $options, $view, $viewData);
     }
 
     /**

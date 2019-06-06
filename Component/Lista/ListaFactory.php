@@ -551,6 +551,7 @@ class ListaFactory
                     'icon' => $action->getIcon(),
                     'url' => $this->getUrlFromAction($action),
                     'text' => $action->getText(),
+                    'advanced' => $action->getView() ? true : false,
                     'view' => $action->getView(),
                     'viewData' => $action->getViewData(),
                 );
