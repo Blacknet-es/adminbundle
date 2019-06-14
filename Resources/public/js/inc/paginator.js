@@ -58,4 +58,53 @@ $(document).ready(function() {
         });
     }
 
+    $(document).on('change', '#check-all', function(e) {
+        var allCheckboxes = $(this).closest('.lista-card').find('table tbody .bulk-check input[type="checkbox"]');
+        var allCheckedCheckboxes = $(this).closest('.lista-card').find('table tbody .bulk-check input[type="checkbox"]:checked');
+        console.log(allCheckboxes.length);
+        console.log(allCheckedCheckboxes.length);
+        if(allCheckboxes.length == allCheckedCheckboxes.length && allCheckboxes.length != 0) {
+            allCheckboxes.each(function() {
+                $(this).prop('checked', false);
+                $(this).removeAttr('checked');
+            });
+        } else {
+            allCheckboxes.each(function() {
+                $(this).prop('checked', true);
+            });
+        }
+    });
 });
+
+// Funcionalidades para los bulk y advanced actions:
+function action_useBulkAction($action_button) {
+    var checkboxes = $($action_button.data('target') + ':checked');
+    var ids = [];
+    checkboxes.each(function() {
+        ids.push($(this).val());
+    });
+    var action = $action_button.closest('.bulk-actions-select').find('.list-group-actions').val();
+
+    if(action.indexOf('advanced:') != -1) {
+        var actionId = action.replace('advanced:', '');
+        $('#' + actionId + '-ids').val(ids.join(','));
+        $('#advanced-bulk-modal-' + actionId).modal('show');
+    } else {
+        $.ajax({
+            method: 'POST',
+            url: action,
+            data: {
+                ids: ids
+            }
+        }).done(function(data) {
+            if(data.success) {
+                alert('Acción realizada correctamente');
+                window.location.reload();
+            } else if(data.message) {
+                alert(data.message);
+            } else {
+                alert('Ha habido un error');
+            }
+        });
+    }
+}

@@ -517,3 +517,17 @@ textarea.form-control {
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: inherit !important;
 }
+
+/* BULK ACTIONS */
+.bulk-actions-select {
+  margin-right: 25px;
+  margin-top: 25px;
+  label {
+    margin-right: 15px;
+    margin-bottom: 15px;
+  }
+
+  select, .select2 {
+    min-width: 150px;
+  }
+}
