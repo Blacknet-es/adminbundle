@@ -131,6 +131,9 @@ class BaseController extends Controller
         if($this->container->hasParameter('admin_theme')) {
             $data['admin_theme'] = $this->getParameter('admin_theme');
         }
+        if($this->container->hasParameter('copyright_text')) {
+            $data['copyrightText'] = $this->getParameter('copyright_text');
+        }
 
         return $data;
     }
