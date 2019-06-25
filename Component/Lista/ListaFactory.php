@@ -465,8 +465,10 @@ class ListaFactory
                         $key = $dt->getDqlTransformer('a' . $this->joinListField[$joinTableName[0]], $joinTableName[1]);
                     }
                     $key = $aliases[$key];
-                } elseif(!$this->sql) {
+                } elseif(!$this->sql && isset($aliases['a.' . $key])) {
                     $key = $aliases['a.' . $key];
+                } elseif(!isset($aliases['a.' . $key])) { // Si no existe la clave, es un campo hidden que nos podemos saltar
+                    continue;
                 }
 
                 if(isset($row[$key])) {
