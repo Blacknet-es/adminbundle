@@ -21,24 +21,25 @@ function action_addFormElementCollection($action_button)
     }
 
     if (!isValid) {
-
         return false;
     }
 
     if (widgetContainer) {
-
         var formWidgetcontainer = $action_button.closest('.formWidgetContainer');
         var prototype = formWidgetcontainer.find('#' + $action_button.data('prototype')).html();
         var container = formWidgetcontainer.find('#' + $action_button.data('container'));
     } else {
-
         var prototype = $('#' + $action_button.data('prototype')).html();
         var container = $('#' + $action_button.data('container'));
     }
 
+    //Reasignamos index y numero.
+    recalcular_index(container, $action_button);
+
     var index = container.data('index');
     index++;
     container.data('index', index);
+    //recorremos los subforms para cambiar y readactar su index.
 
     // Creamos el nuevo subform
     var newForm = prototype.replace(reg, index);
@@ -57,6 +58,8 @@ function action_addFormElementCollection($action_button)
 
 function action_removeFormElementCollection($action_button)
 {
+    var container = $('#' + $action_button.data('container'));
+
     //Para la clase mas cercana
     if ($action_button.data('widget-container') != undefined) {
         var element = $action_button.closest('.'+$action_button.data('widget-container') );
@@ -74,5 +77,26 @@ function action_removeFormElementCollection($action_button)
                 window[callback](id_element);
             }, 1);
         }
+
+        var index = container.data('index');
+        index--;
+        container.data('index', index);
+
+        //Reasignamos index y numero.
+        recalcular_index(container, $action_button);
+    });
+}
+
+function recalcular_index(container, $action_button){
+    //Reasignamos index y numero.
+    cont = 0;
+    container.children().each(function(){
+        console.log($(this));
+        $(this).data('index', cont);
+
+        if($action_button.data('number')) {
+            $(this).find($action_button.data('number')).html(cont +1);
+        }
+        cont++;
     });
 }

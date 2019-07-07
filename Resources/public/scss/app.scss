@@ -518,6 +518,21 @@ textarea.form-control {
   line-height: inherit !important;
 }
 
+/* BULK ACTIONS */
+.bulk-actions-select {
+  margin-right: 25px;
+  margin-top: 25px;
+  label {
+    margin-right: 15px;
+    margin-bottom: 15px;
+  }
+
+  select, .select2 {
+    min-width: 150px;
+  }
+}
+
+
 .login__block__actions .dropdown:not(.show) {
   display: block !important;
 }

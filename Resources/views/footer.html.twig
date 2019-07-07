@@ -1,1 +1,5 @@
-Copyright &copy; 2018 <a href="//trendix.es">Trendix</a>
+{% if copyrightText is defined and copyrightText %}
+    {{ copyrightText | raw }}
+{% else %}
+    Copyright &copy; 2018 <a href="//trendix.es">Trendix</a>
+{% endif %}

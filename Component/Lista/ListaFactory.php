@@ -440,7 +440,7 @@ class ListaFactory
         $dataTypes = $this->listaBuilder->getChilds();
         $finalResult = array();
         $sqlFields = null;
-                        
+
         // If this is a QueryList, add the fields options:
         if(array_key_exists('sql', $this->options)) {
             $fields = unserialize(explode('/;/', $this->options['listCall'])[1]);
@@ -465,8 +465,10 @@ class ListaFactory
                         $key = $dt->getDqlTransformer('a' . $this->joinListField[$joinTableName[0]], $joinTableName[1]);
                     }
                     $key = $aliases[$key];
-                } elseif(!$this->sql) {
+                } elseif(!$this->sql && isset($aliases['a.' . $key])) {
                     $key = $aliases['a.' . $key];
+                } elseif(!isset($aliases['a.' . $key])) { // Si no existe la clave, es un campo hidden que nos podemos saltar
+                    continue;
                 }
 
                 if(isset($row[$key])) {
@@ -529,6 +531,31 @@ class ListaFactory
         );
     }
 
+    /**
+     * @return null|string
+     */
+    private function getBulkActions()
+    {
+        $actions = [];
+        $bulkActions = $this->listaBuilder->getBulkActions();
+
+        foreach ($bulkActions as $action) {
+            if ($action instanceof ActionType) {
+                $actions[] =  array(
+                    'action' => $action->getAction(),
+                    'icon' => $action->getIcon(),
+                    'url' => $this->getUrlFromAction($action),
+                    'text' => $action->getText(),
+                    'advanced' => $action->getView() ? true : false,
+                    'view' => $action->getView(),
+                    'viewData' => $action->getViewData(),
+                );
+            }
+        }
+
+        return $actions;
+    }
+
     private function getActions($row) {
         $actions = array();
         foreach ($this->listaBuilder->getActions() as $key => $action) {
@@ -536,11 +563,15 @@ class ListaFactory
                 continue;
             }
 
+            $isAdvanced = $action instanceof AdvancedActionType;
             $actions[$key] = array(
                 'action' => $action->getAction(),
                 'icon' => $action->getIcon(),
                 'text' => $action->getText(),
-                'url' => $this->getUrlFromAction($action, $row)
+                'url' => $this->getUrlFromAction($action, $row),
+                'advanced' => $isAdvanced,
+                'view' => $isAdvanced ? $action->getView() : '',
+                'viewData' => $isAdvanced ? $action->getViewData() : [],
             );
         }
 
@@ -598,6 +629,7 @@ class ListaFactory
             'currentPage' => $this->pag,
             'totalPage' => intval(ceil($this->countResults()/$this->maxResults)),
             'primaryAction' => $this->getPrimaryAction(),
+            'bulkActions' => $this->getBulkActions(),
             'search' => $this->search,
             'maxResults' => $this->maxResults,
             'orderColumn' => $this->orderColumn,

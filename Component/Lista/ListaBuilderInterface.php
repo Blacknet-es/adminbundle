@@ -32,4 +32,35 @@ interface ListaBuilderInterface
      * @return mixed
      */
     public function addAction($action, $icon = null, $options = array(), $text = null);
+
+    /**
+     *
+     * Add Bulk Action to actions list
+     *
+     * @param $action
+     * @param array $options
+     * @param null $text
+     * @return mixed
+     */
+    public function addBulkAction($action, $options = array(), $text = null);
+
+    /**
+     *
+     * Add Advanced Action to actions list
+     *
+     * @param $action
+     * @param string $view Template which contains the code to show at the action modal
+     * @param array $viewData Data to pass to the template
+     * @return mixed
+     */
+    public function addAdvancedAction($action, $view, $viewData = []);
+
+    /**
+     * @param $action
+     * @param null $text
+     * @param string $view In case this is an advanced bulk action, template which contains the code to show at the action modal
+     * @param array $viewData In case this is an advanced bulk action, Data to pass to the template
+     * @return $this
+     */
+    public function addAdvancedBulkAction($action, $text = null, $view = '', $viewData = []);
 }
