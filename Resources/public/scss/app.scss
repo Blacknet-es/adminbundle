@@ -517,3 +517,7 @@ textarea.form-control {
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: inherit !important;
 }
+
+.login__block__actions .dropdown:not(.show) {
+  display: block !important;
+}
