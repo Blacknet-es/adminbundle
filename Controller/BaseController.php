@@ -134,6 +134,11 @@ class BaseController extends Controller
         if($this->container->hasParameter('copyright_text')) {
             $data['copyrightText'] = $this->getParameter('copyright_text');
         }
+        if($this->container->hasParameter('base_template')) {
+            $data['base_template'] = $this->getParameter('base_template');
+        } else {
+            $data['base_template'] = null;
+        }
 
         return $data;
     }
