@@ -426,7 +426,7 @@ class ListaFactory
                     $key = $aliases[$key];
                 } elseif(!$this->sql && isset($aliases['a.' . $key])) {
                     $key = $aliases['a.' . $key];
-                } elseif(!isset($aliases['a.' . $key])) { // Si no existe la clave, es un campo hidden que nos podemos saltar
+                } elseif(!$this->sql && !isset($aliases['a.' . $key])) { // Si no existe la clave, es un campo hidden que nos podemos saltar
                     continue;
                 }
 
@@ -579,8 +579,6 @@ class ListaFactory
 
     public function createView()
     {
-        //var_dump($this->sql);
-        //die();
         return array(
             'data' => $this->arrayResults,
             'labels' => $this->labels,
