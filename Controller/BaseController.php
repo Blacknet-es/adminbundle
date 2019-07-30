@@ -4,6 +4,7 @@ namespace Trendix\AdminBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use ReflectionClass;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
@@ -15,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class BaseController extends Controller
+class BaseController extends AbstractController
 {
     private $data = array();
 
