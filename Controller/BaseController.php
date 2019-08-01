@@ -2,22 +2,37 @@
 
 namespace Trendix\AdminBundle\Controller;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Templating\EngineInterface;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractBuilder;
 use Trendix\AdminBundle\Component\Lista\ListaAbstractType;
+use Trendix\AdminBundle\Component\Lista\ListaFactory;
 use Trendix\AdminBundle\Component\Lista\QueryList;
+use Trendix\AdminBundle\Component\Menu\MenuGenerator;
 use Trendix\AdminBundle\Entity\User;
 use Trendix\AdminBundle\Utility\Menu;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Twig\Environment;
 
 class BaseController extends AbstractController
 {
+
     private $data = array();
 
     /**
@@ -29,10 +44,6 @@ class BaseController extends AbstractController
      * @var User
      */
     public $user;
-
-    public function __construct()
-    {
-    }
 
     /**
      * Inicializa Doctrine
@@ -91,51 +102,51 @@ class BaseController extends AbstractController
         $data = array(
             'app_name' => $this->getParameter('app_name'),
             'principalMenu' => $menu->getArrayMenu(),
-            'hideTitle' => $this->container->hasParameter('hide_title') ? $this->getParameter('hide_title') : null,
-            'titleLogo' => $this->container->hasParameter('title_logo') ? $this->getParameter('title_logo') : null,
+            'hideTitle' => $this->container->get('parameter_bag')->has('hide_title') ? $this->getParameter('hide_title') : null,
+            'titleLogo' => $this->container->get('parameter_bag')->has('title_logo') ? $this->getParameter('title_logo') : null,
             'hideMenu' => false,
-            'registerButton' => $this->container->hasParameter('register_button') ? $this->getParameter('register_button') : null
+            'registerButton' => $this->container->get('parameter_bag')->has('register_button') ? $this->getParameter('register_button') : null
         );
 
-        if($this->container->hasParameter('custom_menu')) {
+        if($this->container->get('parameter_bag')->has('custom_menu')) {
             $panel = $this->getParameter('custom_menu');
             if($panel) {
                 $data['customMenu'] = $panel;
             }
         }
 
-        if($this->container->hasParameter('locales')) {
+        if($this->container->get('parameter_bag')->has('locales')) {
             $locales = $this->getParameter('locales');
             if ($locales) {
                 $data['locales'] = $locales;
             }
         }
-        if($this->container->hasParameter('admin_message_module')) {
+        if($this->container->get('parameter_bag')->has('admin_message_module')) {
             $data['admin_message_module'] = $this->getParameter('admin_message_module');
             $data['admin_message_link'] = $this->getParameter('admin_message_link');
         }
-        if($this->container->hasParameter('admin_primary_color')) {
+        if($this->container->get('parameter_bag')->has('admin_primary_color')) {
             $data['admin_primary_color'] = $this->getParameter('admin_primary_color');
         }
-        if($this->container->hasParameter('use_side_bar')) {
+        if($this->container->get('parameter_bag')->has('use_side_bar')) {
             $data['useSideBar'] = $this->getParameter('use_side_bar');
         }
-        if($this->container->hasParameter('side_bar_template')) {
+        if($this->container->get('parameter_bag')->has('side_bar_template')) {
             $data['sideBarTemplate'] = $this->getParameter('side_bar_template');
         }
-        if($this->container->hasParameter('content_class')) {
+        if($this->container->get('parameter_bag')->has('content_class')) {
             $data['content_class'] = $this->getParameter('content_class');
         }
-        if($this->container->hasParameter('translatable')) {
+        if($this->container->get('parameter_bag')->has('translatable')) {
             $data['locales'] = $this->getParameter('locales');
         }
-        if($this->container->hasParameter('admin_theme')) {
+        if($this->container->get('parameter_bag')->has('admin_theme')) {
             $data['admin_theme'] = $this->getParameter('admin_theme');
         }
-        if($this->container->hasParameter('copyright_text')) {
+        if($this->container->get('parameter_bag')->has('copyright_text')) {
             $data['copyrightText'] = $this->getParameter('copyright_text');
         }
-        if($this->container->hasParameter('base_template')) {
+        if($this->container->get('parameter_bag')->has('base_template')) {
             $data['base_template'] = $this->getParameter('base_template');
         } else {
             $data['base_template'] = null;
@@ -149,11 +160,8 @@ class BaseController extends AbstractController
      */
     protected function getMenu()
     {
-        $menuClass = $this->getParameter('menu_class');
-        if(!$menuClass) {
-            $menuClass = 'Trendix\AdminBundle\Utility\Menu';
-        }
-        return new $menuClass($this->get('service_container'));
+        global $kernel;
+        return $this->get('admin.menu.generator')->generateMenu();
     }
 
     /**
@@ -327,5 +335,16 @@ class BaseController extends AbstractController
         } else {
             return $this->render('TrendixAdminBundle:Lista:index.html.twig', $this->getData());
         }
+    }
+
+    public static function getSubscribedServices()
+    {
+        $defaultServices = parent::getSubscribedServices();
+        $customizedServices = [
+            'admin.menu.generator' => '?'.MenuGenerator::class,
+            'admin.lista.factory' => '?'.ListaFactory::class,
+        ];
+
+        return array_merge($defaultServices, $customizedServices);
     }
 }
