@@ -102,51 +102,51 @@ class BaseController extends AbstractController
         $data = array(
             'app_name' => $this->getParameter('app_name'),
             'principalMenu' => $menu->getArrayMenu(),
-            'hideTitle' => $this->container->get('parameter_bag')->has('hide_title') ? $this->getParameter('hide_title') : null,
-            'titleLogo' => $this->container->get('parameter_bag')->has('title_logo') ? $this->getParameter('title_logo') : null,
+            'hideTitle' => $this->hasParameter('hide_title') ? $this->getParameter('hide_title') : null,
+            'titleLogo' => $this->hasParameter('title_logo') ? $this->getParameter('title_logo') : null,
             'hideMenu' => false,
-            'registerButton' => $this->container->get('parameter_bag')->has('register_button') ? $this->getParameter('register_button') : null
+            'registerButton' => $this->hasParameter('register_button') ? $this->getParameter('register_button') : null
         );
 
-        if($this->container->get('parameter_bag')->has('custom_menu')) {
+        if($this->hasParameter('custom_menu')) {
             $panel = $this->getParameter('custom_menu');
             if($panel) {
                 $data['customMenu'] = $panel;
             }
         }
 
-        if($this->container->get('parameter_bag')->has('locales')) {
+        if($this->hasParameter('locales')) {
             $locales = $this->getParameter('locales');
             if ($locales) {
                 $data['locales'] = $locales;
             }
         }
-        if($this->container->get('parameter_bag')->has('admin_message_module')) {
+        if($this->hasParameter('admin_message_module')) {
             $data['admin_message_module'] = $this->getParameter('admin_message_module');
             $data['admin_message_link'] = $this->getParameter('admin_message_link');
         }
-        if($this->container->get('parameter_bag')->has('admin_primary_color')) {
+        if($this->hasParameter('admin_primary_color')) {
             $data['admin_primary_color'] = $this->getParameter('admin_primary_color');
         }
-        if($this->container->get('parameter_bag')->has('use_side_bar')) {
+        if($this->hasParameter('use_side_bar')) {
             $data['useSideBar'] = $this->getParameter('use_side_bar');
         }
-        if($this->container->get('parameter_bag')->has('side_bar_template')) {
+        if($this->hasParameter('side_bar_template')) {
             $data['sideBarTemplate'] = $this->getParameter('side_bar_template');
         }
-        if($this->container->get('parameter_bag')->has('content_class')) {
+        if($this->hasParameter('content_class')) {
             $data['content_class'] = $this->getParameter('content_class');
         }
-        if($this->container->get('parameter_bag')->has('translatable')) {
+        if($this->hasParameter('translatable')) {
             $data['locales'] = $this->getParameter('locales');
         }
-        if($this->container->get('parameter_bag')->has('admin_theme')) {
+        if($this->hasParameter('admin_theme')) {
             $data['admin_theme'] = $this->getParameter('admin_theme');
         }
-        if($this->container->get('parameter_bag')->has('copyright_text')) {
+        if($this->hasParameter('copyright_text')) {
             $data['copyrightText'] = $this->getParameter('copyright_text');
         }
-        if($this->container->get('parameter_bag')->has('base_template')) {
+        if($this->hasParameter('base_template')) {
             $data['base_template'] = $this->getParameter('base_template');
         } else {
             $data['base_template'] = null;
@@ -346,5 +346,13 @@ class BaseController extends AbstractController
         ];
 
         return array_merge($defaultServices, $customizedServices);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasParameter($key): bool
+    {
+        return $this->hasParameter($key);
     }
 }
