@@ -531,3 +531,8 @@ textarea.form-control {
     min-width: 150px;
   }
 }
+
+
+.login__block__actions .dropdown:not(.show) {
+  display: block !important;
+}

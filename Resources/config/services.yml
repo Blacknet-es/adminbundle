@@ -2,6 +2,10 @@ services:
   Trendix\AdminBundle\Component\Lista\ListaFactory:
         arguments: ["@service_container","@doctrine.orm.entity_manager"]
         public: true
+  Trendix\AdminBundle\Component\Menu\MenuGenerator:
+        public: true
+        autowire: true
+        arguments: ['@service_container', '@parameter_bag']
   trendix_image:
         class: Trendix\AdminBundle\Form\ImageType
         arguments: ["@doctrine.orm.entity_manager"]
@@ -41,7 +45,9 @@ services:
           arguments: ['@router']
           tags:
               - { name: twig.extension }
-
   admin.lista.factory:
     alias: Trendix\AdminBundle\Component\Lista\ListaFactory
+    public: true
+  admin.menu.generator:
+    alias: Trendix\AdminBundle\Component\Menu\MenuGenerator
     public: true

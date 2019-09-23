@@ -125,50 +125,7 @@ class ListaFactory
     {
         $this->em = $em;
         $this->container = $container;
-        $this->qb = null;
-        $this->listaBuilder = new ListaBuilder();
-        $this->arrayResults = array();
-        $this->selectAliases = array();
-        $this->labels = array();
-        $this->request = Request::createFromGlobals();
-        $this->firstResult = 0; //Empezar por el principio
-        $this->maxResults = 25; //Mostrar 25 elementos por pagina
-        $this->lista = null;
-        $this->pag = 1;
-        $this->joinList = 1;
-        $this->joinListField = array();
-        $this->orderColumn = 'default';
-        $this->orderDirection = null;
-        $this->sql = null;
-
-        if ($this->request->request->get('epp')) {
-            $this->maxResults = $this->request->request->get('epp');
-        }
-
-        if ($this->request->request->get('max')) {
-            $this->maxResults = intval($this->request->request->get('max'));
-        }
-
-        if ($this->request->request->get('pag')) {
-            $this->pag = $this->request->request->get('pag');
-            $this->firstResult = ($this->pag-1) * $this->maxResults;
-        }
-
-        if ($this->request->request->get('search')) {
-            $this->search = addslashes($this->request->request->get('search'));
-        }
-
-        if ($this->request->request->get('order_column')) {
-            $this->orderColumn = $this->request->request->get('order_column');
-        }
-
-        if ($this->request->request->get('order_direction')) {
-            $this->orderDirection = $this->request->request->get('order_direction');
-        }
-
-        if ($this->request->request->get('update_field')) {
-            $this->toggleField = $this->request->request->get('update_field');
-        }
+        $this->clean();
     }
 
     /**
@@ -176,7 +133,9 @@ class ListaFactory
      */
     public function create(ListaAbstractType $lista, $options = array())
     {
+        $this->clean();
         $this->lista = $lista;
+
         $this->options = array_merge($lista->getOptions(), $options);
         // Save original elements per page
         if(array_key_exists('maxResults', $this->options)) {
@@ -214,6 +173,7 @@ class ListaFactory
      */
     public function createBuilder(ListaAbstractType $lista)
     {
+
         $lista->buildList($this->listaBuilder, $this->options);
         // We need to make all modifications of the entities before we get the result, and after the list is initialized
         if($this->toggleField) {
@@ -240,7 +200,6 @@ class ListaFactory
 
         //Return data transformed array resutls with label key
         $this->arrayResults = $this->transformerBuilder($arrayResults, $lista);
-
         return $this;
     }
 
@@ -465,8 +424,10 @@ class ListaFactory
                         $key = $dt->getDqlTransformer('a' . $this->joinListField[$joinTableName[0]], $joinTableName[1]);
                     }
                     $key = $aliases[$key];
-                } elseif(!$this->sql) {
+                } elseif(!$this->sql && isset($aliases['a.' . $key])) {
                     $key = $aliases['a.' . $key];
+                } elseif(!$this->sql && !isset($aliases['a.' . $key])) { // Si no existe la clave, es un campo hidden que nos podemos saltar
+                    continue;
                 }
 
                 if(isset($row[$key])) {
@@ -618,8 +579,6 @@ class ListaFactory
 
     public function createView()
     {
-        //var_dump($this->sql);
-        //die();
         return array(
             'data' => $this->arrayResults,
             'labels' => $this->labels,
@@ -773,4 +732,53 @@ class ListaFactory
         }
         $sql = $parts[0];
     }
+
+    private function clean()
+    {
+        $this->qb = null;
+        $this->listaBuilder = new ListaBuilder();
+        $this->arrayResults = array();
+        $this->selectAliases = array();
+        $this->labels = array();
+        $this->request = Request::createFromGlobals();
+        $this->firstResult = 0; //Empezar por el principio
+        $this->maxResults = 25; //Mostrar 25 elementos por pagina
+        $this->lista = null;
+        $this->pag = 1;
+        $this->joinList = 1;
+        $this->joinListField = array();
+        $this->orderColumn = 'default';
+        $this->orderDirection = null;
+        $this->sql = null;
+
+        if ($this->request->request->get('epp')) {
+            $this->maxResults = $this->request->request->get('epp');
+        }
+
+        if ($this->request->request->get('max')) {
+            $this->maxResults = intval($this->request->request->get('max'));
+        }
+
+        if ($this->request->request->get('pag')) {
+            $this->pag = $this->request->request->get('pag');
+            $this->firstResult = ($this->pag-1) * $this->maxResults;
+        }
+
+        if ($this->request->request->get('search')) {
+            $this->search = addslashes($this->request->request->get('search'));
+        }
+
+        if ($this->request->request->get('order_column')) {
+            $this->orderColumn = $this->request->request->get('order_column');
+        }
+
+        if ($this->request->request->get('order_direction')) {
+            $this->orderDirection = $this->request->request->get('order_direction');
+        }
+
+        if ($this->request->request->get('update_field')) {
+            $this->toggleField = $this->request->request->get('update_field');
+        }
+    }
+
 }
