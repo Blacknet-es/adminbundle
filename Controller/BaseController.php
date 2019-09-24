@@ -351,8 +351,8 @@ class BaseController extends AbstractController
     /**
      * @return bool
      */
-    protected function hasParameter($key): bool
+    public function hasParameter($key): bool
     {
-        return $this->hasParameter($key);
+        return $this->container->get('parameter_bag')->has($key);
     }
 }
