@@ -38,6 +38,9 @@
                 }
             </style>
         {% endif %}
+        {% if cookieSettings is defined and cookieSettings['cookies_alert_enabled'] is defined and cookieSettings['cookies_alert_enabled'] %}
+            <link rel="stylesheet" href="/bundles/trendixadmin/gdpr-cookies/cookies.css"></link>
+        {% endif %}
     {% endblock %}
     <script src="{{ asset('/js/header.js') }}"></script>
 
@@ -173,7 +176,9 @@
 
     <!-- App functions and actions -->
     <script src="/bundles/trendixadmin/js/app.min.js"></script>
-
+    {% if cookieSettings is defined and cookieSettings['cookies_alert_enabled'] is defined and cookieSettings['cookies_alert_enabled'] %}
+    <script type="text/javascript" src="/bundles/trendixadmin/gdpr-cookies/jquery.ihavecookies.min.js"></script>
+    {% endif %}
 
     <script src="{{ asset('/bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -353,6 +358,27 @@
 
 
             $('.html-editor').trumbowyg();
+
+
+            {% if cookieSettings is defined and cookieSettings['cookies_alert_enabled'] is defined and cookieSettings['cookies_alert_enabled'] %}
+                var options = {
+                    title: '{{ cookieSettings['cookies_alert_title'] | trans }}',
+                    message: '{{ cookieSettings['cookies_alert_message'] | trans }}',
+                    link: "{{ path(cookieSettings['cookies_alert_path']) }}",
+
+                    delay: 2000,
+                    cookieTypes: [
+                        {% for cookieType in cookieSettings['cookies_alert_types'] %}
+                        {
+                            type: '{{ cookieType.type | trans }}',
+                            value: '{{ cookieType.value }}',
+                            description: '{{ cookieType.description |trans }}'
+                        },
+                        {% endfor %}
+                    ]
+                };
+                $('body').ihavecookies(options);
+            {% endif %}
         });
     </script>
 

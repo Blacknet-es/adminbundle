@@ -152,6 +152,23 @@ class BaseController extends AbstractController
             $data['base_template'] = null;
         }
 
+        if($this->hasParameter('cookies_alert_enabled')) {
+            $cookiesEnabled = $this->getParameter('cookies_alert_enabled');
+            if($cookiesEnabled) {
+                $data['cookieSettings'] = [
+                    'cookies_alert_enabled' => $cookiesEnabled,
+                    'cookies_alert_title' => $this->getParameter('cookies_alert_title'),
+                    'cookies_alert_message' => $this->getParameter('cookies_alert_message'),
+                    'cookies_alert_path' => $this->getParameter('cookies_alert_path'),
+                    'cookies_alert_types' => $this->getParameter('cookies_alert_types')
+                ];
+            } else {
+                $data['cookieSettings'] = [
+                    'cookies_alert_enabled' => false
+                ];
+            }
+        }
+
         return $data;
     }
 
