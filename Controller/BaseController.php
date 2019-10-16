@@ -161,7 +161,7 @@ class BaseController extends AbstractController
     protected function getMenu()
     {
         global $kernel;
-        return $this->get('admin.menu.generator')->generateMenu();
+        return $this->get(MenuGenerator::class)->generateMenu();
     }
 
     /**
