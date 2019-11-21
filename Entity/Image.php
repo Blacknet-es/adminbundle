@@ -127,7 +127,7 @@ class Image
     function __toString()
     {
         //return $this->image ? $this->image : '';
-        return $this->getWebPath();
+        return $this->getWebPath() ? $this->getWebPath() : '';
     }
 
 }

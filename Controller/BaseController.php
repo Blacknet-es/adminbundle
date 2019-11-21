@@ -35,7 +35,6 @@ use Twig\Environment;
 
 class BaseController extends AbstractController
 {
-
     private $data = array();
 
     /**
