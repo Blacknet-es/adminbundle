@@ -1,4 +1,8 @@
 services:
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
   Trendix\AdminBundle\Component\Lista\ListaFactory:
         arguments: ["@service_container","@doctrine.orm.entity_manager"]
         public: true
@@ -51,3 +55,8 @@ services:
   admin.menu.generator:
     alias: Trendix\AdminBundle\Component\Menu\MenuGenerator
     public: true
+
+  parameter_bag:
+    class: Symfony\Component\DependencyInjection\ParameterBag\ContainerBag
+    public: true
+    arguments: ["@service_container"]

@@ -6,7 +6,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -345,7 +348,8 @@ class BaseController extends AbstractController
             'admin.lista.factory' => '?'.ListaFactory::class,
         ];
 
-        return array_merge($defaultServices, $customizedServices);
+        $services = array_merge($defaultServices, $customizedServices);
+        return $services;
     }
 
     /**
@@ -353,6 +357,6 @@ class BaseController extends AbstractController
      */
     protected function hasParameter($key): bool
     {
-        return $this->hasParameter($key);
+        return $this->container->get('parameter_bag')->has($key);
     }
 }
