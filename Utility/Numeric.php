@@ -230,7 +230,7 @@ class Numeric
         $code = '';
         $total = strlen(self::$letters);
         if ($number >= $total) {
-            return self::getLetterFromNumber(floor($number/$total) - 1).self::$letters[$number % $total];
+            return self::getLetterFromNumber((int) floor($number/$total) - 1).self::$letters[$number % $total];
         } else {
             return $code . self::$letters[$number];
         }
