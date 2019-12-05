@@ -36,6 +36,9 @@ $('body').on('click', '[data-ajax-action]', function() {
             if (data.reload != undefined && data.reload) {
                 window.location.reload();
             }
+            else if(data.redirect != undefined && data.redirect) {
+                window.location.href = data.redirect;
+            }
         }
         return true;
     }
