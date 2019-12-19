@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -349,6 +350,12 @@ class BaseController extends AbstractController
 
         $services = array_merge($defaultServices, $customizedServices);
         return $services;
+    }
+
+    protected function render(string $view, array $parameters = [], Response $response = null): Response
+    {
+        $this->addData($parameters);
+        return parent::render($view, $this->getData(), $response);
     }
 
     /**
