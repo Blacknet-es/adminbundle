@@ -16,7 +16,12 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Model\UserInterface;
+use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Util\TokenGenerator;
+use FOS\UserBundle\Util\TokenGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -54,7 +59,7 @@ class ResetController extends BaseController
      * @Route("/send_email", name="reset_email")
      * Request reset user password: submit form and send email
      */
-    public function sendEmailAction(Request $request)
+    public function sendEmailAction(Request $request, TokenGeneratorInterface $tokenGenerator, \Swift_Mailer $mailer)
     {
         $username = $request->request->get('username');
 
@@ -74,11 +79,10 @@ class ResetController extends BaseController
 
         if (null === $user->getConfirmationToken()) {
             /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
-            $tokenGenerator = $this->get('fos_user.util.token_generator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
         }
 
-        $this->sendResettingEmailMessage($user);
+        $this->sendResettingEmailMessage($user, $mailer);
         $user->setPasswordRequestedAt(new \DateTime());
         $this->get('fos_user.user_manager')->updateUser($user);
 
@@ -110,15 +114,8 @@ class ResetController extends BaseController
      * Reset user password
      * @Route("/reset/{token}", name="reset_reset")
      */
-    public function resetAction(Request $request, $token)
+    public function resetAction(Request $request, $token, FormFactoryInterface $formFactory, UserManagerInterface $userManager, EventDispatcherInterface $dispatcher)
     {
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
-        $formFactory = $this->get('fos_user.resetting.form.factory');
-        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
-        $userManager = $this->get('fos_user.user_manager');
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
         $user = $userManager->findUserByConfirmationToken($token);
 
         if (null === $user) {
@@ -183,14 +180,14 @@ class ResetController extends BaseController
     /**
      * {@inheritdoc}
      */
-    private function sendResettingEmailMessage(UserInterface $user)
+    private function sendResettingEmailMessage(UserInterface $user, $mailer)
     {
         $url = $this->generateUrl('reset_reset', array('token' => $user->getConfirmationToken()), UrlGeneratorInterface::ABSOLUTE_URL);
         $rendered = $this->render('TrendixAdminBundle:Resetting:email.txt.twig', array(
             'user' => $user,
             'confirmationUrl' => $url
         ));
-        $this->sendEmailMessage($rendered, $this->getParameter('no_reply_address'), $user->getEmail());
+        $this->sendEmailMessage($rendered, $this->getParameter('no_reply_address'), $user->getEmail(), $mailer);
     }
 
     /**
@@ -198,7 +195,7 @@ class ResetController extends BaseController
      * @param string $fromEmail
      * @param string $toEmail
      */
-    private function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
+    private function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail, $mailer)
     {
         // Render the email, use the first line as the subject, and the rest as the body
         $renderedLines = explode("\n", trim($renderedTemplate));
@@ -210,6 +207,6 @@ class ResetController extends BaseController
             ->setTo($toEmail)
             ->setBody($body);
 
-        $this->get('mailer')->send($message);
+        $mailer->send($message);
     }
 }
