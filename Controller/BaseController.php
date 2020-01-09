@@ -4,6 +4,8 @@ namespace Trendix\AdminBundle\Controller;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -11,6 +13,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -247,7 +250,7 @@ class BaseController extends AbstractController
         $data = $list->getFileData();
 
         // Then, we have to create the excel object:
-        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
+        $phpExcelObject = new Spreadsheet();
 
         // Writing file meta-data:
         $phpExcelObject->getProperties()->setCreator("Trendix")
@@ -289,20 +292,16 @@ class BaseController extends AbstractController
         $phpExcelObject->setActiveSheetIndex(0);
 
         // create the writer
-        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+        $writer = new Xlsx($phpExcelObject);
         // create the response
-        $response = $this->get('phpexcel')->createStreamedResponse($writer);
-        // adding headers
-        $dispositionHeader = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'list.xls'
-        );
-        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-        $response->headers->set('Pragma', 'public');
-        $response->headers->set('Cache-Control', 'maxage=1');
-        $response->headers->set('Content-Disposition', $dispositionHeader);
+        $fileName = 'list.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
-        return $response;
+        // Create the excel file in the tmp directory of the system
+        $writer->save($temp_file);
+
+        // Return the excel file as an attachment
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
     /** Get the column name from the position

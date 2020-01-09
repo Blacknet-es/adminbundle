@@ -1,6 +1,10 @@
 $(document).ready(function() {
     var $listaForm = $('#listaForm');
 
+    $(document).on('click', 'a.download-file', function(e) {
+        e.preventDefault();
+        $(this).closest('.lista-card').find('form.list-download').submit();
+    });
     $(document).on('click', '.pagination a[data-page]', function() {
         if ($(this).hasClass('active')) {
             return false;
