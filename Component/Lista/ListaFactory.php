@@ -603,6 +603,7 @@ class ListaFactory
             'sql' => $this->sql ? $this->sql : null,
             'listClass' => get_class($this->lista),
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
+            'strictSearch' => isset($this->options['strictSearch']) ? $this->options['strictSearch'] : false,
         );
     }
 
