@@ -23,6 +23,7 @@ list:
   confirm_remove: ¿Desea eliminar el elemento seleccionado?
   page: Pág. %current% de %total%
   search: Buscar
+  strict_search: Buscar usando valores completos
   locales: Selecciona un idioma a gestionar
 
 images:

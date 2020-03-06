@@ -80,6 +80,11 @@ class ListaFactory
     protected $search;
 
     /**
+     * @var boolean
+     */
+    protected $strictSearch = false;
+
+    /**
      * @var integer
      */
     protected $orderColumn;
@@ -137,6 +142,9 @@ class ListaFactory
         $this->lista = $lista;
 
         $this->options = array_merge($lista->getOptions(), $options);
+        if(array_key_exists('strictSearch', $this->options)) {
+            $this->strictSearch = $this->options['strictSearch'];
+        }
         // Save original elements per page
         if(array_key_exists('maxResults', $this->options)) {
             $this->maxResults = $this->options['maxResults'];
@@ -684,7 +692,11 @@ class ListaFactory
                 if($i > 0) {
                     $sqlFilter .= ' OR ';
                 }
-                $sqlFilter .= " CAST($expression AS CHAR) LIKE '%$this->search%' ";
+                if($this->strictSearch) {
+                    $sqlFilter .= " CAST($expression AS CHAR) = '$this->search' ";
+                } else {
+                    $sqlFilter .= " CAST($expression AS CHAR) LIKE '%$this->search%' ";
+                }
                 $i++;
             }
             $sqlFilter = '(' . $sqlFilter . ')';

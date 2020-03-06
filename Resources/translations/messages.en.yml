@@ -23,6 +23,7 @@ list:
   confirm_remove: Do you wish to delete the selected item?
   page: Page %current% of %total%
   search: Search
+  strict_search: Search using exact terms
   locales: Select a locale to manage
 
 images:

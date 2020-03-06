@@ -15,7 +15,7 @@
                         <div class="search form-group pull-left">
                             <div class="input-group">
                                 <span class="zmdi icon input-group-addon glyphicon-search"></span>
-                                <input class="search-field form-control" placeholder="{{ 'list.search'|trans }}"
+                                <input class="search-field form-control" placeholder="{% if lista.strictSearch %}{{ 'list.strict_search'|trans }}{% else %}{{ 'list.search'|trans }}{% endif %}"
                                        type="text" value="{{ lista.search }}">
                             </div>
                         </div>
