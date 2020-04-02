@@ -120,6 +120,11 @@ class ListaFactory
     protected $searchableFields;
 
     /**
+     * @var array
+     */
+    protected $specificSearchFields;
+
+    /**
      * @var array Guarda como claves los alias del select, y como valores la cadena utilizada para seleccionar el valor (por ejemplo: a.id)
      * Para columnas normales, el alias será nombreColumna_posicion.
      * Para columnas Join, el alias será aliasTabla_nombreColumna.
@@ -160,9 +165,11 @@ class ListaFactory
         }
         if(array_key_exists('order_direction', $this->options) && $this->orderDirection === null) {
             $this->orderDirection = $this->options['order_direction'];
-        } /*else {
-            $this->orderDirection = 0;
-        }*/
+        }
+        if(array_key_exists('specific_search_fields', $this->options) && $this->specificSearchFields === null) {
+            $this->specificSearchFields = $this->options['specific_search_fields'];
+        }
+
         // Save SQL code if needed
         if(array_key_exists('sql', $this->options)) {
             $this->sql = $this->options['sql'];
@@ -318,16 +325,66 @@ class ListaFactory
         return $this;
     }
 
+    private function buildSpecificQuery($where)
+    {
+        $fields = [];
+        $fieldsValues = [];
+        $used = false;
+
+        if (isset($this->specificSearchFields)) {
+            $used = true;
+            foreach ($this->specificSearchFields as $field => $opt) {
+                if($opt['value']) {
+                    if (strstr($field, '.') !== false) { // If this is a joined field
+                        list($table, $field) = $this->getJoinTableAndField($field);
+                        // If the table has not been previously joined, do it now
+                        if(!array_key_exists($table, $this->joinListField)) {
+                            $this->joinListField[$table] = max($this->joinListField) + 1;
+                        }
+                        $fields[] = $this->joinListField[$table].'.'.$field;
+                        $fieldsValues[$this->joinListField[$table].'.'.$field] = $opt;
+                    } else {
+                        $fields[] = $field;
+                        $fieldsValues[$field] = $opt;
+                    }
+                }
+            }
+
+            $where .= ' AND ( 1 = 1 ';
+            foreach($fields as $field) {
+                if(strpos($field, '.')) {
+                    $alias = 'a'.$field;
+                } else {
+                    $alias = 'a.' . $field;
+                }
+
+                $type = $fieldsValues[$field]['type'];
+                if(is_numeric($this->search) && ($type == 'integer' || $type == 'float')) {
+                    $where .= ' AND '. $alias . ' = ' . $fieldsValues[$field]['value'];
+                } else if($type == 'choice') {
+                    $where .= ' AND '. $alias . " = '{$fieldsValues[$field]['value']}'";
+                } else {
+                    $where .= ' AND '. $alias . " LIKE '%{$fieldsValues[$field]['value']}%'";
+                }
+            }
+
+            $where .= ')';
+        }
+        return [$used, $where];
+    }
+
     private function filterBuilder()
     {
+        // Rellenamos la query para la búsqueda
+        [$used, $whereClause] = $this->buildSpecificQuery('1 = 1');
         if (isset($this->options['permanent_filter'])) {
             $this->qb->andWhere($this->options['permanent_filter']);
             $this->countQb->andWhere($this->options['permanent_filter']);
         }
-
-        // Rellenamos la query para la búsqueda
-        $whereClause = '0 = 1';
         if(isset($this->search) && $this->search != '') {
+            if($used) {
+                $whereClause .= ' AND (0 = 1 ';
+            }
             $fields = $this->em->getClassMetadata($this->lista->getClass())->getFieldNames();
 
             foreach ($this->listaBuilder->getChilds() as $dataType) {
@@ -352,16 +409,19 @@ class ListaFactory
                     $whereClause .= ' OR '. $alias . ' LIKE :search';
                 }
             }
-
-            $this->qb->andWhere($whereClause);
             $this->qb->setParameter('search', '%'.$this->search.'%');
-            $this->countQb->andWhere($whereClause);
             $this->countQb->setParameter('search', '%'.$this->search.'%');
             if(is_numeric($this->search)) {
                 $this->qb->setParameter('search_num', floatval($this->search));
                 $this->countQb->setParameter('search_num', floatval($this->search));
             }
+            if($used) {
+                $whereClause .= ' ) ';
+            }
         }
+
+        $this->qb->andWhere($whereClause);
+        $this->countQb->andWhere($whereClause);
 
         return $this;
     }
@@ -604,6 +664,7 @@ class ListaFactory
             'listClass' => get_class($this->lista),
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
             'strictSearch' => isset($this->options['strictSearch']) ? $this->options['strictSearch'] : false,
+            'specificSearchFields' => $this->specificSearchFields
         );
     }
 
@@ -779,6 +840,11 @@ class ListaFactory
 
         if ($this->request->request->get('search')) {
             $this->search = addslashes($this->request->request->get('search'));
+        }
+
+        if ($this->request->request->get('specific_search_fields')) {
+            $filters = json_decode($this->request->request->get('specific_search_fields'), true);
+            $this->specificSearchFields = $filters;
         }
 
         if ($this->request->request->get('order_column')) {

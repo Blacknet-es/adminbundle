@@ -25,6 +25,8 @@ list:
   search: Buscar
   strict_search: Buscar usando valores completos
   locales: Selecciona un idioma a gestionar
+  open_search_filters: Abrir filtros de búsqueda
+  close_search_filters: Cerrar filtros de búsqueda
 
 images:
   insert: Insertar Imagen

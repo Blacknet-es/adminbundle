@@ -8,11 +8,28 @@
     {% endif %}
     <div class="card-body">
         <h4 class="card-title">{{ title|trans }}</h4>
+        {% if lista.specificSearchFields %}
+            <div class="container-fluid" style="padding-bottom: 40px;">
+                <div class="row">
+                    <div class="col-sm-12 actionBar">
+                        <a href="#" class="open-search-filters">{{ 'list.open_search_filters'|trans }}</a>
+                        <a href="#" class="close-search-filters" style="display: none;">{{ 'list.close_search_filters'|trans }}</a>
+                    </div>
+                </div>
+                <div class="row filters-row" style="height: 0; overflow: hidden;">
+                    {% for field, fieldData in lista.specificSearchFields %}
+                        <div class="col-12 col-sm-6 col-md-4">
+                            {% include 'TrendixAdminBundle:Lista/filters:' ~ fieldData.type ~ '.html.twig' with {field: field, data: fieldData} only %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
         <div id="data-table-basic-header" class="bootgrid-header container-fluid">
             <div class="row">
                 <div class="col-sm-12 actionBar">
                     {% if hideSearch is not defined or not hideSearch %}
-                        <div class="search form-group pull-left">
+                        <div class="search form-group">
                             <div class="input-group">
                                 <span class="zmdi icon input-group-addon glyphicon-search"></span>
                                 <input class="search-field form-control" placeholder="{% if lista.strictSearch %}{{ 'list.strict_search'|trans }}{% else %}{{ 'list.search'|trans }}{% endif %}"
@@ -206,6 +223,7 @@
                         <input type="hidden" class="max" name="max" value="{{ lista.maxResults }}" />
                         <input type="hidden" class="order_column" name="order_column" value="{{ lista.orderColumn }}" />
                         <input type="hidden" class="order_direction" name="order_direction" value="{{ lista.orderDirection }}" />
+                        <input type="hidden" class="filters_data" name="specific_search_fields" value="{{ lista.specificSearchFields | json_encode }}">
                         <input type="hidden" class="update_field" name="update_field" value="" />
                     </form>
                 </div>
@@ -214,6 +232,16 @@
             <div class="card-body card-padding">
                 {{ 'admin.no_elements'|trans }}
             </div>
+
+            <form id="listaForm">
+                <input type="hidden" class="pag" name="pag" value="{{ lista.currentPage }}" />
+                <input type="hidden" class="search" name="search" value="{{ lista.search }}" />
+                <input type="hidden" class="max" name="max" value="{{ lista.maxResults }}" />
+                <input type="hidden" class="order_column" name="order_column" value="{{ lista.orderColumn }}" />
+                <input type="hidden" class="order_direction" name="order_direction" value="{{ lista.orderDirection }}" />
+                <input type="hidden" class="filters_data" name="specific_search_fields" value="{{ lista.specificSearchFields | json_encode }}">
+                <input type="hidden" class="update_field" name="update_field" value="" />
+            </form>
         {% endif %}
     </div>
 </div>

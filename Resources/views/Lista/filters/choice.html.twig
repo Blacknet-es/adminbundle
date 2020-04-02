@@ -1,0 +1,10 @@
+<div class="form-group">
+    <label for="filters_{{ field }}" class="control-label">{{ data.label }}</label>
+    <select id="filters_{{ field }}" name="filters_{{ field }}" class="form-control search-filter">
+        {% for choice in data.choices %}
+            <option value="{{ choice.value }}" {% if data.value == choice.value %}selected{% endif %}>
+                {{ choice.label }}
+            </option>
+        {% endif %}
+    </select>
+</div>

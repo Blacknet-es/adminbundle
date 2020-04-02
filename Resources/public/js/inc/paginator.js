@@ -1,6 +1,19 @@
 $(document).ready(function() {
     var $listaForm = $('#listaForm');
 
+    $(document).on('click', '.open-search-filters', function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $('.close-search-filters').show();
+        $('.filters-row').animate({height: '60'}).css({ overflow: 'auto'});
+    });
+    $(document).on('click', '.close-search-filters', function(e) {
+        e.preventDefault();
+        $(this).hide();
+        $('.open-search-filters').show();
+        $('.filters-row').animate({height: '0'}).css({ overflow: 'hidden'})
+    });
+
     $(document).on('click', 'a.download-file', function(e) {
         e.preventDefault();
         $(this).closest('.lista-card').find('form.list-download').submit();
@@ -13,7 +26,7 @@ $(document).ready(function() {
         var page = $(this).data('page');
 
         $listaForm.find('.pag').val(page);
-        processListaForm();
+        processListaForm.call(this);
     });
 
     $(document).on('click', '.page-size-selector', function(e) {
@@ -21,12 +34,12 @@ $(document).ready(function() {
         $listaForm.find('.max').val($(this).data('value'));
         // Cuando se cambie el numero de elementos por pagina cambiamos a la pagina 1
         $listaForm.find('.pag').val(1);
-        processListaForm();
+        processListaForm.call(this);
     });
 
-    $(document).on('change', 'input.search-field', function() {
-        $listaForm.find('.search').val($(this).val());
-        processListaForm();
+    $(document).on('change', 'input.search-field, input.search-filter', function() {
+        $listaForm.find('.search').val($(this).closest('.lista-card').find('input.search-field').val());
+        processListaForm.call(this);
     });
 
     $(document).on('click', '.update-value', function(e) {
@@ -37,7 +50,7 @@ $(document).ready(function() {
         var col = $(this).find('[data-original-col]').data('original-col');
         var value = parseInt($(this).data('value')) ? 1 : 0;
         $listaForm.find('.update_field').val(id + ',' + col + ',' + value);
-        processListaForm();
+        processListaForm.call(this);
     });
 
     $(document).on('click', '.column-header-anchor.sortable', function() {
@@ -48,25 +61,37 @@ $(document).ready(function() {
         }
         $listaForm.find('.order_column').val($(this).data('value'));
         $listaForm.find('.order_direction').val(direction);
-        processListaForm();
+        processListaForm.call(this);
     });
 
     function processListaForm()
     {
-        $.ajax({
-            url: location.href,
-            type: 'post',
-            data: $listaForm.serialize()
-        }).done(function (data) {
-            $('#main > div').html(data);
-        });
+        var filtersField = $(this).closest('.lista-card').find('.filters_data');
+        var filters = filtersField.val();
+        if(filters && filters != '') {
+            filters = JSON.parse(filters);
+            $(this).closest('.lista-card').find('input.search-filter').each(function() {
+                var val = $(this).val();
+                if(val && val != '' && filters[$(this).data('field')]) {
+                    filters[$(this).data('field')].value = val;
+                }
+            });
+        }
+        filtersField.val(JSON.stringify(filters));
+        setTimeout(function() {
+            $.ajax({
+                url: location.href,
+                type: 'post',
+                data: $('#listaForm').serialize()
+            }).done(function (data) {
+                $('#main > div').html(data);
+            });
+        }, 100);
     }
 
     $(document).on('change', '#check-all', function(e) {
         var allCheckboxes = $(this).closest('.lista-card').find('table tbody .bulk-check input[type="checkbox"]');
         var allCheckedCheckboxes = $(this).closest('.lista-card').find('table tbody .bulk-check input[type="checkbox"]:checked');
-        console.log(allCheckboxes.length);
-        console.log(allCheckedCheckboxes.length);
         if(allCheckboxes.length == allCheckedCheckboxes.length && allCheckboxes.length != 0) {
             allCheckboxes.each(function() {
                 $(this).prop('checked', false);

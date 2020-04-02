@@ -25,6 +25,8 @@ list:
   search: Search
   strict_search: Search using exact terms
   locales: Select a locale to manage
+  open_search_filters: Open search filters
+  close_search_filters: Close search filters
 
 images:
   insert: Insert Image
