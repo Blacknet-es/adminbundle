@@ -1,10 +1,11 @@
 <div class="form-group">
-    <label for="filters_{{ field }}" class="control-label">{{ data.label }}</label>
-    <select id="filters_{{ field }}" name="filters_{{ field }}" class="form-control search-filter">
+    <label for="filters_{{ field }}" class="control-label">{{ data.label }}{{ data.value }}</label>
+    <select id="filters_{{ field }}" name="filters_{{ field }}" class="form-control search-filter no-select2"
+            data-field="{{ field }}">
         {% for choice in data.choices %}
             <option value="{{ choice.value }}" {% if data.value == choice.value %}selected{% endif %}>
                 {{ choice.label }}
             </option>
-        {% endif %}
+        {% endfor %}
     </select>
 </div>

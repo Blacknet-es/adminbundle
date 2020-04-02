@@ -37,7 +37,7 @@ $(document).ready(function() {
         processListaForm.call(this);
     });
 
-    $(document).on('change', 'input.search-field, input.search-filter', function() {
+    $(document).on('change', 'input.search-field, .search-filter', function() {
         $listaForm.find('.search').val($(this).closest('.lista-card').find('input.search-field').val());
         processListaForm.call(this);
     });
@@ -70,7 +70,7 @@ $(document).ready(function() {
         var filters = filtersField.val();
         if(filters && filters != '') {
             filters = JSON.parse(filters);
-            $(this).closest('.lista-card').find('input.search-filter').each(function() {
+            $(this).closest('.lista-card').find('.search-filter').each(function() {
                 var val = $(this).val();
                 if(val && val != '' && filters[$(this).data('field')]) {
                     filters[$(this).data('field')].value = val;
