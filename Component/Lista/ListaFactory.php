@@ -381,7 +381,7 @@ class ListaFactory
             $this->qb->andWhere($this->options['permanent_filter']);
             $this->countQb->andWhere($this->options['permanent_filter']);
         }
-        if(isset($this->search) && $this->search != '') {
+        if($this->isLooseSearch()) {
             if($used) {
                 $whereClause .= ' AND (0 = 1 ';
             }
@@ -727,6 +727,36 @@ class ListaFactory
         $q->execute();
     }
 
+    private function buildSpecificSqlQuery($where)
+    {
+        $fields = [];
+        $fieldsValues = [];
+        $used = false;
+
+        if (isset($this->specificSearchFields)) {
+            $used = true;
+            foreach ($this->specificSearchFields as $field => $opt) {
+                $fields[] = $field;
+                $fieldsValues[$field] = $opt;
+            }
+
+            $where .= ' AND ( 1 = 1 ';
+            foreach($fields as $field) {
+                $type = $fieldsValues[$field]['type'];
+                if(is_numeric($this->search) && ($type == 'integer' || $type == 'float')) {
+                    $where .= ' AND '. $field . ' = ' . $fieldsValues[$field]['value'];
+                } else if($type == 'choice') {
+                    $where .= ' AND '. $field . " = '{$fieldsValues[$field]['value']}'";
+                } else {
+                    $where .= ' AND '. $field . " LIKE '%{$fieldsValues[$field]['value']}%'";
+                }
+            }
+
+            $where .= ')';
+        }
+        return [$used, $where];
+    }
+
     /**
      * @param $paged
      * @return array
@@ -742,12 +772,24 @@ class ListaFactory
         }
 
         // Filter if needed
-        if(isset($this->search) && $this->search != '') {
+        $sqlFilter = '';
+        if($this->specificSearchFields) {
+            [$used, $sqlFilter] = $this->buildSpecificSqlQuery('1 = 1 ');
+            if($used && isset($this->search) && $this->search != '') {
+                $sqlFilter .= ' AND (0 = 1 ';
+            } else if (!$used) {
+                $sqlFilter .= '(';
+            }
+        } elseif($this->isLooseSearch()) {
+            $used = false;
+            $sqlFilter = '(';
+        }
+
+        if($this->isLooseSearch() || $this->specificSearchFields) {
             // Use searchable field in the search
             $selectClause = str_replace('SELECT ', '', $sql);
             $selectClause = substr($selectClause, 0, strpos($selectClause, "FROM"));
             $columns = explode(',', $selectClause);
-            $sqlFilter = '';
             $i = 0;
             // Then generate the where clause
             foreach ($this->searchableFields as $alias => $expression) {
@@ -761,7 +803,9 @@ class ListaFactory
                 }
                 $i++;
             }
-            $sqlFilter = '(' . $sqlFilter . ')';
+            if($this->isLooseSearch()) {
+                $sqlFilter = $sqlFilter . ')';
+            }
 
             // If there is an order by clause, put the code before it, if not, put it at the end, always checking
             // if there already is a WHERE clause.
@@ -797,9 +841,9 @@ class ListaFactory
     {
         $parts = explode($clause, $sql);
         if (strpos($sql, 'WHERE') !== false) {
-            $parts[0] .= 'AND' . $sqlFilter;
+            $parts[0] .= ' AND ' . $sqlFilter;
         } else {
-            $parts[0] .= 'WHERE' . $sqlFilter;
+            $parts[0] .= ' WHERE ' . $sqlFilter;
         }
         if (isset($parts[1])) {
             $parts[0] .= " $clause " . $parts[1];
@@ -858,6 +902,14 @@ class ListaFactory
         if ($this->request->request->get('update_field')) {
             $this->toggleField = $this->request->request->get('update_field');
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function isLooseSearch(): bool
+    {
+        return isset($this->search) && $this->search != '';
     }
 
 }
