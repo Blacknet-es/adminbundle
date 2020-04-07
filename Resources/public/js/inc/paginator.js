@@ -13,6 +13,13 @@ $(document).ready(function() {
         $('.open-search-filters').show();
         $('.filters-row').animate({height: '0'}).css({ overflow: 'hidden'})
     });
+    $(document).on('click', '.clear-search-filters', function(e) {
+        e.preventDefault();
+        $(this).closest('.lista-card').find('.search-filter').each(function(e) {
+            $(this).val('');
+        });
+        processListaForm.call(this);
+    });
 
     $(document).on('click', 'a.download-file', function(e) {
         e.preventDefault();
@@ -72,7 +79,7 @@ $(document).ready(function() {
             filters = JSON.parse(filters);
             $(this).closest('.lista-card').find('.search-filter').each(function() {
                 var val = $(this).val();
-                if(val && val != '' && filters[$(this).data('field')]) {
+                if(filters[$(this).data('field')]) {
                     filters[$(this).data('field')].value = val;
                 }
             });

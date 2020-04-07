@@ -27,6 +27,7 @@ list:
   locales: Selecciona un idioma a gestionar
   open_search_filters: Abrir filtros de búsqueda
   close_search_filters: Cerrar filtros de búsqueda
+  clear_search_filters: Limpiar filtros
 
 images:
   insert: Insertar Imagen

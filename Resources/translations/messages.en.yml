@@ -27,6 +27,7 @@ list:
   locales: Select a locale to manage
   open_search_filters: Open search filters
   close_search_filters: Close search filters
+  clear_search_filters: Clear filters
 
 images:
   insert: Insert Image

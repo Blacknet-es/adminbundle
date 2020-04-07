@@ -664,7 +664,8 @@ class ListaFactory
             'listClass' => get_class($this->lista),
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
             'strictSearch' => isset($this->options['strictSearch']) ? $this->options['strictSearch'] : false,
-            'specificSearchFields' => $this->specificSearchFields
+            'specificSearchFields' => $this->specificSearchFields,
+            'specificSearchFieldsUsed' => $this->specificSearchFieldsUsed()
         );
     }
 
@@ -912,4 +913,15 @@ class ListaFactory
         return isset($this->search) && $this->search != '';
     }
 
+    private function specificSearchFieldsUsed() : bool
+    {
+        if (isset($this->specificSearchFields)) {
+            foreach ($this->specificSearchFields as $field => $opt) {
+                if($opt['value']) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

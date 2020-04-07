@@ -12,13 +12,16 @@
             <div class="container-fluid" style="padding-bottom: 40px;">
                 <div class="row">
                     <div class="col-sm-12 actionBar">
-                        <a href="#" class="open-search-filters">{{ 'list.open_search_filters'|trans }}</a>
-                        <a href="#" class="close-search-filters" style="display: none;">{{ 'list.close_search_filters'|trans }}</a>
+                        <a href="#" class="open-search-filters btn btn-primary" {% if lista.specificSearchFieldsUsed %}style="display: none;"{% endif %}>{{ 'list.open_search_filters'|trans }}</a>
+                        <a href="#" class="close-search-filters btn btn-primary" {% if not lista.specificSearchFieldsUsed %}style="display: none;"{% endif %}>{{ 'list.close_search_filters'|trans }}</a>
                     </div>
                 </div>
-                <div class="row filters-row" style="height: 0; overflow: hidden;">
+                <div class="row filters-row" style="{% if not lista.specificSearchFieldsUsed %}height: 0; overflow: hidden;{% endif %}">
+                    <div class="col-12 col-sm-4 col-md-2">
+                        <a href="#" class="clear-search-filters btn btn-light mt-3">{{ 'list.clear_search_filters'|trans }}</a>
+                    </div>
                     {% for field, fieldData in lista.specificSearchFields %}
-                        <div class="col-12 col-sm-6 col-md-4">
+                        <div class="col-12 col-sm-4 col-md-2">
                             {% include 'TrendixAdminBundle:Lista/filters:' ~ fieldData.type ~ '.html.twig' with {field: field, data: fieldData} only %}
                         </div>
                     {% endfor %}
