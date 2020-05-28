@@ -22,6 +22,11 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
     /**
      * @var array
      */
+    protected $filters = array();
+
+    /**
+     * @var array
+     */
     protected $bulkActions = array();
 
 
@@ -83,6 +88,27 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
     {
         $this->bulkActions[$action] = $this->createBulkAction($action, null, $text, [], $view, $viewData);
         return $this;
+    }
+
+    /**
+     *
+     * Add Action to actions list incude click event on row
+     *
+     * @param string $field
+     * @param string $label
+     * @param string $type
+     * @param array $choices
+     * @param string|null $value
+     * @return void
+     */
+    public function addFilter($field, $label, $type = 'text', $choices = array(), $value = '')
+    {
+        $this->filters[$field] = [
+            'value' => $value,
+            'type' => $type,
+            'label' => $label,
+            'choices' => $choices
+        ];
     }
 
     /**
@@ -178,6 +204,14 @@ abstract class ListaAbstractBuilder implements ListaBuilderInterface
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilters()
+    {
+        return $this->filters;
     }
 
     /**

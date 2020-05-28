@@ -194,6 +194,9 @@ class ListaFactory
         if($this->toggleField) {
             $this->updateRow($this->toggleField);
         }
+        if(!empty($this->listaBuilder->getFilters()) && !$this->specificSearchFields) {
+            $this->specificSearchFields = $this->listaBuilder->getFilters();
+        }
 
         if($this->sql) {
             $arrayResults = $this->getSQLResult(true);

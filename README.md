@@ -2,6 +2,38 @@
 
 ## Cómo funcionan los filtros específicos de los listados
 
+Hay dos formas de usar los filtros específicos, con addFilter o mediante el array de opciones. 
+Solo se puede usar uno de ellos a la vez.
+
+### Listados lo QueryList, método addFilter
+
+Vemos un ejemplo de uso de la función addFilter:
+
+```php
+    public function buildList(ListaAbstractBuilder $builder, array $options)
+    {
+        $builder
+            ->add('id')
+            //...
+            ->addFilter('page.slug', 'slug categoría', 'choice', [
+                ['value' => 'page-1', 'label' => 'Page 1'],
+                ['value' => 'page-2', 'label' => 'Page 2']
+            ], 'page-2')
+        ;
+    }
+```
+
+Los parámetros de `addFilter`, en orden, son los siguientes:
+1. field: Campo. Si es una asociación usamos un punto para acceder al campo por el que filtrar.
+2. label: Label a mostrar para el filtro de búsqueda.
+3. type: Tipo de filtro.
+4. choices: Opciones a mostrar si escogemos el tipo "choice".
+5. value: Valor por defecto.
+
+Más abajo encontraras más detalle sobre estos campos.
+
+### Usando el método GetOptions o las opciones en las QueryList
+
 Para utilizar los filtros específicos se puede usar la opción specific_search_fields. He aquí un ejemplo:
 
 ```php

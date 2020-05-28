@@ -63,4 +63,17 @@ interface ListaBuilderInterface
      * @return $this
      */
     public function addAdvancedBulkAction($action, $text = null, $view = '', $viewData = []);
+
+    /**
+     *
+     * Add Action to actions list incude click event on row
+     *
+     * @param string $field
+     * @param string $label
+     * @param string $type
+     * @param array $choices
+     * @param string|null $value
+     * @return void
+     */
+    public function addFilter($field, $label, $type = 'text', $choices = array(), $value = '');
 }
