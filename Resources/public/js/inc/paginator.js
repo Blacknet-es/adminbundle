@@ -7,12 +7,14 @@ $(document).ready(function() {
         $('.close-search-filters').show();
         $('.filters-row').animate({height: '60'}).css({ overflow: 'auto'});
     });
+
     $(document).on('click', '.close-search-filters', function(e) {
         e.preventDefault();
         $(this).hide();
         $('.open-search-filters').show();
         $('.filters-row').animate({height: '0'}).css({ overflow: 'hidden'})
     });
+
     $(document).on('click', '.clear-search-filters', function(e) {
         e.preventDefault();
         $(this).closest('.lista-card').find('.search-filter').each(function(e) {
@@ -25,6 +27,7 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).closest('.lista-card').find('form.list-download').submit();
     });
+
     $(document).on('click', '.pagination a[data-page]', function() {
         if ($(this).hasClass('active')) {
             return false;
@@ -32,7 +35,7 @@ $(document).ready(function() {
 
         var page = $(this).data('page');
 
-        $listaForm.find('.pag').val(page);
+        $listaForm.find('.pag').val(page).attr('value', page);
         processListaForm.call(this);
     });
 
@@ -71,8 +74,13 @@ $(document).ready(function() {
         processListaForm.call(this);
     });
 
+    let proccesing = false;
     function processListaForm()
     {
+        if (proccesing == true) {
+            console.log('para el carro');
+            return false;
+        }
         var filtersField = $(this).closest('.lista-card').find('.filters_data');
         var filters = filtersField.val();
         if(filters && filters != '') {
@@ -84,16 +92,20 @@ $(document).ready(function() {
                 }
             });
         }
+
         filtersField.val(JSON.stringify(filters));
-        setTimeout(function() {
-            $.ajax({
-                url: location.href,
-                type: 'post',
-                data: $('#listaForm').serialize()
-            }).done(function (data) {
-                $('#main > div').html(data);
-            });
-        }, 100);
+        console.log($listaForm.html());
+        proccesing = true;
+        $.ajax({
+            url: location.href,
+            type: 'post',
+            data: $listaForm.serialize()
+        }).done(function (data) {
+            $('#main > div').html(data);
+            setTimeout(function() {
+                proccesing = false;
+            }, 300);
+        });
     }
 
     $(document).on('change', '#check-all', function(e) {
