@@ -209,6 +209,7 @@ class ListaFactory
             $this->pagerBuilder(); //Page Options
             //Obtain raw array results
             $query = $this->qb->getQuery();
+            //var_dump($query->getDQL()); exit;
             // Check if the translatable extension is being used
             if($this->container->hasParameter('translatable')) {
                 $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
@@ -353,7 +354,7 @@ class ListaFactory
                 }
             }
 
-            $where .= ' AND ( 1 = 1 ';
+            $where .= ' AND ( ';
             foreach($fields as $field) {
                 if(strpos($field, '.')) {
                     $alias = 'a'.$field;
@@ -379,7 +380,11 @@ class ListaFactory
     private function filterBuilder()
     {
         // Rellenamos la query para la búsqueda
-        [$used, $whereClause] = $this->buildSpecificQuery('1 = 1');
+        if ($this->search != '') {
+            [$used, $whereClause] = $this->buildSpecificQuery('0 = 1');
+        } else {
+            [$used, $whereClause] = $this->buildSpecificQuery('1 = 1');
+        }
         if (isset($this->options['permanent_filter'])) {
             $this->qb->andWhere($this->options['permanent_filter']);
             $this->countQb->andWhere($this->options['permanent_filter']);
