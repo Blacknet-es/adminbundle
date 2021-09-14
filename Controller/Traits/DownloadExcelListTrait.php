@@ -23,7 +23,8 @@ trait DownloadExcelListTrait
         $title = substr($this->get('translator')->trans($form['title']), 0, 30);
         $reflect  = new \ReflectionClass($class);
         $instance = $reflect->newInstanceArgs();
-        $list = $this->createList($instance);
+        $options = json_decode($form['options'], true);
+        $list = $this->createList($instance, $options);
         $data = $list->getFileData();
 
         // Then, we have to create the excel object:

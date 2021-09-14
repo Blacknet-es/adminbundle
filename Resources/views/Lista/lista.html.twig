@@ -4,6 +4,7 @@
             <input type="hidden" name="class" value="{{ lista.listClass }}">
             <input type="hidden" name="call" value="{{ lista.listCall }}">
             <input type="hidden" name="title" value="{{ title }}">
+            <input type="hidden" name="options" value="{{ lista.options|json_encode }}">
         </form>
     {% endif %}
     <div class="card-body">

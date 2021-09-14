@@ -696,7 +696,8 @@ class ListaFactory
             'listCall' => isset($this->options['listCall']) ? $this->options['listCall'] : '',
             'strictSearch' => isset($this->options['strictSearch']) ? $this->options['strictSearch'] : false,
             'specificSearchFields' => $this->specificSearchFields,
-            'specificSearchFieldsUsed' => $this->specificSearchFieldsUsed()
+            'specificSearchFieldsUsed' => $this->specificSearchFieldsUsed(),
+            'options' => $this->options
         );
     }
 
