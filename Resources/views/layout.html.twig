@@ -53,7 +53,7 @@
     {% include 'TrendixAdminBundle::top_bar.html.twig' %}
 </header>
 
-<aside id="sidebar" class="sidebar sidebar--hidden">
+<aside id="sidebar" style="overflow-y: auto !important;" class="sidebar sidebar--hidden">
     {% if app.user is defined and app.user %}
         {% include 'TrendixAdminBundle::sidebarMenu.html.twig' %}
     {% endif %}

@@ -3,6 +3,7 @@
 namespace Trendix\AdminBundle\Component\Lista;
 
 
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
@@ -131,6 +132,8 @@ class ListaFactory
      */
     protected $selectAliases;
 
+    static public $llamo = 0;
+
     public function __construct(Container $container, EntityManager $em)
     {
         $this->em = $em;
@@ -209,7 +212,7 @@ class ListaFactory
             $this->pagerBuilder(); //Page Options
             //Obtain raw array results
             $query = $this->qb->getQuery();
-            //var_dump($query->getDQL()); exit;
+            //var_dump($query->getSQL());
             // Check if the translatable extension is being used
             if($this->container->hasParameter('translatable')) {
                 $query->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker');
@@ -253,7 +256,7 @@ class ListaFactory
 
     private function configureJoins()
     {
-        $joinedTables = array();
+        self::$llamo++;
         foreach ($this->listaBuilder->getChilds() as $dataType) {
             if ($dataType instanceof JoinType or $dataType->getParent() == JoinType::class) {
                 list($table, $field) = $this->getJoinTableAndField($dataType);
@@ -265,13 +268,33 @@ class ListaFactory
                 if(!$dataType->isHidden()) {
                     $this->qb->addSelect($addSelect);
                 }
-                if (!in_array($table, $joinedTables)) {
+                if (!$this->isJoined($this->qb, $table)) {
                     $this->qb->leftJoin('a.'.$table, 'a'.$this->joinListField[$table]);
-                    $this->countQb->leftJoin('a.'.$table, 'a'.$this->joinListField[$table]);
-                    $joinedTables[] = $table;
                 }
+                if (!$this->isJoined($this->countQb, $table)) {
+                    $this->countQb->leftJoin('a.'.$table, 'a'.$this->joinListField[$table]);
+                }
+                $joinedTables[] = $table;
             }
         }
+    }
+
+    private function isJoined(QueryBuilder $qb, $table)
+    {
+
+        foreach ($qb->getDQLPart('join') as $join) {
+            foreach ($join as $joinElement) {
+                /**
+                 * @var Join $joinElement
+                 */
+                if($joinElement->getJoin() =='a.'.$table ) {
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
     }
 
     /** Obtiene la parte del select a añadir para mostrar un JoinType
