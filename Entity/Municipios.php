@@ -17,7 +17,7 @@ class Municipios
      *
      * @ORM\Column(name="id", type="integer", nullable=false, unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
