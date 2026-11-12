@@ -33,8 +33,8 @@ class RegistrationController extends BaseRegistrationController
      */
     public function checkEmailAction()
     {
-        if($this->container->hasParameter('check_email_redirect')) {
-            return new RedirectResponse($this->get('router')->generate($this->container->getParameter('check_email_redirect')));
+        if ($this->container->get('parameter_bag')->has('check_email_redirect')) {
+            return new RedirectResponse($this->get('router')->generate($this->getParameter('check_email_redirect')));
         }
         $email = $this->get('session')->get('fos_user_send_confirmation_email/email');
 

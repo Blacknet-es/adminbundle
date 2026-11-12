@@ -19,31 +19,31 @@ class SecurityController extends BaseSecController
     {
         $requestAttributes = $this->container->get('request_stack')->getCurrentRequest()->attributes;
         if ($requestAttributes->get('_route') == 'admin_login') {
-            if($this->container->hasParameter('admin_login_template')) {
+            if ($this->container->get('parameter_bag')->has('admin_login_template')) {
                 $template = $this->getParameter('admin_login_template');
             } else {
                 $template = 'TrendixAdminBundle:Security:admin_login.html.twig';
             }
         } else {
-            if($this->container->hasParameter('login_template')) {
+            if ($this->container->get('parameter_bag')->has('login_template')) {
                 $template = $this->getParameter('login_template');
             } else {
                 $template = 'FOSUserBundle:Security:login.html.twig';
             }
         }
         $data['app_name'] = $this->getParameter('app_name');
-        if($this->container->hasParameter('register_button')) {
+        if ($this->container->get('parameter_bag')->has('register_button')) {
             $data['registerButton'] = $this->getParameter('register_button');
         } else {
             $data['registerButton'] = false;
         }
-        if($this->container->hasParameter('login_title')) {
+        if ($this->container->get('parameter_bag')->has('login_title')) {
             $data['loginTitle'] = $this->getParameter('login_title');
         } else {
             $data['loginTitle'] = null;
         }
 
-        if($this->container->hasParameter('admin_primary_color')) {
+        if ($this->container->get('parameter_bag')->has('admin_primary_color')) {
             $data['admin_primary_color'] = $this->getParameter('admin_primary_color');
         }
 

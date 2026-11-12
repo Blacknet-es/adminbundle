@@ -4,6 +4,13 @@ services:
     autoconfigure: true
     public: false
 
+  Trendix\AdminBundle\Controller\AdminController:
+    tags: ['controller.service_arguments']
+  Trendix\AdminBundle\Controller\ImagesController:
+    tags: ['controller.service_arguments']
+  Trendix\AdminBundle\Controller\ResetController:
+    tags: ['controller.service_arguments']
+
   Trendix\AdminBundle\Component\Lista\ListaFactory:
         arguments: ["@service_container","@doctrine.orm.entity_manager"]
         public: true

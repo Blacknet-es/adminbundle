@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Provincias
  *
- * @ORM\Table(name="provincias", indexes={@ORM\Index(name="id", columns={"id"})})
+ * @ORM\Table(name="provincias")
  * @ORM\Entity
  */
 class Provincias
@@ -17,7 +17,7 @@ class Provincias
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
