@@ -73,7 +73,7 @@ class ResetController extends BaseController
             return $this->render('TrendixAdminBundle:Resetting:request.html.twig', $this->getData());
         }
 
-        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+        if ($user->isPasswordRequestNonExpired($this->getParameter('fos_user.resetting.token_ttl'))) {
             return $this->render('TrendixAdminBundle:Resetting:password_already_requested.html.twig', $this->getData());
         }
 
